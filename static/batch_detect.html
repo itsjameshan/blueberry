@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量检测 - 蓝莓成熟度检测</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/batch_detect.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="/index" class="nav-logo-link">🫐</a>
+            <span class="nav-title">蓝莓成熟度检测系统</span>
+        </div>
+        <div class="nav-right">
+            <a href="/index" class="nav-link">首页</a>
+            <a href="/single_detect" class="nav-link">单图检测</a>
+            <a href="/batch_detect" class="nav-link active">批量检测</a>
+            <a href="/big_image" class="nav-link">大图检测</a>
+            <a href="/result" class="nav-link">检测记录</a>
+            {% if role == 'admin' %}
+            <a href="/admin" class="nav-link nav-admin">管理后台</a>
+            {% endif %}
+            <div class="user-info">
+                <span class="user-avatar">{{ username[0] | upper }}</span>
+                <span class="user-name">{{ username }}</span>
+            </div>
+            <a href="/logout" class="btn-logout">退出</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1>📦 批量检测</h1>
+            <p>一次性上传多张蓝莓图片，批量进行成熟度检测并汇总结果</p>
+        </div>
+
+        <div class="card card-upload">
+            <div class="card-header">
+                <h2>上传图片</h2>
+            </div>
+            <div class="card-body">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-placeholder">
+                        <span class="upload-icon">📤</span>
+                        <p>点击选择多张图片，或拖拽图片到此处</p>
+                        <span class="upload-hint">支持 JPG、PNG 格式，可多选</span>
+                    </div>
+                    <input type="file" id="imageInput" accept="image/*" multiple hidden>
+                </div>
+                <div class="file-list" id="fileList"></div>
+                <div class="detect-controls">
+                    <div class="control-item">
+                        <label>置信度阈值：<span id="confValue">0.5</span></label>
+                        <input type="range" id="confSlider" min="0.1" max="0.9" step="0.05" value="0.5">
+                    </div>
+                    <button id="detectBtn" class="btn-detect" disabled>🚀 开始批量检测</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-summary" id="summaryCard" style="display:none;">
+            <div class="card-header">
+                <h2>📊 检测汇总</h2>
+            </div>
+            <div class="card-body">
+                <div class="summary-stats" id="summaryStats"></div>
+                <div class="summary-table-wrap">
+                    <table class="summary-table">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>缩略图</th>
+                                <th>文件名</th>
+                                <th>成熟</th>
+                                <th>半熟</th>
+                                <th>未熟</th>
+                                <th>总计</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summaryBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-detail" id="detailCard" style="display:none;">
+            <div class="card-header">
+                <h2 id="detailTitle">🔍 检测详情</h2>
+                <button class="btn-back" id="btnBack">← 返回汇总</button>
+            </div>
+            <div class="card-body">
+                <div class="detail-layout">
+                    <div class="detail-image">
+                        <div class="image-highlight-container" id="batchHighlightContainer">
+                            <img id="detailImg" alt="检测结果">
+                            <canvas id="batchHighlightCanvas" class="highlight-canvas"></canvas>
+                        </div>
+                    </div>
+                    <div class="detail-info">
+                        <div class="stat-item stat-ripe">
+                            <span class="stat-dot"></span>
+                            <span class="stat-label">成熟蓝莓</span>
+                            <span class="stat-value" id="dRipe">0</span>
+                        </div>
+                        <div class="stat-item stat-semi">
+                            <span class="stat-dot"></span>
+                            <span class="stat-label">半熟蓝莓</span>
+                            <span class="stat-value" id="dSemi">0</span>
+                        </div>
+                        <div class="stat-item stat-unripe">
+                            <span class="stat-dot"></span>
+                            <span class="stat-label">未熟蓝莓</span>
+                            <span class="stat-value" id="dUnripe">0</span>
+                        </div>
+                        <div class="stat-item stat-total">
+                            <span class="stat-label">总计检测框</span>
+                            <span class="stat-value" id="dTotal">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-table-wrap">
+                    <table class="result-table">
+                        <thead><tr><th>序号</th><th>类别</th><th>置信度</th><th>坐标 (x1,y1,x2,y2)</th></tr></thead>
+                        <tbody id="detailTableBody"></tbody>
+                    </table>
+                    <p class="no-result" id="noDetailResult" style="display:none;">未检测到蓝莓</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+        <div class="loading-spinner"></div>
+        <p id="loadingText">正在批量检测中...</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/batch_detect.js') }}"></script>
+    <div class="model-info-bar" id="modelInfoBar">
+        <span class="model-icon">🧠</span>
+        <span class="model-text" id="modelInfoText">模型: 加载中...</span>
+    </div>
+    <script>
+        async function loadModelInfo() {
+            try {
+                const resp = await fetch('/api/current_model');
+                const data = await resp.json();
+                if (data.success) {
+                    const status = data.model_loaded ? '已加载' : '未加载';
+                    document.getElementById('modelInfoText').textContent = '模型: ' + data.model_name + ' (' + status + ')';
+                }
+            } catch(e) {}
+        }
+        loadModelInfo();
+    </script>
+</body>
+</html>
