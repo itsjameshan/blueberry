@@ -156,6 +156,24 @@ class MiniProgramFilesTest(unittest.TestCase):
         self.assertEqual(app_json["pages"], ["pages/index/index"])
         self.assertEqual(app_json["window"]["navigationBarTitleText"], "蓝莓成熟度识别")
 
+    def test_index_page_contains_capture_upload_and_result_states(self):
+        root = Path(__file__).resolve().parents[1] / "miniprogram" / "pages" / "index"
+        expected = ["index.json", "index.wxml", "index.wxss", "index.js"]
+        for filename in expected:
+            self.assertTrue((root / filename).exists(), filename)
+
+        wxml = (root / "index.wxml").read_text(encoding="utf-8")
+        js = (root / "index.js").read_text(encoding="utf-8")
+
+        self.assertIn("拍照识别", wxml)
+        self.assertIn("从相册选择", wxml)
+        self.assertIn("成熟可采", wxml)
+        self.assertIn("半熟", wxml)
+        self.assertIn("未熟", wxml)
+        self.assertIn("chooseMedia", js)
+        self.assertIn("detectBlueberries", js)
+        self.assertIn("previewResultImage", js)
+
 
 if __name__ == "__main__":
     unittest.main()

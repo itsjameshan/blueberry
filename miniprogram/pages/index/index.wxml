@@ -1,0 +1,66 @@
+<view class="page">
+  <view class="hero">
+    <view class="hero-title">蓝莓成熟度识别</view>
+    <view class="hero-subtitle">拍一张蓝莓照片，快速统计成熟可采、半熟和未熟数量</view>
+  </view>
+
+  <view class="photo-panel">
+    <view class="image-frame" bindtap="previewSelectedImage">
+      <image wx:if="{{imagePath}}" class="selected-image" src="{{imagePath}}" mode="aspectFit"></image>
+      <view wx:else class="empty-image">
+        <view class="empty-icon">+</view>
+        <view class="empty-text">选择或拍摄蓝莓照片</view>
+      </view>
+    </view>
+
+    <view class="actions">
+      <button class="btn primary" loading="{{choosingSource === 'camera'}}" disabled="{{loading}}" bindtap="chooseFromCamera">拍照识别</button>
+      <button class="btn secondary" loading="{{choosingSource === 'album'}}" disabled="{{loading}}" bindtap="chooseFromAlbum">从相册选择</button>
+    </view>
+
+    <view class="conf-row">
+      <text>置信度 {{conf}}</text>
+      <slider min="0.1" max="0.9" step="0.05" value="{{conf}}" activeColor="#2f6f4e" block-size="18" bindchange="onConfChange"></slider>
+    </view>
+
+    <button class="detect-btn" loading="{{loading}}" disabled="{{!imagePath || loading}}" bindtap="startDetect">开始检测</button>
+  </view>
+
+  <view wx:if="{{errorMessage}}" class="error-box">{{errorMessage}}</view>
+
+  <view wx:if="{{result}}" class="result-panel">
+    <view class="section-title">识别结果</view>
+    <image class="result-image" src="{{result.result_image_url}}" mode="aspectFit" bindtap="previewResultImage"></image>
+
+    <view class="summary-grid">
+      <view class="summary-card total">
+        <view class="summary-value">{{result.summary.total}}</view>
+        <view class="summary-label">总数</view>
+      </view>
+      <view class="summary-card ripe">
+        <view class="summary-value">{{result.summary.ripe}}</view>
+        <view class="summary-label">成熟可采</view>
+      </view>
+      <view class="summary-card semi">
+        <view class="summary-value">{{result.summary.semi_ripe}}</view>
+        <view class="summary-label">半熟</view>
+      </view>
+      <view class="summary-card unripe">
+        <view class="summary-value">{{result.summary.unripe}}</view>
+        <view class="summary-label">未熟</view>
+      </view>
+    </view>
+
+    <view class="detail-header">检测明细</view>
+    <view wx:if="{{emptyResult}}" class="empty-result">未识别到蓝莓，请换一张更清晰的照片。</view>
+    <view wx:for="{{result.results}}" wx:key="index" class="detail-row">
+      <view>
+        <view class="detail-name">{{item.display_name}}</view>
+        <view class="detail-box">({{item.x1}}, {{item.y1}}, {{item.x2}}, {{item.y2}})</view>
+      </view>
+      <view class="detail-confidence">{{item.confidencePercent}}</view>
+    </view>
+
+    <button class="btn reset" bindtap="reset">再拍一张</button>
+  </view>
+</view>
