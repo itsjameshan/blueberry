@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "蓝莓成熟度识别",
+    "navigationBarBackgroundColor": "#2f6f4e",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f6f8f5"
+  },
+  "permission": {
+    "scope.camera": {
+      "desc": "用于拍摄蓝莓照片并进行成熟度识别"
+    }
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

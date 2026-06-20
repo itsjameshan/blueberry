@@ -1,5 +1,7 @@
 import io
+import json
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 import app as blueberry_app
@@ -129,6 +131,30 @@ class MiniApiRoutesTest(unittest.TestCase):
         self.assertTrue(data["result_image"].startswith("mini_result_"))
         self.assertIn("/api/mini/result_image/", data["result_image_url"])
         self.assertEqual(data["conf_threshold"], 0.65)
+
+
+class MiniProgramFilesTest(unittest.TestCase):
+    def test_miniprogram_project_files_exist(self):
+        root = Path(__file__).resolve().parents[1] / "miniprogram"
+        expected = [
+            "project.config.json",
+            "app.json",
+            "app.js",
+            "app.wxss",
+            "utils/config.js",
+            "utils/api.js",
+            "README.md",
+        ]
+
+        for relative_path in expected:
+            self.assertTrue((root / relative_path).exists(), relative_path)
+
+    def test_app_json_registers_index_page(self):
+        root = Path(__file__).resolve().parents[1] / "miniprogram"
+        app_json = json.loads((root / "app.json").read_text(encoding="utf-8"))
+
+        self.assertEqual(app_json["pages"], ["pages/index/index"])
+        self.assertEqual(app_json["window"]["navigationBarTitleText"], "蓝莓成熟度识别")
 
 
 if __name__ == "__main__":
