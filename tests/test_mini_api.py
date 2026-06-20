@@ -156,6 +156,12 @@ class MiniProgramFilesTest(unittest.TestCase):
         self.assertEqual(app_json["pages"], ["pages/index/index"])
         self.assertEqual(app_json["window"]["navigationBarTitleText"], "蓝莓成熟度识别")
 
+    def test_app_json_sitemap_file_exists(self):
+        root = Path(__file__).resolve().parents[1] / "miniprogram"
+        app_json = json.loads((root / "app.json").read_text(encoding="utf-8"))
+
+        self.assertTrue((root / app_json["sitemapLocation"]).exists())
+
     def test_index_page_contains_capture_upload_and_result_states(self):
         root = Path(__file__).resolve().parents[1] / "miniprogram" / "pages" / "index"
         expected = ["index.json", "index.wxml", "index.wxss", "index.js"]
