@@ -1,5 +1,11 @@
 # 蓝莓成熟度检测系统
 
+<p align="center">
+  <img src="blueberry1.v4i.yolov11/runs/blueberry_train/train_batch32760.jpg" alt="蓝莓成熟度检测训练批次样例图" width="900">
+</p>
+
+<p align="center"><strong>YOLO 训练批次样例图：蓝莓成熟度标注数据预览</strong></p>
+
 基于 Flask、ONNX Runtime 和前端原生 HTML/CSS/JavaScript 的蓝莓成熟度检测网页系统。系统支持蓝莓图片上传、模型推理、检测框可视化、成熟度数量统计、历史记录管理、用户权限管理和 ONNX 模型切换，适用于智慧农业实训、模型演示和检测流程验证。
 
 ## 功能特性
