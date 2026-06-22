@@ -7,3 +7,12 @@ __pycache__/
 crop_output/
 results/
 uploads/
+
+# YOLO training-ready dataset: do not commit images/labels/generated plots
+yolo_training_ready/**/*.jpg
+yolo_training_ready/**/*.jpeg
+yolo_training_ready/**/*.png
+yolo_training_ready/**/*.gif
+yolo_training_ready/**/*.webp
+yolo_training_ready/**/*.bmp
+yolo_training_ready/**/*.txt
