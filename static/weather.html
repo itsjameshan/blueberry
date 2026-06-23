@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>气象中心 - 蓝莓智慧农业平台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/weather.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="/portal" class="nav-back"><i class="fas fa-arrow-left"></i> 返回</a>
+            <span class="nav-logo">🌤️</span>
+            <span class="nav-title">气象中心</span>
+        </div>
+        <div class="nav-right">
+            <span class="nav-clock" id="navClock"></span>
+            <div class="user-info">
+                <span class="user-avatar">{{ username[0] | upper }}</span>
+                <span class="user-name">{{ username }}</span>
+                <button class="btn-email" id="btnSetEmail" title="设置预警邮箱"><i class="fas fa-envelope"></i></button>
+                {% if role == 'admin' %}
+                <span class="badge-admin">管理员</span>
+                {% endif %}
+            </div>
+            <a href="/logout" class="btn-logout">退出</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 预警横幅 -->
+        <div id="alertBanner" class="alert-banner" style="display:none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="alertText"></span>
+            <button class="alert-close" id="closeAlert">&times;</button>
+        </div>
+
+        <div class="weather-layout">
+            <!-- 左侧：果园列表 -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <h2>我的果园</h2>
+                    <div class="sidebar-actions">
+                        <a href="/weather/alerts" class="btn-alerts" title="历史预警"><i class="fas fa-bell"></i></a>
+                        {% if role == 'admin' %}
+                        <a href="/garden" class="btn-manage"><i class="fas fa-cog"></i> 管理</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div id="gardenList" class="garden-list">
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+
+            <!-- 右侧：气象数据 -->
+            <div class="main-content">
+                <div id="weatherContent">
+                    <div class="empty-state">
+                        <i class="fas fa-seedling"></i>
+                        <p>请先在果园管理中创建果园</p>
+                        {% if role == 'admin' %}
+                        <a href="/garden" class="btn-primary">去创建果园</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 邮箱设置弹窗 -->
+    <div id="emailModal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-envelope"></i> 设置预警邮箱</h3>
+                <button class="modal-close" id="closeEmailModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">设置邮箱后，当检测到气象预警时将自动发送邮件通知。</p>
+                <div class="form-group">
+                    <label for="inputEmail">邮箱地址</label>
+                    <input type="email" id="inputEmail" placeholder="example@qq.com">
+                </div>
+                <div id="emailMsg" class="form-msg"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="cancelEmail">取消</button>
+                <button class="btn-save" id="saveEmail">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/weather.js') }}"></script>
+</body>
+</html>

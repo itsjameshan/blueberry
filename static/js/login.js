@@ -66,7 +66,7 @@
             return resp.json();
         }).then(function(data) {
             if (data.success) {
-                window.location.href = '/index';
+                window.location.href = '/portal';
             } else {
                 showError(loginError, data.message);
                 setBtnLoading(loginBtn, false);
