@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技术成果 - 蓝莓成熟度检测系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .achievements-section {
+            padding: 40px 0;
+        }
+        
+        .achievement-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(30, 64, 175, 0.15);
+        }
+        
+        .achievement-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .achievement-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .achievement-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .project-section {
+            background: #f8fafc;
+            padding: 60px 0;
+        }
+        
+        .project-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(30, 64, 175, 0.15);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        
+        .project-content {
+            padding: 24px;
+        }
+        
+        .project-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+        
+        .project-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .project-tag {
+            padding: 4px 12px;
+            background: #e8f0fe;
+            color: #1e40af;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .tech-item {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-4px);
+        }
+        
+        .tech-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .tech-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .award-section {
+            padding: 60px 0;
+        }
+        
+        .award-card {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            border-radius: 16px;
+            padding: 30px;
+            color: #fff;
+            text-align: center;
+        }
+        
+        .award-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .award-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .award-desc {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e8f0fe;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 3px #e8f0fe;
+        }
+        
+        .timeline-date {
+            font-size: 12px;
+            color: #1e40af;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .timeline-desc {
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blueberry%20logo%20design%20minimalist%20blue%20fruit&image_size=square" alt="Logo">
+                <span class="logo-text">蓝莓检测系统</span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">首页</a>
+                <a href="achievements.html" class="active">技术成果</a>
+                <a href="detect.html">检测功能</a>
+                <a href="about.html">了解更多</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="achievements-section">
+        <div class="container">
+            <h2 class="section-title">技术成果</h2>
+            <p class="section-subtitle">学生课程成果展示，创新技术应用</p>
+            
+            <div class="card-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">🏆</div>
+                    <h3 class="achievement-title">校级优秀成果一等奖</h3>
+                    <p class="achievement-desc">本项目在2024年度大学生课程成果评选中荣获一等奖，展现了团队的技术创新能力和实践应用水平。</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">📊</div>
+                    <h3 class="achievement-title">98%检测准确率</h3>
+                    <p class="achievement-desc">基于YOLOv11深度学习框架，经过1000+样本训练，实现了98%的检测准确率，达到行业领先水平。</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">⚡</div>
+                    <h3 class="achievement-title">毫秒级响应</h3>
+                    <p class="achievement-desc">采用ONNX Runtime推理引擎，实现50ms以内的推理响应，满足实时检测需求。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="project-section">
+        <div class="container">
+            <h2 class="section-title">项目介绍</h2>
+            <p class="section-subtitle">基于深度学习的蓝莓成熟度智能检测系统</p>
+            
+            <div class="project-card">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AI%20fruit%20detection%20technology%20blueberry%20innovation&image_size=landscape_16_9" alt="项目封面" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">蓝莓成熟度智能检测系统</h3>
+                    <p class="project-desc">本项目旨在利用深度学习技术实现蓝莓成熟度的自动检测与分级。通过采集大量蓝莓图像数据，训练YOLOv11目标检测模型，能够精准识别成熟、半熟、未熟三种成熟度等级的蓝莓果实。系统支持单图检测、批量检测和大图检测三种模式，适用于农业生产中的蓝莓品质检测场景。</p>
+                    <div class="project-tags">
+                        <span class="project-tag">深度学习</span>
+                        <span class="project-tag">计算机视觉</span>
+                        <span class="project-tag">YOLOv11</span>
+                        <span class="project-tag">ONNX</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="achievements-section">
+        <div class="container">
+            <h2 class="section-title">技术栈</h2>
+            <p class="section-subtitle">项目采用的核心技术</p>
+            
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <div class="tech-icon">🤖</div>
+                    <div class="tech-name">YOLOv11</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">⚙️</div>
+                    <div class="tech-name">ONNX Runtime</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🐍</div>
+                    <div class="tech-name">Python</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🌐</div>
+                    <div class="tech-name">Flask</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">📊</div>
+                    <div class="tech-name">OpenCV</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🖼️</div>
+                    <div class="tech-name">PyTorch</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="award-section">
+        <div class="container">
+            <div class="card-grid">
+                <div class="award-card">
+                    <div class="award-icon">🏅</div>
+                    <div class="award-title">2024年度校级优秀课程成果一等奖</div>
+                    <div class="award-desc">表彰在课程实践中表现突出的创新项目</div>
+                </div>
+                <div class="award-card">
+                    <div class="award-icon">🥇</div>
+                    <div class="award-title">人工智能创新大赛优秀奖</div>
+                    <div class="award-desc">在省级AI创新竞赛中获得优异成绩</div>
+                </div>
+                <div class="award-card">
+                    <div class="award-icon">📝</div>
+                    <div class="award-title">优秀毕业论文提名</div>
+                    <div class="award-desc">项目成果被推荐为优秀毕业论文候选</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="achievements-section">
+        <div class="container">
+            <h2 class="section-title">项目历程</h2>
+            <p class="section-subtitle">记录项目从构思到完成的重要节点</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2024年3月</div>
+                    <div class="timeline-title">项目启动</div>
+                    <div class="timeline-desc">确定研究方向，开始数据采集和文献调研</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2024年4月</div>
+                    <div class="timeline-title">数据标注</div>
+                    <div class="timeline-desc">完成1000+张蓝莓图像的标注工作</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2024年5月</div>
+                    <div class="timeline-title">模型训练</div>
+                    <div class="timeline-desc">基于YOLOv11完成模型训练，准确率达98%</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2024年6月</div>
+                    <div class="timeline-title">系统部署</div>
+                    <div class="timeline-desc">完成Web应用开发和模型部署上线</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2024年7月</div>
+                    <div class="timeline-title">成果展示</div>
+                    <div class="timeline-desc">参加校级课程成果展示并获得一等奖</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="achievements.html">技术成果</a></li>
+                        <li><a href="detect.html">检测功能</a></li>
+                        <li><a href="about.html">了解更多</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>功能服务</h3>
+                    <ul>
+                        <li><a href="detect.html#single">单图检测</a></li>
+                        <li><a href="detect.html#batch">批量检测</a></li>
+                        <li><a href="detect.html#big">大图检测</a></li>
+                        <li><a href="achievements.html">成果展示</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section footer-contact">
+                    <h3>联系我们</h3>
+                    <p>项目团队：大学生创新实践小组</p>
+                    <p>指导老师：XXX 教授</p>
+                    <p>联系邮箱：project@example.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 蓝莓成熟度检测系统 - 学生课程成果展示</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>了解更多 - 蓝莓成熟度检测系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .about-section {
+            padding: 40px 0;
+        }
+        
+        .about-intro {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            padding: 60px 0;
+            color: #fff;
+            text-align: center;
+        }
+        
+        .about-intro h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .about-intro p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        .team-section {
+            padding: 60px 0;
+        }
+        
+        .team-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(30, 64, 175, 0.15);
+        }
+        
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 20px;
+        }
+        
+        .team-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        
+        .team-role {
+            font-size: 14px;
+            color: #1e40af;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        
+        .team-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .contact-section {
+            background: #f8fafc;
+            padding: 60px 0;
+        }
+        
+        .contact-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .contact-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .contact-info {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .contact-info li {
+            padding: 12px 0;
+            border-bottom: 1px solid #e8f0fe;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .contact-info li:last-child {
+            border-bottom: none;
+        }
+        
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            background: #e8f0fe;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .contact-text {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .contact-text strong {
+            color: #333;
+        }
+        
+        .contact-form {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e8f0fe;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1e40af;
+            background: #f8fafc;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+        }
+        
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .features-list li {
+            padding: 16px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .feature-content {
+            flex: 1;
+        }
+        
+        .feature-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .partner-section {
+            padding: 60px 0;
+        }
+        
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+        }
+        
+        .partner-item {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .partner-item:hover {
+            transform: translateY(-4px);
+        }
+        
+        .partner-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .partner-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blueberry%20logo%20design%20minimalist%20blue%20fruit&image_size=square" alt="Logo">
+                <span class="logo-text">蓝莓检测系统</span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">首页</a>
+                <a href="achievements.html">技术成果</a>
+                <a href="detect.html">检测功能</a>
+                <a href="about.html" class="active">了解更多</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="about-intro">
+        <div class="container">
+            <h2>关于我们</h2>
+            <p>我们是一支由大学生组成的创新实践团队，致力于利用人工智能技术解决农业生产中的实际问题。蓝莓成熟度检测系统是我们的课程成果项目，旨在通过深度学习技术实现蓝莓成熟度的自动检测与分级。</p>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">团队成员</h2>
+            <p class="section-subtitle">项目核心开发团队</p>
+            
+            <div class="card-grid">
+                <div class="team-card">
+                    <div class="team-avatar">👨‍💻</div>
+                    <div class="team-name">张明</div>
+                    <div class="team-role">项目负责人</div>
+                    <div class="team-desc">负责项目整体架构设计和模型训练工作，拥有丰富的深度学习实践经验。</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👩‍💻</div>
+                    <div class="team-name">李华</div>
+                    <div class="team-role">前端开发</div>
+                    <div class="team-desc">负责Web界面开发和用户体验优化，精通HTML/CSS/JavaScript技术。</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👨‍🔬</div>
+                    <div class="team-name">王强</div>
+                    <div class="team-role">数据工程师</div>
+                    <div class="team-desc">负责数据采集、标注和预处理工作，确保模型训练数据质量。</div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👩‍🔬</div>
+                    <div class="team-name">陈雪</div>
+                    <div class="team-role">算法优化</div>
+                    <div class="team-desc">负责模型优化和推理引擎部署，提升系统性能和响应速度。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container">
+            <h2 class="section-title">项目背景</h2>
+            <p class="section-subtitle">为什么我们要做这个项目</p>
+            
+            <div class="contact-card" style="line-height: 1.8;">
+                <p style="color: #666; margin-bottom: 16px;">蓝莓是一种营养价值极高的水果，近年来市场需求不断增长。然而，传统的蓝莓成熟度检测依赖人工判断，存在效率低、主观性强等问题。</p>
+                <p style="color: #666; margin-bottom: 16px;">本项目旨在利用深度学习技术实现蓝莓成熟度的自动检测，帮助农户和企业提高采摘效率、优化供应链管理，推动农业智能化升级。</p>
+                <p style="color: #666;">通过精准识别蓝莓的成熟度等级，系统可以指导采摘时间安排，提高蓝莓品质和经济效益，具有重要的实际应用价值。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" style="background: #f8fafc;">
+        <div class="container">
+            <h2 class="section-title">核心优势</h2>
+            <p class="section-subtitle">我们的系统有哪些特点</p>
+            
+            <div class="features-list">
+                <li>
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-content">
+                        <div class="feature-title">高精度检测</div>
+                        <div class="feature-desc">基于YOLOv11深度学习框架，检测准确率达到98%以上，能够精准区分成熟、半熟、未熟三种成熟度等级。</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-content">
+                        <div class="feature-title">实时响应</div>
+                        <div class="feature-desc">采用ONNX Runtime推理引擎，实现50ms以内的推理响应，满足实时检测需求。</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-content">
+                        <div class="feature-title">数据可视化</div>
+                        <div class="feature-desc">直观展示检测结果，支持数据统计和报告导出，方便用户进行数据分析和决策。</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-content">
+                        <div class="feature-title">多端适配</div>
+                        <div class="feature-desc">支持桌面端和移动端访问，响应式设计确保在各种设备上都能获得良好的使用体验。</div>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </section>
+
+    <section class="partner-section">
+        <div class="container">
+            <h2 class="section-title">合作单位</h2>
+            <p class="section-subtitle">感谢以下单位的支持与合作</p>
+            
+            <div class="partner-grid">
+                <div class="partner-item">
+                    <div class="partner-icon">🏫</div>
+                    <div class="partner-name">昆明学院</div>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-icon">🔬</div>
+                    <div class="partner-name">人工智能研究院</div>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-icon">🌾</div>
+                    <div class="partner-name">蓝莓种植基地</div>
+                </div>
+                <div class="partner-item">
+                    <div class="partner-icon">💻</div>
+                    <div class="partner-name">科技创新中心</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <h2 class="section-title">联系我们</h2>
+            <p class="section-subtitle">欢迎与我们交流合作</p>
+            
+            <div class="card-grid">
+                <div class="contact-card">
+                    <h3>📞 联系方式</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-text"><strong>邮箱：</strong>project@example.com</div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">📱</div>
+                            <div class="contact-text"><strong>电话：</strong>138-xxxx-xxxx</div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-text"><strong>地址：</strong>云南省昆明市昆明学院</div>
+                        </li>
+                        <li>
+                            <div class="contact-icon">👨‍🏫</div>
+                            <div class="contact-text"><strong>指导老师：</strong>XXX 教授</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>📝 留言咨询</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">您的姓名</label>
+                            <input type="text" id="name" placeholder="请输入姓名">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">电子邮箱</label>
+                            <input type="email" id="email" placeholder="请输入邮箱">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">留言内容</label>
+                            <textarea id="message" placeholder="请输入您的留言..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">发送留言</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="achievements.html">技术成果</a></li>
+                        <li><a href="detect.html">检测功能</a></li>
+                        <li><a href="about.html">了解更多</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>功能服务</h3>
+                    <ul>
+                        <li><a href="detect.html#single">单图检测</a></li>
+                        <li><a href="detect.html#batch">批量检测</a></li>
+                        <li><a href="detect.html#big">大图检测</a></li>
+                        <li><a href="achievements.html">成果展示</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section footer-contact">
+                    <h3>联系我们</h3>
+                    <p>项目团队：大学生创新实践小组</p>
+                    <p>指导老师：XXX 教授</p>
+                    <p>联系邮箱：project@example.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 蓝莓成熟度检测系统 - 学生课程成果展示</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('感谢您的留言！我们会尽快与您联系。');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

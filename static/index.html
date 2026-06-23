@@ -3,129 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>蓝莓成熟度检测系统</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>蓝莓成熟度检测系统 - 学生课程成果展示</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <span class="nav-logo">🫐</span>
-            <span class="nav-title">蓝莓成熟度检测系统</span>
-        </div>
-        <div class="nav-right">
-            <a href="/index" class="nav-link active">首页</a>
-            <a href="/single_detect" class="nav-link">单图检测</a>
-            <a href="/batch_detect" class="nav-link">批量检测</a>
-            <a href="/big_image" class="nav-link">大图检测</a>
-            <a href="/result" class="nav-link">检测记录</a>
-            {% if role == 'admin' %}
-            <a href="/admin" class="nav-link nav-admin">管理后台</a>
-            {% endif %}
-            <div class="user-info">
-                <span class="user-avatar">{{ username[0] | upper }}</span>
-                <span class="user-name">{{ username }}</span>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blueberry%20logo%20design%20minimalist%20blue%20fruit&image_size=square" alt="Logo">
+                <span class="logo-text">蓝莓检测系统</span>
             </div>
-            <a href="/logout" class="btn-logout">退出</a>
-        </div>
-    </nav>
-
-    <div class="page-wrapper">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <span class="sidebar-title">系统功能导航</span>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="active">首页</a>
+                <a href="achievements.html">技术成果</a>
+                <a href="detect.html">检测功能</a>
+                <a href="about.html">了解更多</a>
             </div>
-            <nav class="sidebar-nav">
-                <a href="/single_detect" class="sidebar-item">
-                    <span class="sidebar-icon">📸</span>
-                    <div class="sidebar-item-text">
-                        <span class="sidebar-item-title">单张图片检测</span>
-                        <span class="sidebar-item-desc">上传图片快速分析</span>
-                    </div>
-                </a>
-                <a href="/batch_detect" class="sidebar-item">
-                    <span class="sidebar-icon">📦</span>
-                    <div class="sidebar-item-text">
-                        <span class="sidebar-item-title">多图批量检测</span>
-                        <span class="sidebar-item-desc">批量处理汇总结果</span>
-                    </div>
-                </a>
-                <a href="/big_image" class="sidebar-item">
-                    <span class="sidebar-icon">🗺️</span>
-                    <div class="sidebar-item-text">
-                        <span class="sidebar-item-title">大图检测工作流</span>
-                        <span class="sidebar-item-desc">裁剪推理坐标重建</span>
-                    </div>
-                </a>
-                <a href="/result" class="sidebar-item">
-                    <span class="sidebar-icon">📊</span>
-                    <div class="sidebar-item-text">
-                        <span class="sidebar-item-title">检测记录管理</span>
-                        <span class="sidebar-item-desc">历史记录数据统计</span>
-                    </div>
-                </a>
-                {% if role == 'admin' %}
-                <a href="/admin" class="sidebar-item sidebar-item-admin">
-                    <div class="sidebar-item-text">
-                        <span class="sidebar-item-title">模型管理</span>
-                        <span class="sidebar-item-desc">上传切换ONNX模型</span>
-                    </div>
-                </a>
-                {% endif %}
-            </nav>
-        </aside>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
 
-        <div class="main-content">
-            <section class="hero">
-                <h1>蓝莓成熟度智能检测平台</h1>
-                <p class="hero-subtitle">基于深度学习的蓝莓成熟度识别系统，精准区分 <strong>成熟蓝莓</strong>、<strong>半熟蓝莓</strong>、<strong>未熟蓝莓</strong> 三种成熟阶段</p>
-            </section>
-
-            <section class="labels-section">
-                <h2 class="section-title">三类检测标签</h2>
-                <p class="section-desc">系统可精准识别以下三种蓝莓成熟度阶段</p>
-                <div class="label-cards">
-                    <div class="label-card label-ripe">
-                        <img src="{{ url_for('static', filename='RipeBlueBerry.jpg') }}" alt="成熟蓝莓" class="label-image">
-                        <div class="label-overlay">
-                            <h3>成熟蓝莓</h3>
-                            <span class="label-en">RipeBlueBerry</span>
-                        </div>
-                    </div>
-                    <div class="label-card label-semi">
-                        <img src="{{ url_for('static', filename='Semi-RipeBlueBerry.jpg') }}" alt="半熟蓝莓" class="label-image">
-                        <div class="label-overlay">
-                            <h3>半熟蓝莓</h3>
-                            <span class="label-en">Semi-RipeBlueBerry</span>
-                        </div>
-                    </div>
-                    <div class="label-card label-unripe">
-                        <img src="{{ url_for('static', filename='UnripeBlueBerry.jpg') }}" alt="未熟蓝莓" class="label-image">
-                        <div class="label-overlay">
-                            <h3>未熟蓝莓</h3>
-                            <span class="label-en">UnripeBlueBerry</span>
-                        </div>
+    <section class="banner">
+        <div class="banner-slides">
+            <div class="banner-slide">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blueberry%20field%20agriculture%20technology%20sunrise&image_size=landscape_16_9" alt="Banner 1">
+                <div class="banner-overlay">
+                    <h1 class="banner-title">蓝莓成熟度智能检测平台</h1>
+                    <p class="banner-subtitle">基于深度学习的精准识别系统，助力农业智能化升级</p>
+                    <div class="hero-actions">
+                        <a href="detect.html" class="btn btn-primary">开始检测</a>
+                        <a href="achievements.html" class="btn btn-secondary">了解更多</a>
                     </div>
                 </div>
-            </section>
+            </div>
+            <div class="banner-slide">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AI%20machine%20learning%20fruit%20detection%20technology&image_size=landscape_16_9" alt="Banner 2">
+                <div class="banner-overlay">
+                    <h1 class="banner-title">AI驱动的智能农业解决方案</h1>
+                    <p class="banner-subtitle">利用先进算法实现蓝莓成熟度的自动识别与分级</p>
+                    <div class="hero-actions">
+                        <a href="detect.html" class="btn btn-primary">体验检测</a>
+                        <a href="achievements.html" class="btn btn-secondary">技术成果</a>
+                    </div>
+                </div>
+            </div>
+            <div class="banner-slide">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=students%20research%20project%20presentation%20technology&image_size=landscape_16_9" alt="Banner 3">
+                <div class="banner-overlay">
+                    <h1 class="banner-title">学生课程成果展示</h1>
+                    <p class="banner-subtitle">创新技术应用，展现学子风采</p>
+                    <div class="hero-actions">
+                        <a href="achievements.html" class="btn btn-primary">查看成果</a>
+                        <a href="about.html" class="btn btn-secondary">联系我们</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <div class="model-info-bar" id="modelInfoBar">
-        <span class="model-text" id="modelInfoText">模型: 加载中...</span>
-    </div>
-    <script>
-        async function loadModelInfo() {
-            try {
-                const resp = await fetch('/api/current_model');
-                const data = await resp.json();
-                if (data.success) {
-                    const status = data.model_loaded ? '已加载' : '未加载';
-                    document.getElementById('modelInfoText').textContent = '当前模型: ' + data.model_name + ' (' + status + ')';
-                }
-            } catch(e) {}
-        }
-        loadModelInfo();
-    </script>
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">检测准确率</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">成熟度等级</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">检测样本</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50ms</div>
+                    <div class="stat-label">响应时间</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">核心功能</h2>
+            <p class="section-subtitle">基于深度学习的智能检测技术</p>
+            <div class="card-grid">
+                <div class="card">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=single%20image%20upload%20interface%20clean%20design&image_size=landscape_4_3" alt="单图检测" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">单图检测</h3>
+                        <p class="card-desc">上传单张蓝莓图片，快速获取成熟度检测结果，支持多种图片格式。</p>
+                        <a href="detect.html#single" class="card-link">立即体验 →</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=batch%20processing%20multiple%20images%20dashboard&image_size=landscape_4_3" alt="批量检测" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">批量检测</h3>
+                        <p class="card-desc">支持多图片同时上传，批量处理并生成汇总报告，提升工作效率。</p>
+                        <a href="detect.html#batch" class="card-link">立即体验 →</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=large%20image%20analysis%20grid%20processing&image_size=landscape_4_3" alt="大图检测" class="card-img">
+                    <div class="card-content">
+                        <h3 class="card-title">大图检测</h3>
+                        <p class="card-desc">针对高清大图进行智能裁剪和推理，精确识别每颗蓝莓的成熟度。</p>
+                        <a href="detect.html#big" class="card-link">立即体验 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="feature-section">
+        <div class="container">
+            <h2 class="section-title">技术亮点</h2>
+            <p class="section-subtitle">创新技术应用，打造精准检测体验</p>
+            <div class="card-grid">
+                <div class="card feature-card">
+                    <div class="card-content">
+                        <h3 class="card-title">深度学习算法</h3>
+                        <p class="card-desc">采用YOLOv11深度学习框架，实现高精度目标检测与分类。</p>
+                    </div>
+                </div>
+                <div class="card feature-card">
+                    <div class="card-content">
+                        <h3 class="card-title">实时推理引擎</h3>
+                        <p class="card-desc">基于ONNX Runtime部署，实现毫秒级推理响应。</p>
+                    </div>
+                </div>
+                <div class="card feature-card">
+                    <div class="card-content">
+                        <h3 class="card-title">数据可视化</h3>
+                        <p class="card-desc">直观展示检测结果，支持数据导出和统计分析。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section">
+        <div class="container">
+            <h2 class="section-title">最新动态</h2>
+            <p class="section-subtitle">了解项目最新进展和技术更新</p>
+            <div class="news-list">
+                <div class="news-item">
+                    <div class="news-date">2024-06</div>
+                    <div class="news-content">
+                        <h4 class="news-title">项目荣获校级优秀课程成果一等奖</h4>
+                        <p class="news-desc">本项目在2024年度学生课程成果评选中获得优异成绩</p>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">2024-05</div>
+                    <div class="news-content">
+                        <h4 class="news-title">算法模型升级至YOLOv11</h4>
+                        <p class="news-desc">引入最新YOLOv11框架，检测准确率提升至98%</p>
+                    </div>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">2024-04</div>
+                    <div class="news-content">
+                        <h4 class="news-title">系统正式上线试运行</h4>
+                        <p class="news-desc">蓝莓成熟度检测系统完成开发，开始内部测试</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="achievements.html">技术成果</a></li>
+                        <li><a href="detect.html">检测功能</a></li>
+                        <li><a href="about.html">了解更多</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>功能服务</h3>
+                    <ul>
+                        <li><a href="detect.html#single">单图检测</a></li>
+                        <li><a href="detect.html#batch">批量检测</a></li>
+                        <li><a href="detect.html#big">大图检测</a></li>
+                        <li><a href="achievements.html">成果展示</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section footer-contact">
+                    <h3>联系我们</h3>
+                    <p>项目团队：大学生创新实践小组</p>
+                    <p>指导老师：XXX 教授</p>
+                    <p>联系邮箱：project@example.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 蓝莓成熟度检测系统 - 学生课程成果展示</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

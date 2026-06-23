@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>检测功能 - 蓝莓成熟度检测系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .detect-section {
+            padding: 40px 0;
+        }
+        
+        .detect-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #e8f0fe;
+            padding-bottom: 16px;
+        }
+        
+        .detect-tab {
+            padding: 12px 32px;
+            background: #fff;
+            border: 2px solid #e8f0fe;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .detect-tab.active {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            border-color: #1e40af;
+            color: #fff;
+        }
+        
+        .detect-tab:hover {
+            border-color: #1e40af;
+            color: #1e40af;
+        }
+        
+        .detect-tab.active:hover {
+            color: #fff;
+        }
+        
+        .detect-content {
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .upload-area {
+            border: 2px dashed #1e40af;
+            border-radius: 16px;
+            padding: 60px 20px;
+            text-align: center;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover,
+        .upload-area.dragover {
+            background: #e8f0fe;
+            border-color: #3b82f6;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .upload-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .upload-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .upload-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: #fff;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+        }
+        
+        .result-section {
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .result-section.active {
+            display: block;
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e8f0fe;
+        }
+        
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .result-stats {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e40af;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .result-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .result-image {
+            background: #f8fafc;
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 10px;
+        }
+        
+        .result-image img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .result-image-info {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .result-image-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .result-image-confidence {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .label-ripe { color: #22c55e; }
+        .label-semi { color: #eab308; }
+        .label-unripe { color: #ef4444; }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e8f0fe;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .guide-section {
+            margin-top: 40px;
+        }
+        
+        .guide-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        
+        .guide-step {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .guide-step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 auto 16px;
+        }
+        
+        .guide-step-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .guide-step-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #e8f0fe;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-check {
+            width: 24px;
+            height: 24px;
+            background: #22c55e;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blueberry%20logo%20design%20minimalist%20blue%20fruit&image_size=square" alt="Logo">
+                <span class="logo-text">蓝莓检测系统</span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">首页</a>
+                <a href="achievements.html">技术成果</a>
+                <a href="detect.html" class="active">检测功能</a>
+                <a href="about.html">了解更多</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="detect-section">
+        <div class="container">
+            <h2 class="section-title">检测功能</h2>
+            <p class="section-subtitle">选择检测模式，体验智能识别技术</p>
+            
+            <div class="detect-tabs">
+                <div class="detect-tab active" data-tab="single">单图检测</div>
+                <div class="detect-tab" data-tab="batch">批量检测</div>
+                <div class="detect-tab" data-tab="big">大图检测</div>
+            </div>
+
+            <div class="detect-content">
+                <div id="single" class="tab-content active">
+                    <div class="upload-area" id="singleUpload">
+                        <div class="upload-icon">📷</div>
+                        <div class="upload-title">上传单张蓝莓图片</div>
+                        <div class="upload-desc">支持 JPG、PNG、JPEG 格式，建议图片尺寸不超过 2MB</div>
+                        <button class="upload-btn">选择图片</button>
+                        <input type="file" accept="image/*" id="singleFile" style="display: none;">
+                    </div>
+                    
+                    <div class="result-section" id="singleResult">
+                        <div class="result-header">
+                            <div class="result-title">检测结果</div>
+                            <div class="result-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">3</div>
+                                    <div class="stat-label">检测目标</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">98%</div>
+                                    <div class="stat-label">平均置信度</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="result-images">
+                            <div class="result-image">
+                                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=ripe%20blueberry%20close%20up%20dark%20purple&image_size=square" alt="成熟蓝莓">
+                                <div class="result-image-info">
+                                    <div class="result-image-label label-ripe">成熟蓝莓</div>
+                                    <div class="result-image-confidence">置信度: 99.2%</div>
+                                </div>
+                            </div>
+                            <div class="result-image">
+                                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=semi%20ripe%20blueberry%20close%20up%20light%20purple&image_size=square" alt="半熟蓝莓">
+                                <div class="result-image-info">
+                                    <div class="result-image-label label-semi">半熟蓝莓</div>
+                                    <div class="result-image-confidence">置信度: 97.5%</div>
+                                </div>
+                            </div>
+                            <div class="result-image">
+                                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=unripe%20blueberry%20close%20up%20green&image_size=square" alt="未熟蓝莓">
+                                <div class="result-image-info">
+                                    <div class="result-image-label label-unripe">未熟蓝莓</div>
+                                    <div class="result-image-confidence">置信度: 96.8%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="batch" class="tab-content" style="display: none;">
+                    <div class="upload-area" id="batchUpload">
+                        <div class="upload-icon">📦</div>
+                        <div class="upload-title">批量上传蓝莓图片</div>
+                        <div class="upload-desc">支持同时上传多张图片，系统将批量处理并生成汇总报告</div>
+                        <button class="upload-btn">选择多张图片</button>
+                        <input type="file" accept="image/*" id="batchFile" multiple style="display: none;">
+                    </div>
+                    
+                    <div class="result-section" id="batchResult">
+                        <div class="result-header">
+                            <div class="result-title">批量检测报告</div>
+                            <div class="result-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">12</div>
+                                    <div class="stat-label">检测图片</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">45</div>
+                                    <div class="stat-label">检测目标</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">97.8%</div>
+                                    <div class="stat-label">平均置信度</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="guide-section">
+                            <h3 style="margin-bottom: 20px; color: #333;">检测统计</h3>
+                            <div class="card-grid">
+                                <div class="card" style="text-align: center; padding: 20px;">
+                                    <div style="font-size: 36px; font-weight: 700; color: #22c55e;">28</div>
+                                    <div style="font-size: 14px; color: #666; margin-top: 8px;">成熟蓝莓</div>
+                                </div>
+                                <div class="card" style="text-align: center; padding: 20px;">
+                                    <div style="font-size: 36px; font-weight: 700; color: #eab308;">12</div>
+                                    <div style="font-size: 14px; color: #666; margin-top: 8px;">半熟蓝莓</div>
+                                </div>
+                                <div class="card" style="text-align: center; padding: 20px;">
+                                    <div style="font-size: 36px; font-weight: 700; color: #ef4444;">5</div>
+                                    <div style="font-size: 14px; color: #666; margin-top: 8px;">未熟蓝莓</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="big" class="tab-content" style="display: none;">
+                    <div class="upload-area" id="bigUpload">
+                        <div class="upload-icon">🗺️</div>
+                        <div class="upload-title">上传高清大图</div>
+                        <div class="upload-desc">支持高清大图上传，系统将自动裁剪并进行坐标重建</div>
+                        <button class="upload-btn">选择大图</button>
+                        <input type="file" accept="image/*" id="bigFile" style="display: none;">
+                    </div>
+                    
+                    <div class="result-section" id="bigResult">
+                        <div class="result-header">
+                            <div class="result-title">大图检测结果</div>
+                            <div class="result-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">15</div>
+                                    <div class="stat-label">裁剪区域</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">89</div>
+                                    <div class="stat-label">检测目标</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">98.2%</div>
+                                    <div class="stat-label">平均置信度</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <h3 style="margin-bottom: 16px; color: #333;">处理流程</h3>
+                            <div class="guide-steps">
+                                <div class="guide-step">
+                                    <div class="guide-step-number">1</div>
+                                    <div class="guide-step-title">图像裁剪</div>
+                                    <div class="guide-step-desc">自动识别图像中的蓝莓区域，进行智能裁剪</div>
+                                </div>
+                                <div class="guide-step">
+                                    <div class="guide-step-number">2</div>
+                                    <div class="guide-step-title">推理检测</div>
+                                    <div class="guide-step-desc">对每个裁剪区域进行成熟度检测</div>
+                                </div>
+                                <div class="guide-step">
+                                    <div class="guide-step-number">3</div>
+                                    <div class="guide-step-title">坐标重建</div>
+                                    <div class="guide-step-desc">将检测结果映射回原始图像坐标</div>
+                                </div>
+                                <div class="guide-step">
+                                    <div class="guide-step-number">4</div>
+                                    <div class="guide-step-title">结果展示</div>
+                                    <div class="guide-step-desc">生成可视化检测报告</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-section">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #333;">使用说明</h3>
+                <div class="guide-steps">
+                    <div class="guide-step">
+                        <div class="guide-step-number">1</div>
+                        <div class="guide-step-title">选择检测模式</div>
+                        <div class="guide-step-desc">根据需求选择单图、批量或大图检测模式</div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-number">2</div>
+                        <div class="guide-step-title">上传图片</div>
+                        <div class="guide-step-desc">点击上传区域或拖拽图片到指定区域</div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-number">3</div>
+                        <div class="guide-step-title">等待检测</div>
+                        <div class="guide-step-desc">系统自动进行深度学习推理</div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="guide-step-number">4</div>
+                        <div class="guide-step-title">查看结果</div>
+                        <div class="guide-step-desc">获取详细的成熟度检测报告</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="achievements.html">技术成果</a></li>
+                        <li><a href="detect.html">检测功能</a></li>
+                        <li><a href="about.html">了解更多</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>功能服务</h3>
+                    <ul>
+                        <li><a href="detect.html#single">单图检测</a></li>
+                        <li><a href="detect.html#batch">批量检测</a></li>
+                        <li><a href="detect.html#big">大图检测</a></li>
+                        <li><a href="achievements.html">成果展示</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section footer-contact">
+                    <h3>联系我们</h3>
+                    <p>项目团队：大学生创新实践小组</p>
+                    <p>指导老师：XXX 教授</p>
+                    <p>联系邮箱：project@example.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 蓝莓成熟度检测系统 - 学生课程成果展示</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.detect-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.style.display = 'none');
+                    
+                    this.classList.add('active');
+                    const targetTab = this.getAttribute('data-tab');
+                    document.getElementById(targetTab).style.display = 'block';
+                });
+            });
+            
+            const uploadAreas = document.querySelectorAll('.upload-area');
+            uploadAreas.forEach(area => {
+                area.addEventListener('click', function() {
+                    const tab = this.closest('.tab-content').id;
+                    document.getElementById(tab + 'File').click();
+                });
+            });
+            
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        const tab = this.id.replace('File', '');
+                        document.getElementById(tab + 'Result').classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
