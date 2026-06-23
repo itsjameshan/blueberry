@@ -1,10 +1,10 @@
 <template>
   <div class="min-h-screen bg-gray-50">
-    <section class="bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600 text-white py-16">
+    <section class="bg-gradient-to-br from-green-600 via-green-700 to-green-800 text-white py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
           <h1 class="text-4xl font-bold mb-4">检测功能</h1>
-          <p class="text-lg text-green-100">选择检测方式，开始您的图像检测之旅</p>
+          <p class="text-lg text-green-100">昆明学院智慧农业1班 · 图像检测系统</p>
         </div>
       </div>
     </section>
@@ -19,7 +19,7 @@
             :class="[
               'px-6 py-3 rounded-lg font-medium transition-all duration-300',
               activeTab === tab.id 
-                ? 'bg-primary-600 text-white shadow-lg' 
+                ? 'bg-green-600 text-white shadow-lg' 
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             ]"
           >
@@ -42,7 +42,7 @@
               @drop.prevent="handleDrop('single', $event)"
               :class="[
                 'border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all duration-300',
-                dragOver ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400 hover:bg-gray-50'
+                dragOver ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-green-400 hover:bg-gray-50'
               ]"
             >
               <ImageIcon class="w-16 h-16 mx-auto mb-4 text-gray-400" />
@@ -54,7 +54,7 @@
             <div v-if="singleImage" class="mt-6">
               <h4 class="font-medium text-gray-800 mb-3">已选择的图片</h4>
               <img :src="singleImage" class="max-w-full h-64 object-contain rounded-lg border" />
-              <button @click="startSingleDetection" class="btn-primary mt-4 w-full">
+              <button @click="startSingleDetection" class="btn-green mt-4 w-full">
                 <Loader2 v-if="singleDetecting" class="w-5 h-5 inline-block mr-2 animate-spin" />
                 {{ singleDetecting ? '检测中...' : '开始检测' }}
               </button>
@@ -82,7 +82,7 @@
               @drop.prevent="handleBatchDrop($event)"
               :class="[
                 'border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all duration-300',
-                batchDragOver ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400 hover:bg-gray-50'
+                batchDragOver ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-green-400 hover:bg-gray-50'
               ]"
             >
               <ImagesIcon class="w-16 h-16 mx-auto mb-4 text-gray-400" />
@@ -101,7 +101,7 @@
                   </button>
                 </div>
               </div>
-              <button @click="startBatchDetection" class="btn-primary mt-4">
+              <button @click="startBatchDetection" class="btn-green mt-4">
                 <Loader2 v-if="batchDetecting" class="w-5 h-5 inline-block mr-2 animate-spin" />
                 {{ batchDetecting ? '检测中...' : '开始批量检测' }}
               </button>
@@ -134,7 +134,7 @@
           <div class="card">
             <div class="flex items-center justify-between mb-6">
               <h3 class="text-xl font-semibold text-gray-800">检测记录</h3>
-              <select v-model="filterType" class="px-4 py-2 border rounded-lg text-gray-600">
+              <select v-model="filterType" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 focus:outline-none focus:border-green-500">
                 <option value="all">全部类型</option>
                 <option value="single">单图检测</option>
                 <option value="batch">批量检测</option>
@@ -145,7 +145,7 @@
             <div class="overflow-x-auto">
               <table class="w-full">
                 <thead>
-                  <tr class="border-b">
+                  <tr class="border-b border-gray-200">
                     <th class="text-left py-3 px-4 font-semibold text-gray-700">检测时间</th>
                     <th class="text-left py-3 px-4 font-semibold text-gray-700">类型</th>
                     <th class="text-left py-3 px-4 font-semibold text-gray-700">数量</th>
@@ -154,7 +154,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="record in filteredRecords" :key="record.id" class="border-b hover:bg-gray-50">
+                  <tr v-for="record in filteredRecords" :key="record.id" class="border-b border-gray-100 hover:bg-gray-50">
                     <td class="py-3 px-4 text-gray-600">{{ record.time }}</td>
                     <td class="py-3 px-4">
                       <span :class="[
@@ -176,7 +176,7 @@
                       </span>
                     </td>
                     <td class="py-3 px-4">
-                      <button @click="viewRecord(record)" class="text-primary-600 hover:text-primary-700 font-medium">
+                      <button @click="viewRecord(record)" class="text-green-600 hover:text-green-700 font-medium">
                         <Eye class="w-5 h-5 inline-block" />
                       </button>
                     </td>
@@ -186,7 +186,7 @@
             </div>
 
             <div class="flex justify-center mt-6">
-              <button class="btn-secondary">加载更多</button>
+              <button class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-colors">加载更多</button>
             </div>
           </div>
         </div>
@@ -204,7 +204,7 @@
               @drop.prevent="handleDrop('large', $event)"
               :class="[
                 'border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all duration-300',
-                largeDragOver ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400 hover:bg-gray-50'
+                largeDragOver ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-green-400 hover:bg-gray-50'
               ]"
             >
               <FileImageIcon class="w-16 h-16 mx-auto mb-4 text-gray-400" />
@@ -218,7 +218,7 @@
               <div class="bg-gray-100 rounded-lg p-4">
                 <p class="text-gray-600">图片信息：{{ largeImageInfo }}</p>
               </div>
-              <button @click="startLargeDetection" class="btn-primary mt-4 w-full">
+              <button @click="startLargeDetection" class="btn-green mt-4 w-full">
                 <Loader2 v-if="largeDetecting" class="w-5 h-5 inline-block mr-2 animate-spin" />
                 {{ largeDetecting ? '分片检测中... ' + largeProgress + '%' : '开始大图检测' }}
               </button>
@@ -242,7 +242,7 @@
     <footer class="bg-gray-800 text-white py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <p class="text-gray-400">© 2024 智能图像检测平台. All rights reserved.</p>
+          <p class="text-gray-400">© 2024 昆明学院智慧农业1班 - 图像检测系统. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -413,3 +413,9 @@ const viewRecord = (record) => {
   alert(`查看记录: ${record.time}`)
 }
 </script>
+
+<style scoped>
+.btn-green {
+  @apply bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl;
+}
+</style>

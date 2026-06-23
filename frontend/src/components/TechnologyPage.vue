@@ -1,28 +1,28 @@
 <template>
   <div class="min-h-screen bg-gray-50">
-    <section class="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white py-16">
+    <section class="bg-gradient-to-br from-green-600 via-green-700 to-green-800 text-white py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
           <h1 class="text-4xl font-bold mb-4">技术开发</h1>
-          <p class="text-lg text-blue-100">探索我们的技术栈和创新方案</p>
+          <p class="text-lg text-green-100">昆明学院智慧农业1班 · 图像检测系统技术栈</p>
         </div>
       </div>
     </section>
 
-    <section class="py-20 bg-white">
+    <section class="py-12 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="section-title text-center">核心技术</h2>
         <div class="grid md:grid-cols-2 gap-8">
           <div v-for="tech in technologies" :key="tech.title" class="card hover:-translate-y-1">
             <div class="flex items-start gap-4">
-              <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center flex-shrink-0">
+              <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center flex-shrink-0">
                 <component :is="tech.icon" class="w-6 h-6 text-white" />
               </div>
               <div>
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ tech.title }}</h3>
                 <p class="text-gray-600 mb-4">{{ tech.description }}</p>
                 <div class="flex flex-wrap gap-2">
-                  <span v-for="tag in tech.tags" :key="tag" class="text-sm bg-primary-100 text-primary-700 px-3 py-1 rounded-full">
+                  <span v-for="tag in tech.tags" :key="tag" class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">
                     {{ tag }}
                   </span>
                 </div>
@@ -33,7 +33,7 @@
       </div>
     </section>
 
-    <section class="py-20 bg-gray-50">
+    <section class="py-12 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="section-title text-center">架构展示</h2>
         <div class="grid md:grid-cols-3 gap-6">
@@ -48,7 +48,7 @@
       </div>
     </section>
 
-    <section class="py-20 bg-white">
+    <section class="py-12 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="section-title text-center">技术优势</h2>
         <div class="grid md:grid-cols-4 gap-6">
@@ -63,13 +63,13 @@
       </div>
     </section>
 
-    <section class="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+    <section class="py-12 bg-gradient-to-br from-green-50 to-green-100">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="section-title text-center">算法流程</h2>
         <div class="card">
           <div class="flex flex-col md:flex-row items-center justify-center gap-8 py-8">
             <div v-for="(step, index) in algorithmSteps" :key="index" class="flex flex-col items-center">
-              <div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-xl mb-3">
+              <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl mb-3">
                 {{ index + 1 }}
               </div>
               <h4 class="font-semibold text-gray-800 mb-1">{{ step.title }}</h4>
@@ -81,10 +81,26 @@
       </div>
     </section>
 
+    <section class="py-12 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="section-title text-center">项目团队</h2>
+        <div class="grid md:grid-cols-4 gap-6">
+          <div v-for="member in teamMembers" :key="member.name" class="text-center">
+            <div class="w-20 h-20 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+              <User class="w-10 h-10 text-green-600" />
+            </div>
+            <h3 class="font-semibold text-gray-800">{{ member.name }}</h3>
+            <p class="text-sm text-green-600">{{ member.role }}</p>
+            <p class="text-sm text-gray-500">{{ member.major }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <footer class="bg-gray-800 text-white py-10">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center">
-          <p class="text-gray-400">© 2024 智能图像检测平台. All rights reserved.</p>
+          <p class="text-gray-400">© 2024 昆明学院智慧农业1班 - 图像检测系统. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -93,7 +109,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Cpu, Database, Network, Shield, ArrowRight, Zap, Target, Clock, Lock } from 'lucide-vue-next'
+import { Cpu, Database, Network, Shield, ArrowRight, Zap, Target, Clock, Lock, User } from 'lucide-vue-next'
 
 const technologies = ref([
   { 
@@ -153,5 +169,12 @@ const algorithmSteps = ref([
   { title: '特征提取', description: '深度学习模型提取特征' },
   { title: '分类识别', description: '目标检测和分类处理' },
   { title: '结果输出', description: '返回检测结果和报告' }
+])
+
+const teamMembers = ref([
+  { name: '张三', role: '项目负责人', major: '智慧农业1班' },
+  { name: '李四', role: '技术开发', major: '智慧农业1班' },
+  { name: '王五', role: '算法研究', major: '智慧农业1班' },
+  { name: '赵六', role: '测试部署', major: '智慧农业1班' }
 ])
 </script>
