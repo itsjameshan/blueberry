@@ -7,6 +7,7 @@ __pycache__/
 crop_output/
 results/
 uploads/
+.env
 
 # YOLO training-ready dataset: exclude only raw photos and label txts
 yolo_training_ready/images/**/*.jpg

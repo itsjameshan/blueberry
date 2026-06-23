@@ -211,3 +211,5 @@ app.config['SECRET_KEY'] = 'your-secret-key'
 4. 密码加密存储（bcrypt）
 5. 权限控制装饰器
 6. Session 安全配置
+
+5b4b4b0ff8af44a58c20a54dd47c79a1
