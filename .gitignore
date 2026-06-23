@@ -8,14 +8,11 @@ crop_output/
 results/
 uploads/
 
-# YOLO training-ready dataset: do not commit images/labels/generated plots
-yolo_training_ready/**/*.jpg
-yolo_training_ready/**/*.jpeg
-yolo_training_ready/**/*.png
-yolo_training_ready/**/*.gif
-yolo_training_ready/**/*.webp
-yolo_training_ready/**/*.bmp
-yolo_training_ready/**/*.txt
-
-# Exclude older train run, keep train-2
-yolo_training_ready/runs/detect/train/
+# YOLO training-ready dataset: exclude only raw photos and label txts
+yolo_training_ready/images/**/*.jpg
+yolo_training_ready/images/**/*.jpeg
+yolo_training_ready/images/**/*.png
+yolo_training_ready/images/**/*.gif
+yolo_training_ready/images/**/*.webp
+yolo_training_ready/images/**/*.bmp
+yolo_training_ready/labels/**/*.txt
