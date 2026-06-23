@@ -37,6 +37,57 @@ os.makedirs(RESULT_FOLDER, exist_ok=True)
 os.makedirs(CROP_FOLDER, exist_ok=True)
 os.makedirs(ONNX_FOLDER, exist_ok=True)
 
+MINI_CLASS_DISPLAY_NAMES = {
+    "RipeBlueBerry": "成熟可采",
+    "Semi-RipeBlueBerry": "半熟",
+    "UnripeBlueBerry": "未熟",
+}
+
+MINI_LABELS = {
+    "ripe": "成熟可采",
+    "semi_ripe": "半熟",
+    "unripe": "未熟",
+}
+
+
+def parse_mini_conf(value):
+    try:
+        conf = float(value)
+    except (TypeError, ValueError):
+        return 0.5
+    return min(max(conf, 0.01), 0.99)
+
+
+def build_mini_summary(stats):
+    ripe = int(stats.get("RipeBlueBerry", 0))
+    semi_ripe = int(stats.get("Semi-RipeBlueBerry", 0))
+    unripe = int(stats.get("UnripeBlueBerry", 0))
+    total = int(stats.get("total", ripe + semi_ripe + unripe))
+    return {
+        "total": total,
+        "ripe": ripe,
+        "semi_ripe": semi_ripe,
+        "unripe": unripe,
+        "harvestable": ripe,
+    }
+
+
+def normalize_mini_results(results):
+    normalized = []
+    for item in results:
+        normalized.append({
+            **item,
+            "display_name": MINI_CLASS_DISPLAY_NAMES.get(item.get("class_name"), item.get("class_name", "未知")),
+        })
+    return normalized
+
+
+def build_public_url(path):
+    base_url = app.config.get("PUBLIC_BASE_URL", "").rstrip("/")
+    if base_url:
+        return f"{base_url}{path}"
+    return request.host_url.rstrip("/") + path
+
 
 def login_required(f):
     @wraps(f)
@@ -275,6 +326,61 @@ def check_login():
     if 'user_id' in session:
         return jsonify({'logged_in': True, 'username': session.get('username'), 'role': session.get('role')})
     return jsonify({'logged_in': False})
+
+
+@app.route("/api/mini/health")
+def api_mini_health():
+    model = get_active_model()
+    return jsonify({
+        "success": True,
+        "model_loaded": is_model_loaded(),
+        "model_name": model["model_name"] if model else "未配置模型",
+    })
+
+
+@app.route("/api/mini/detect", methods=["POST"])
+def api_mini_detect():
+    if "image" not in request.files:
+        return jsonify({"success": False, "message": "请上传图片"}), 400
+    file = request.files["image"]
+    if file.filename == "":
+        return jsonify({"success": False, "message": "请选择图片"}), 400
+    if not is_model_loaded():
+        return jsonify({"success": False, "message": "模型未加载，请先加载ONNX模型"}), 503
+
+    conf = parse_mini_conf(request.form.get("conf", 0.5))
+    filename = f"mini_{os.urandom(8).hex()}.jpg"
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
+    file.save(filepath)
+
+    try:
+        results, stats = detect_single_image(filepath, conf_threshold=conf)
+        result_filename = f"mini_result_{filename}"
+        result_path = os.path.join(RESULT_FOLDER, result_filename)
+        draw_boxes(filepath, results, result_path)
+    except RuntimeError as exc:
+        return jsonify({"success": False, "message": str(exc)}), 503
+    except Exception as exc:
+        return jsonify({"success": False, "message": f"检测失败: {str(exc)}"}), 500
+
+    result_path_url = f"/api/mini/result_image/{result_filename}"
+    return jsonify({
+        "success": True,
+        "summary": build_mini_summary(stats),
+        "labels": MINI_LABELS,
+        "results": normalize_mini_results(results),
+        "result_image": result_filename,
+        "result_image_url": build_public_url(result_path_url),
+        "conf_threshold": conf,
+    })
+
+
+@app.route("/api/mini/result_image/<filename>")
+def api_mini_result_image(filename):
+    path = os.path.join(RESULT_FOLDER, filename)
+    if not os.path.exists(path):
+        return jsonify({"success": False, "message": "图片不存在"}), 404
+    return send_file(path, mimetype="image/jpeg")
 
 
 @app.route('/api/detect_single', methods=['POST'])
