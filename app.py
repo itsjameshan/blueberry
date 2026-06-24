@@ -91,6 +91,11 @@ def tech_page():
     return render_template('tech.html', active='tech', username=session.get('username'), role=session.get('role'))
 
 
+@app.route('/labelme')
+def labelme_page():
+    return render_template('labelme.html', active='labelme', username=session.get('username'), role=session.get('role'))
+
+
 @app.route('/more')
 def more_page():
     return render_template('more.html', active='more', username=session.get('username'), role=session.get('role'))
@@ -225,6 +230,38 @@ def api_user_info():
             'email': user['email'] if 'email' in user.keys() else ''
         }
     })
+
+
+@app.route('/api/weather/<int:garden_id>/notify', methods=['POST'])
+@login_required
+def api_notify_alerts(garden_id):
+    """按需把当前活跃预警推送到用户邮箱（绕过24h去重，便于验证与补发）"""
+    garden = get_garden_by_id(garden_id)
+    if not garden or garden['user_id'] != session['user_id']:
+        return jsonify({'success': False, 'message': '果园不存在或无权限'})
+    user = get_user_by_id(session['user_id'])
+    user_email = row_value(user, 'email')
+    if not user_email:
+        return jsonify({'success': False, 'message': '请先设置预警邮箱'})
+    alerts = get_active_alerts(garden_id)
+    if not alerts:
+        return jsonify({'success': False, 'message': '当前没有活跃预警，无需推送'})
+    from weather.email_sender import send_weather_alert_email
+    sent, last_err = 0, None
+    for a in alerts:
+        ok, err = send_weather_alert_email(
+            to_email=user_email,
+            garden_name=garden['name'],
+            alert_title=row_value(a, 'alert_title', ''),
+            alert_content=row_value(a, 'alert_content', '')
+        )
+        if ok:
+            sent += 1
+        else:
+            last_err = err
+    if sent:
+        return jsonify({'success': True, 'message': f'已推送 {sent} 条预警至 {user_email}'})
+    return jsonify({'success': False, 'message': f'发送失败：{last_err or "未知错误"}'})
 
 
 @app.route('/register', methods=['POST'])

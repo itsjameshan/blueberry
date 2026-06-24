@@ -1,0 +1,70 @@
+{% extends "_base.html" %}
+{% block title %}标注教程 · Labelme 示范{% endblock %}
+
+{% block content %}
+    <section class="blueberry-hero" style="padding:64px 20px;">
+        <h1>Labelme 标注教程</h1>
+        <p>用 Labelme 标注蓝莓成熟度数据集的操作示范。</p>
+    </section>
+
+    <!-- 视频示范 -->
+    <section class="section-block">
+        <div class="block-title">
+            <h2>视频示范</h2>
+            <p>从打开图片到导出标注的完整流程</p>
+        </div>
+        <div style="max-width:880px;margin:0 auto;">
+            <video controls preload="metadata" playsinline
+                   style="width:100%;border-radius:12px;background:#0d1b2a;box-shadow:0 4px 18px rgba(0,0,0,0.12);"
+                   poster="/static/BlueBerrytree.jpg">
+                <source src="/static/videos/labelme.mp4" type="video/mp4">
+                你的浏览器不支持视频播放。
+            </video>
+            <p style="text-align:center;color:#999;font-size:13px;margin-top:10px;">
+                视频文件放在 <code>static/videos/labelme.mp4</code>（也可换成抖音链接，告诉我即可）
+            </p>
+        </div>
+    </section>
+
+    <!-- 操作步骤 -->
+    <section class="section-block">
+        <div class="block-title">
+            <h2>操作步骤</h2>
+            <p>Labelme 标注蓝莓成熟度三类（ripe / semi-ripe / unripe）</p>
+        </div>
+        <div class="access-grid">
+            <div class="access-card" style="cursor:default;">
+                <div class="icon">①</div>
+                <h3>安装并启动</h3>
+                <p><code>pip install labelme</code>，命令行运行 <code>labelme</code> 打开界面。</p>
+            </div>
+            <div class="access-card weather" style="cursor:default;">
+                <div class="icon">②</div>
+                <h3>打开图片目录</h3>
+                <p>点 Open Dir 选择蓝莓图片文件夹，左侧列表逐张标注。</p>
+            </div>
+            <div class="access-card gallery" style="cursor:default;">
+                <div class="icon">③</div>
+                <h3>画框打标签</h3>
+                <p>Create Polygons / 矩形框选果实，输入标签 ripe / semi-ripe / unripe。</p>
+            </div>
+        </div>
+        <div class="access-grid" style="margin-top:24px;">
+            <div class="access-card" style="cursor:default;">
+                <div class="icon">④</div>
+                <h3>保存标注</h3>
+                <p>Ctrl+S 保存，每张图生成同名 <code>.json</code> 标注文件。</p>
+            </div>
+            <div class="access-card weather" style="cursor:default;">
+                <div class="icon">⑤</div>
+                <h3>转 YOLO 格式</h3>
+                <p>将 json 转换为 YOLO txt（本项目脚本：split_dataset.py 等）。</p>
+            </div>
+            <div class="access-card gallery" style="cursor:default;">
+                <div class="icon">⑥</div>
+                <h3>训练模型</h3>
+                <p>用标注好的数据集训练 YOLO11，导出 ONNX 供平台检测。</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}
