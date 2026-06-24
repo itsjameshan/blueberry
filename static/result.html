@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>检测记录 - 蓝莓检测系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="nav-logo">🫐</span>
+            <span class="nav-title">蓝莓成熟度检测系统</span>
+        </div>
+        <div class="nav-right">
+            <a href="/index" class="nav-link">首页</a>
+            <a href="/single_detect" class="nav-link">单图检测</a>
+            <a href="/batch_detect" class="nav-link">批量检测</a>
+            <a href="/big_image" class="nav-link">大图检测</a>
+            <a href="/result" class="nav-link active">检测记录</a>
+            {% if role == 'admin' %}
+            <a href="/admin" class="nav-link nav-admin">管理后台</a>
+            {% endif %}
+            <div class="user-info">
+                <span class="user-avatar">{{ username[0] | upper }}</span>
+                <span class="user-name">{{ username }}</span>
+            </div>
+            <a href="/logout" class="btn-logout">退出</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1>📋 检测记录</h1>
+            <p>查看历史检测记录与结果</p>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-toolbar">
+                    <div class="toolbar-left">
+                        <input type="text" id="searchInput" placeholder="搜索图片名称..." class="search-input">
+                    </div>
+                    <div class="toolbar-right">
+                        <button id="refreshBtn" class="btn-refresh">刷新</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table id="recordTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                {% if role == 'admin' %}<th>用户</th>{% endif %}
+                                <th>图片名称</th>
+                                <th>成熟</th>
+                                <th>半熟</th>
+                                <th>未熟</th>
+                                <th>总计</th>
+                                <th>置信度</th>
+                                <th>时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordBody">
+                            <tr><td colspan="10" class="loading-cell">加载中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="detailModal" style="display:none;">
+            <div class="modal">
+                <div class="modal-header">
+                    <h2>检测详情</h2>
+                    <button class="modal-close" id="modalClose">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="detail-image">
+                        <img id="detailImg" alt="检测结果">
+                    </div>
+                    <div class="detail-info" id="detailInfo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/result.js') }}"></script>
+    <div class="model-info-bar" id="modelInfoBar">
+        <span class="model-icon">🧠</span>
+        <span class="model-text" id="modelInfoText">模型: 加载中...</span>
+    </div>
+    <script>
+        async function loadModelInfo() {
+            try {
+                const resp = await fetch('/api/current_model');
+                const data = await resp.json();
+                if (data.success) {
+                    const status = data.model_loaded ? '已加载' : '未加载';
+                    document.getElementById('modelInfoText').textContent = '模型: ' + data.model_name + ' (' + status + ')';
+                }
+            } catch(e) {}
+        }
+        loadModelInfo();
+    </script>
+</body>
+</html>

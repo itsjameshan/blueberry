@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大图检测 - 蓝莓成熟度检测</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/big_image.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="/index" class="nav-logo-link">🫐</a>
+            <span class="nav-title">蓝莓成熟度检测系统</span>
+        </div>
+        <div class="nav-right">
+            <a href="/index" class="nav-link">首页</a>
+            <a href="/single_detect" class="nav-link">单图检测</a>
+            <a href="/batch_detect" class="nav-link">批量检测</a>
+            <a href="/big_image" class="nav-link active">大图检测</a>
+            <a href="/result" class="nav-link">检测记录</a>
+            {% if role == 'admin' %}
+            <a href="/admin" class="nav-link nav-admin">管理后台</a>
+            {% endif %}
+            <div class="user-info">
+                <span class="user-avatar">{{ username[0] | upper }}</span>
+                <span class="user-name">{{ username }}</span>
+            </div>
+            <a href="/logout" class="btn-logout">退出</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1>🗺️ 大图批量检测</h1>
+            <p>针对超高分辨率蓝莓图片，自动裁剪 → 批量推理 → 坐标重建，三步完成完整检测</p>
+        </div>
+
+        <div class="steps-indicator">
+            <div class="step-item active" data-step="1">
+                <div class="step-num">1</div>
+                <div class="step-label">图片裁剪</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-item" data-step="2">
+                <div class="step-num">2</div>
+                <div class="step-label">批量检测</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-item" data-step="3">
+                <div class="step-num">3</div>
+                <div class="step-label">结果重建</div>
+            </div>
+        </div>
+
+        <div class="workflow-content">
+            <div class="step-panel active" id="step1Panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📐 第一步：图片裁剪</h2>
+                        <p>将大图按滑动窗口切割为小图块，便于模型处理</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-placeholder">
+                                <span class="upload-icon">📤</span>
+                                <p>点击或拖拽大图到此处</p>
+                                <span class="upload-hint">支持高分辨率 JPG、PNG 图片</span>
+                            </div>
+                            <input type="file" id="imageInput" accept="image/*" hidden>
+                            <img id="preview" class="preview-hidden" alt="预览">
+                        </div>
+                        <div class="crop-params">
+                            <div class="param-item">
+                                <label>裁剪尺寸 (tile_size)</label>
+                                <input type="number" id="tileSize" value="640" min="256" max="4096" step="64">
+                            </div>
+                            <div class="param-item">
+                                <label>重叠像素 (overlap)</label>
+                                <input type="number" id="overlap" value="200" min="0" max="2048" step="10">
+                            </div>
+                        </div>
+                        <div class="estimate-info">
+                            <span id="imageSize">尚未选择图片</span>
+                            <span id="tileEstimate"></span>
+                        </div>
+                        <div class="step-actions">
+                            <span id="cropStatus" class="status-text"></span>
+                            <button id="cropBtn" class="btn-primary" disabled>✂️ 开始裁剪</button>
+                        </div>
+                        <div class="crop-result" id="cropResult" style="display:none;">
+                            <div class="crop-stats" id="cropStats"></div>
+                            <div class="tiles-preview" id="tilesPreview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-panel" id="step2Panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🔍 第二步：批量检测</h2>
+                        <p>对裁剪后的小图块逐一进行成熟度检测</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="detect-info" id="detectInfo">请先完成第一步裁剪</div>
+                        <div class="detect-params">
+                            <div class="param-item param-wide">
+                                <label>置信度阈值：<span id="confValue1">0.5</span></label>
+                                <input type="range" id="confSlider1" min="0.1" max="0.9" step="0.05" value="0.5">
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            <span id="batchStatus" class="status-text"></span>
+                            <button id="batchDetectBtn" class="btn-primary">🚀 开始批量检测</button>
+                        </div>
+                        <div class="batch-result" id="batchResult" style="display:none;">
+                            <div class="summary-stats" id="summaryStats"></div>
+                            <div class="tile-results-table">
+                                <table>
+                                    <thead><tr><th>图块</th><th>成熟</th><th>半熟</th><th>未熟</th><th>总计</th><th>状态</th></tr></thead>
+                                    <tbody id="batchResultBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-panel" id="step3Panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🧩 第三步：结果重建</h2>
+                        <p>还原大图坐标，NMS去重，生成最终检测结果</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="rebuild-info" id="rebuildInfo">请先完成前两步裁剪和检测</div>
+                        <div class="rebuild-params">
+                            <div class="param-item">
+                                <label>原始图片宽度 (px)</label>
+                                <input type="number" id="originalWidth" value="" min="1" placeholder="如 4000">
+                            </div>
+                            <div class="param-item">
+                                <label>原始图片高度 (px)</label>
+                                <input type="number" id="originalHeight" value="" min="1" placeholder="如 3000">
+                            </div>
+                            <div class="param-item">
+                                <label>裁剪尺寸 (tile_size)</label>
+                                <input type="number" id="tileSize2" value="640" min="256" max="4096" step="64">
+                            </div>
+                            <div class="param-item">
+                                <label>重叠像素 (overlap)</label>
+                                <input type="number" id="overlap2" value="200" min="0" max="2048" step="10">
+                            </div>
+                            <div class="param-item param-wide">
+                                <label>置信度阈值：<span id="confValue2">0.5</span></label>
+                                <input type="range" id="confSlider2" min="0.1" max="0.9" step="0.05" value="0.5">
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            <span id="rebuildStatus" class="status-text"></span>
+                            <button id="rebuildBtn" class="btn-primary">🔧 开始重建</button>
+                        </div>
+                        <div class="rebuild-result" id="rebuildResult" style="display:none;">
+                            <div class="result-layout">
+                                <div class="result-image">
+                                    <div class="image-highlight-container" id="bigHighlightContainer">
+                                        <img id="resultImg" alt="检测结果">
+                                        <canvas id="bigHighlightCanvas" class="highlight-canvas"></canvas>
+                                    </div>
+                                </div>
+                                <div class="result-stats">
+                                    <div class="stat-item stat-ripe">
+                                        <span class="stat-dot"></span>
+                                        <span class="stat-label">成熟蓝莓</span>
+                                        <span class="stat-value" id="ripeCount">0</span>
+                                    </div>
+                                    <div class="stat-item stat-semi">
+                                        <span class="stat-dot"></span>
+                                        <span class="stat-label">半熟蓝莓</span>
+                                        <span class="stat-value" id="semiCount">0</span>
+                                    </div>
+                                    <div class="stat-item stat-unripe">
+                                        <span class="stat-dot"></span>
+                                        <span class="stat-label">未熟蓝莓</span>
+                                        <span class="stat-value" id="unripeCount">0</span>
+                                    </div>
+                                    <div class="stat-item stat-total">
+                                        <span class="stat-label">总计检测框</span>
+                                        <span class="stat-value" id="totalCount">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="result-table-wrap">
+                                <table class="result-table" id="resultTable"><thead><tr><th>序号</th><th>类别</th><th>置信度</th><th>坐标 (x1,y1,x2,y2)</th></tr></thead><tbody></tbody></table>
+                                <p class="no-result" id="noResult" style="display:none;">未检测到蓝莓</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay" style="display:none;">
+        <div class="loading-spinner"></div>
+        <p id="loadingText">处理中...</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/big_image.js') }}"></script>
+    <div class="model-info-bar" id="modelInfoBar">
+        <span class="model-icon">🧠</span>
+        <span class="model-text" id="modelInfoText">模型: 加载中...</span>
+    </div>
+    <script>
+        async function loadModelInfo() {
+            try {
+                const resp = await fetch('/api/current_model');
+                const data = await resp.json();
+                if (data.success) {
+                    const status = data.model_loaded ? '已加载' : '未加载';
+                    document.getElementById('modelInfoText').textContent = '模型: ' + data.model_name + ' (' + status + ')';
+                }
+            } catch(e) {}
+        }
+        loadModelInfo();
+    </script>
+</body>
+</html>
