@@ -1,0 +1,46 @@
+{% extends "_base.html" %}
+{% block title %}主页 · 昆明学院智慧农业{% endblock %}
+
+{% block content %}
+    <!-- 大图主视觉 -->
+    <section class="blueberry-hero">
+        <h1>蓝莓成熟度智能检测</h1>
+        <p>基于 YOLO11 + ONNX 的计算机视觉系统，自动识别蓝莓成熟度，结合气象预警为田间管理提供决策支持。</p>
+        <div class="hero-actions">
+            <a href="/index" class="hero-btn primary">🫐 蓝莓检测</a>
+            <a href="/weather" class="hero-btn ghost">⛅ 天气预警</a>
+        </div>
+    </section>
+
+    <!-- 三个视频（紧贴大图，主页最显眼处） -->
+    <section class="section-block" id="videos">
+        <div class="block-title">
+            <h2>项目视频</h2>
+            <p>智慧农业综合实训 · 蓝莓成熟度检测</p>
+        </div>
+        <div class="video-grid" id="video-grid"></div>
+    </section>
+
+    <!-- 介绍 -->
+    <section class="section-block">
+        <div class="block-title">
+            <h2>平台介绍</h2>
+            <p>昆明学院智慧农业综合实训项目成果</p>
+        </div>
+        <div style="max-width:880px;margin:0 auto;color:#555;font-size:16px;line-height:1.9;text-align:center;">
+            <p>本平台聚焦蓝莓产业的成熟度智能识别与田间气象管理，将深度学习目标检测与实时气象数据相结合，
+            为种植、采摘与品控环节提供数据化决策支持。</p>
+            <p style="margin-top:14px;">蓝莓检测系统采用 YOLO11 模型并导出 ONNX 推理，支持单图、批量与大图检测；
+            天气预警系统接入和风天气，提供霜冻、高温、降雨等农事预警与建议。</p>
+        </div>
+    </section>
+
+    <section class="stats-overview">
+        <div class="stats-container">
+            <div class="stat-item"><div class="stat-number">95%+</div><div class="stat-label">检测准确率</div></div>
+            <div class="stat-item"><div class="stat-number">&lt;0.5s</div><div class="stat-label">单图检测速度</div></div>
+            <div class="stat-item"><div class="stat-number">3 类</div><div class="stat-label">成熟度分级</div></div>
+            <div class="stat-item"><div class="stat-number">YOLO11</div><div class="stat-label">检测模型</div></div>
+        </div>
+    </section>
+{% endblock %}

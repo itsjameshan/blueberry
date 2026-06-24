@@ -1,0 +1,572 @@
+/* ===== 蓝莓成熟度检测平台 · 门户首页样式 ===== */
+/* 顶部大学门户外壳沿用原模板，中部内容改为蓝莓主题 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+}
+
+:root {
+    --primary-color: #1E4D8C;      /* 深蓝 - 主色 */
+    --secondary-color: #2E7DBC;    /* 中蓝 - 辅助 */
+    --accent-color: #4A90D9;       /* 亮蓝 - 强调 */
+    --blueberry-dark: #3B528B;     /* 蓝莓深 */
+    --blueberry-light: #6B8CBF;    /* 蓝莓浅 */
+    --ripe: #10B981;               /* 成熟绿 */
+    --partial: #F59E0B;            /* 半熟黄 */
+    --unripe: #6366F1;             /* 未熟蓝紫 */
+    --bg-color: #F5F8FA;
+    --text-color: #333333;
+    --white-color: #FFFFFF;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* ---------- 顶部欢迎条 ---------- */
+.top-welcome {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+.top-welcome a {
+    color: var(--white-color);
+    text-decoration: underline;
+}
+
+/* ---------- Logo + 搜索 ---------- */
+.header {
+    background-color: var(--white-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 72px;
+    height: 72px;
+    margin-right: 15px;
+    object-fit: contain;
+}
+
+.logo-text h1 {
+    color: var(--primary-color);
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.logo-text p {
+    color: var(--secondary-color);
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.slogan {
+    text-align: center;
+}
+
+.slogan-text {
+    color: var(--blueberry-dark);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    width: 200px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-box button {
+    height: 36px;
+    padding: 0 20px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-box button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* ---------- 主导航 ---------- */
+.main-nav {
+    background-color: var(--blueberry-dark);
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+.nav-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.nav-list li {
+    position: relative;
+}
+
+.nav-list li a {
+    display: block;
+    padding: 15px 28px;
+    color: var(--white-color);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.nav-list li a:hover,
+.nav-list li a.active {
+    background-color: var(--primary-color);
+}
+
+/* 登录态标识：受保护页签加一把小锁 */
+.nav-list li a.protected::after {
+    content: ' \1F512';
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+.nav-list li.dropdown .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--blueberry-dark);
+    list-style: none;
+    min-width: 170px;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.nav-list li.dropdown:hover .submenu {
+    display: block;
+}
+
+.nav-list li.dropdown .submenu li a {
+    padding: 12px 20px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.nav-list li.dropdown .submenu li a:hover {
+    background-color: var(--secondary-color);
+}
+
+/* ---------- 蓝莓主视觉 Hero ---------- */
+.blueberry-hero {
+    position: relative;
+    color: var(--white-color);
+    text-align: center;
+    padding: 90px 20px;
+    background:
+        linear-gradient(135deg, rgba(30,77,140,0.92) 0%, rgba(59,82,139,0.88) 60%, rgba(74,144,217,0.85) 100%),
+        url('/static/BlueBerrytree.jpg') center/cover no-repeat;
+    overflow: hidden;
+}
+
+.blueberry-hero h1 {
+    font-size: 46px;
+    font-weight: bold;
+    margin-bottom: 18px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+}
+
+.blueberry-hero p {
+    font-size: 20px;
+    opacity: 0.95;
+    max-width: 760px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 34px;
+    border-radius: 50px;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.hero-btn.primary {
+    background-color: var(--white-color);
+    color: var(--primary-color);
+}
+
+.hero-btn.ghost {
+    background-color: rgba(255,255,255,0.12);
+    color: var(--white-color);
+    border: 2px solid rgba(255,255,255,0.7);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.3);
+}
+
+/* ---------- 通用区块 ---------- */
+.section-block {
+    max-width: 1200px;
+    margin: 56px auto;
+    padding: 0 20px;
+    scroll-margin-top: 70px; /* 避免吸顶导航遮挡锚点标题 */
+}
+
+.block-title {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.block-title h2 {
+    color: var(--primary-color);
+    font-size: 28px;
+    display: inline-block;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--accent-color);
+}
+
+.block-title p {
+    color: #777;
+    margin-top: 12px;
+    font-size: 15px;
+}
+
+/* ---------- 快速入口卡片（蓝莓识别 / 天气） ---------- */
+.access-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.access-card {
+    color: var(--white-color);
+    padding: 38px 30px;
+    border-radius: 14px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+.access-card.weather {
+    background: linear-gradient(135deg, #2E7DBC 0%, #4A90D9 100%);
+}
+
+.access-card.gallery {
+    background: linear-gradient(135deg, var(--blueberry-dark) 0%, var(--blueberry-light) 100%);
+}
+
+.access-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(30,77,140,0.4);
+}
+
+.access-card .icon {
+    font-size: 50px;
+    margin-bottom: 16px;
+}
+
+.access-card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.access-card p {
+    font-size: 14px;
+    opacity: 0.92;
+    line-height: 1.6;
+}
+
+/* ---------- 视频墙（Phase 2 填充抖音内容） ---------- */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.video-card {
+    background: var(--white-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 26px rgba(0,0,0,0.14);
+}
+
+.video-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    background: #0d1b2a;
+}
+
+.video-frame iframe,
+.video-frame video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.video-meta {
+    padding: 14px 16px;
+}
+
+.video-meta h4 {
+    font-size: 15px;
+    color: var(--text-color);
+    margin-bottom: 4px;
+}
+
+.video-meta span {
+    font-size: 13px;
+    color: #999;
+}
+
+/* 抖音封面卡（点击新标签打开，抖音禁止 iframe 内嵌） */
+.video-frame.cover {
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-frame.cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0.1));
+}
+
+.play-badge {
+    position: relative;
+    z-index: 1;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.92);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    padding-left: 4px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    transition: transform 0.25s;
+}
+
+.video-card:hover .play-badge {
+    transform: scale(1.12);
+}
+
+.pending-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    background: var(--partial);
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 20px;
+}
+
+/* ---------- 检测结果图库 ---------- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    aspect-ratio: 4 / 3;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.06);
+}
+
+.gallery-item .caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 18px 14px 10px;
+    color: var(--white-color);
+    font-size: 14px;
+    background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+}
+
+/* ---------- 数据指标 ---------- */
+.stats-overview {
+    background: linear-gradient(135deg, #EAF1F8 0%, #DCE8F4 100%);
+    padding: 50px 20px;
+}
+
+.stats-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 26px;
+    background: var(--white-color);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.stat-number {
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 15px;
+    color: #666;
+}
+
+/* ---------- 页脚（保留昆明学院信息） ---------- */
+.footer {
+    background-color: var(--blueberry-dark);
+    color: var(--white-color);
+    padding: 36px 0 0;
+    margin-top: 40px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.footer-section h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.footer-section p,
+.footer-section ul li a {
+    color: #CCD6E4;
+    font-size: 14px;
+    line-height: 1.7;
+    text-decoration: none;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a:hover {
+    color: var(--white-color);
+}
+
+.footer-bottom {
+    background-color: var(--primary-color);
+    padding: 15px 0;
+    text-align: center;
+    margin-top: 26px;
+}
+
+.footer-bottom p {
+    color: #CCD6E4;
+    font-size: 13px;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 992px) {
+    .header-content { flex-direction: column; gap: 14px; }
+    .access-grid { grid-template-columns: 1fr; }
+    .video-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-container { grid-template-columns: repeat(2, 1fr); }
+    .footer-content { grid-template-columns: 1fr; text-align: center; }
+    .blueberry-hero h1 { font-size: 32px; }
+}
+
+@media (max-width: 768px) {
+    .nav-list { flex-wrap: wrap; }
+    .nav-list li a { padding: 12px 16px; }
+    .video-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .stats-container { grid-template-columns: 1fr; }
+    .blueberry-hero { padding: 60px 18px; }
+}

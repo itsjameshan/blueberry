@@ -66,7 +66,11 @@
             return resp.json();
         }).then(function(data) {
             if (data.success) {
-                window.location.href = '/portal';
+                var params = new URLSearchParams(window.location.search);
+                var next = params.get('next') || '/portal';
+                // 仅允许站内相对路径，防止开放重定向
+                if (next.charAt(0) !== '/' || next.charAt(1) === '/') next = '/portal';
+                window.location.href = next;
             } else {
                 showError(loginError, data.message);
                 setBtnLoading(loginBtn, false);
