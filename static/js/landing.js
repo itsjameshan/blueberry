@@ -6,9 +6,9 @@ const DOUYIN_VIDEOS = [
     { url: 'https://v.douyin.com/Q-Aw8biyr5s/', title: '智慧农业实训 · 蓝莓成熟度检测', cover: '/static/BlueBerrytree.jpg' },
     { url: 'https://v.douyin.com/a0mpTG_lr7I/', title: '电脑实训 · 智能制造系',         cover: '/static/RipeBlueBerry.jpg' },
     { url: 'https://v.douyin.com/cRlVCaZnVXI/', title: '电脑实训',                       cover: '/static/Semi-RipeBlueBerry.jpg' },
-    // 备用链接（如需在主页展示更多视频，取消注释即可）：
-    // { url: 'https://v.douyin.com/N8tBJU9qpa4/', title: '实训记录',   cover: '/static/UnripeBlueBerry.jpg' },
-    // { url: 'https://v.douyin.com/F9yVPrtY1Tk/', title: '实训记录 2', cover: '/static/BlueBerrytree.jpg' },
+    { url: 'https://v.douyin.com/N8tBJU9qpa4/', title: '项目实训',                       cover: '/static/UnripeBlueBerry.jpg' },
+    { url: 'https://v.douyin.com/F9yVPrtY1Tk/', title: '实训演示',                       cover: '/static/img/detect1.jpg' },
+    { url: 'https://v.douyin.com/CmHi4VCIOOs/', title: '小程序使用',                     cover: '/static/img/detect2.jpg' },
 ];
 
 function renderVideos() {
