@@ -261,7 +261,10 @@ def api_notify_alerts(garden_id):
             last_err = err
     if sent:
         return jsonify({'success': True, 'message': f'已推送 {sent} 条预警至 {user_email}'})
-    return jsonify({'success': False, 'message': f'发送失败：{last_err or "未知错误"}'})
+    hint = last_err or '未知错误'
+    if last_err and any(k in last_err for k in ('EOF', 'SSL', 'timed out', 'timeout', 'refused')):
+        hint = f'{last_err}。多为代理/VPN 拦截了 SMTP —— 请把 smtp.qq.com 设为直连，或暂时关闭代理后重试'
+    return jsonify({'success': False, 'message': f'发送失败：{hint}'})
 
 
 @app.route('/register', methods=['POST'])
