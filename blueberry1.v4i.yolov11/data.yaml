@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 3
+names: ['RipeBlueBerry', 'Semi-RipeBlueBerry', 'UnripeBlueBerry']
+
+roboflow:
+  workspace: imaya-setty-s-xlynq
+  project: blueberry1-mdh56
+  version: 4
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/imaya-setty-s-xlynq/blueberry1-mdh56/dataset/4

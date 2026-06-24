@@ -245,37 +245,9 @@ body {
 
 @media (max-width: 768px) {
     .detail-layout { grid-template-columns: 1fr; }
-    .navbar { padding: 0 12px; }
-    .nav-right { gap: 6px; flex-wrap: wrap; }
+    .navbar { padding: 0 16px; }
+    .nav-right { gap: 8px; }
     .nav-link { padding: 6px 10px; font-size: 12px; }
-    .nav-title { font-size: 14px; }
-    .main-content { padding: 16px 12px; }
-    .page-header { padding: 24px 16px; margin-bottom: 24px; }
-    .page-header h1 { font-size: 20px; }
-    .page-header p { font-size: 12px; }
-    .card { border-radius: 16px; }
-    .card-header { padding: 16px 20px 0; }
-    .card-header h2 { font-size: 16px; }
-    .card-body { padding: 16px 20px; }
-    .upload-area { padding: 24px 16px; min-height: 160px; }
-    .upload-icon { font-size: 36px; }
-    .file-tag { font-size: 12px; padding: 5px 10px; }
-    .detect-controls { flex-direction: column; gap: 16px; }
-    .control-item { min-width: 100%; }
-    .control-item label { font-size: 13px; }
-    .btn-detect { width: 100%; padding: 13px 24px; font-size: 14px; }
-    .summary-stats { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .summary-stat { padding: 12px; }
-    .summary-stat .s-value { font-size: 22px; }
-    .summary-stat .s-label { font-size: 11px; }
-    .summary-table { font-size: 12px; }
-    .summary-table th, .summary-table td { padding: 8px 10px; }
-    .detail-info { gap: 10px; }
-    .stat-item { padding: 12px 14px; }
-    .stat-value { font-size: 18px; }
-    .stat-label { font-size: 13px; }
-    .btn-view-detail { font-size: 11px; padding: 3px 10px; }
-    .btn-back { font-size: 12px; padding: 6px 14px; }
 }
 
 .model-info-bar {

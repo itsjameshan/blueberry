@@ -1,0 +1,397 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    background: #F4F2FF;
+    color: #1E1B4B;
+    min-height: 100vh;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+    height: 64px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #EDE9FF;
+    box-shadow: 0 2px 16px rgba(108, 92, 231, 0.04);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-back {
+    font-size: 14px;
+    color: #6C5CE7;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.nav-back:hover {
+    background: #F4F2FF;
+}
+
+.nav-logo {
+    font-size: 28px;
+}
+
+.nav-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E1B4B;
+    letter-spacing: 1px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E1B4B;
+}
+
+.badge-admin {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #EDE9FF;
+    color: #6C5CE7;
+    font-weight: 600;
+}
+
+.btn-logout {
+    font-size: 14px;
+    color: #636E72;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.btn-logout:hover {
+    background: #FEE2E2;
+    color: #E74C3C;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1E1B4B;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #6C5CE7;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: #5A4BD1;
+}
+
+.garden-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.garden-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(108, 92, 231, 0.08);
+    border: 1px solid #EDE9FF;
+    transition: all 0.2s;
+}
+
+.garden-card:hover {
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.12);
+}
+
+.garden-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.garden-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E1B4B;
+    margin-bottom: 4px;
+}
+
+.garden-location {
+    font-size: 13px;
+    color: #636E72;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.garden-stage {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.stage-dormant {
+    background: #E8F4F8;
+    color: #2980B9;
+}
+
+.stage-sprouting {
+    background: #E8F8E8;
+    color: #27AE60;
+}
+
+.stage-flowering {
+    background: #FFF4E6;
+    color: #F39C12;
+}
+
+.stage-fruiting {
+    background: #F4E6FF;
+    color: #6C5CE7;
+}
+
+.garden-info {
+    margin-bottom: 16px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #F4F2FF;
+    font-size: 13px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #636E72;
+}
+
+.info-value {
+    color: #1E1B4B;
+    font-weight: 500;
+}
+
+.garden-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-sm {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #EDE9FF;
+    background: #FFFFFF;
+    color: #6C5CE7;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.btn-sm:hover {
+    background: #F4F2FF;
+}
+
+.btn-delete {
+    color: #E74C3C;
+    border-color: #FEE2E2;
+}
+
+.btn-delete:hover {
+    background: #FEE2E2;
+}
+
+.loading, .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #636E72;
+    font-size: 14px;
+    grid-column: 1 / -1;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: #FFFFFF;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #EDE9FF;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E1B4B;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #636E72;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.modal-close:hover {
+    background: #F4F2FF;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E1B4B;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #EDE9FF;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1E1B4B;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #6C5CE7;
+}
+
+.error-msg {
+    color: #E74C3C;
+    font-size: 13px;
+    margin-bottom: 12px;
+    min-height: 18px;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .garden-list {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 20px 16px;
+    }
+
+    .navbar {
+        padding: 0 16px;
+    }
+}

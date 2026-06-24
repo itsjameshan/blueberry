@@ -473,33 +473,9 @@ tr:hover td { background: #FAFAFF; }
 }
 
 @media (max-width: 768px) {
-    .navbar { padding: 10px 12px; flex-wrap: wrap; height: auto; }
-    .nav-right { gap: 6px; flex-wrap: wrap; }
-    .nav-link { padding: 6px 10px; font-size: 12px; }
-    .nav-title { font-size: 14px; }
-    .main-content { padding: 16px 12px; }
-    .admin-tabs { flex-wrap: wrap; gap: 4px; padding: 4px; }
-    .a-tab { flex: none; font-size: 12px; padding: 8px 12px; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .stat-card { padding: 16px 14px; }
-    .stat-card-value { font-size: 24px; }
-    .stat-card-label { font-size: 12px; }
-    .card { border-radius: 16px; }
-    .card-header { padding: 16px 20px 0; }
-    .card-header h2 { font-size: 16px; }
-    .card-body { padding: 16px 20px; }
-    .header-actions { flex-direction: column; gap: 10px; }
-    .btn-add { width: 100%; padding: 10px 20px; font-size: 13px; }
-    table { font-size: 12px; }
-    th, td { padding: 10px 10px; }
-    .btn-sm { padding: 3px 10px; font-size: 11px; margin-right: 4px; }
-    .modal { width: 95%; max-width: 400px; }
-    .modal-header { padding: 16px 20px; }
-    .modal-header h2 { font-size: 16px; }
-    .modal-body { padding: 20px; }
-    .input-group input, .input-group select { padding: 10px 12px; font-size: 13px; }
-    .upload-area-modal { padding: 24px 16px; }
-    .chart-container { height: 160px; gap: 8px; }
-    .chart-bar { max-width: 40px; }
-    .chart-label { font-size: 10px; }
+    .navbar { padding: 10px 16px; flex-wrap: wrap; height: auto; }
+    .nav-right { gap: 10px; flex-wrap: wrap; }
+    .admin-tabs { flex-wrap: wrap; }
+    .a-tab { flex: none; font-size: 12px; padding: 10px 14px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }

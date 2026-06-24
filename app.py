@@ -1,17 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, send_file, Response
 from werkzeug.security import check_password_hash
 from functools import wraps
+from dotenv import load_dotenv
 import os
 import json
 import webbrowser
 import threading
-# 新增跨域模块
-from flask_cors import CORS
+
+load_dotenv()
 
 from database import (
     init_db, get_user_by_username, get_user_by_id, create_user, delete_user,
     get_all_users, save_detection_record, get_user_records, get_detection_stats,
-    save_model_config, get_active_model, get_all_models, set_active_model, delete_model
+    save_model_config, get_active_model, get_all_models, set_active_model, delete_model,
+    create_garden, get_garden_by_id, get_gardens_by_user, get_all_gardens,
+    update_garden, delete_garden, save_weather_data, get_latest_weather,
+    save_weather_alert, get_active_alerts, get_all_alerts, update_user_email
 )
 from detect_engine import (
     load_model, is_model_loaded, detect_single_image, draw_boxes,
@@ -20,13 +24,7 @@ from detect_engine import (
 import detect_engine
 
 app = Flask(__name__, template_folder='static')
-app.secret_key = 'blueberry_detection_secret_key_2026'
-# 全局跨域配置：允许小程序携带 Cookie，保留登录态
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
-# Session 适配小程序，登录 7 天有效，不丢失登录
-app.config['PERMANENT_SESSION_LIFETIME'] = 3600*24*7
-app.config['SESSION_COOKIE_SAMESITE'] = None
-app.config['SESSION_COOKIE_SECURE'] = False
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'blueberry_detection_secret_key_2026')
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
@@ -64,8 +62,86 @@ def admin_required(f):
 @app.route('/')
 def root():
     if 'user_id' in session:
-        return redirect(url_for('index'))
+        return redirect(url_for('portal'))
     return redirect(url_for('login_page'))
+
+
+@app.route('/portal')
+@login_required
+def portal():
+    return render_template('portal.html', username=session.get('username'), role=session.get('role'))
+
+
+@app.route('/weather')
+@login_required
+def weather_page():
+    return render_template('weather.html', username=session.get('username'), role=session.get('role'))
+
+
+@app.route('/weather/alerts')
+@login_required
+def alerts_page():
+    return render_template('alerts.html', username=session.get('username'), role=session.get('role'))
+
+
+@app.route('/api/alerts')
+@login_required
+def api_get_alerts():
+    garden_id = request.args.get('garden_id', type=int)
+    alerts = get_all_alerts(garden_id=garden_id)
+    return jsonify({
+        'success': True,
+        'alerts': [{
+            'id': a['id'],
+            'garden_id': a['garden_id'],
+            'garden_name': a['garden_name'],
+            'title': a['alert_title'],
+            'level': a['alert_level'],
+            'content': a['alert_content'],
+            'start_time': a['start_time'],
+            'end_time': a['end_time'],
+            'created_at': a['created_at']
+        } for a in alerts]
+    })
+
+
+@app.route('/api/alerts/stats')
+@login_required
+def api_alerts_stats():
+    """获取预警统计数据"""
+    from database import get_alert_stats
+    garden_id = request.args.get('garden_id', type=int)
+    stats = get_alert_stats(garden_id=garden_id)
+    return jsonify({'success': True, 'stats': stats})
+
+
+@app.route('/api/user/thresholds', methods=['GET'])
+@login_required
+def api_get_thresholds():
+    """获取用户自定义预警阈值"""
+    from database import get_user_thresholds
+    user_id = session.get('user_id')
+    thresholds = get_user_thresholds(user_id)
+    return jsonify({'success': True, 'thresholds': thresholds})
+
+
+@app.route('/api/user/thresholds', methods=['POST'])
+@login_required
+def api_save_thresholds():
+    """保存用户自定义预警阈值"""
+    from database import save_user_thresholds
+    user_id = session.get('user_id')
+    data = request.get_json()
+    if not data:
+        return jsonify({'success': False, 'message': '无效数据'})
+    success, msg = save_user_thresholds(user_id, data)
+    return jsonify({'success': success, 'message': msg})
+
+
+@app.route('/garden')
+@login_required
+def garden_page():
+    return render_template('garden.html', username=session.get('username'), role=session.get('role'))
 
 
 @app.route('/login', methods=['GET'])
@@ -87,6 +163,35 @@ def login():
     session['username'] = user['username']
     session['role'] = user['role']
     return jsonify({'success': True, 'message': '登录成功', 'role': user['role']})
+
+
+@app.route('/api/user/email', methods=['POST'])
+@login_required
+def api_set_email():
+    data = request.get_json()
+    email = data.get('email', '').strip()
+    if not email:
+        return jsonify({'success': False, 'message': '邮箱不能为空'})
+    # 简单邮箱格式校验
+    if '@' not in email or '.' not in email:
+        return jsonify({'success': False, 'message': '邮箱格式不正确'})
+    update_user_email(session['user_id'], email)
+    return jsonify({'success': True, 'message': '邮箱设置成功'})
+
+
+@app.route('/api/user/info')
+@login_required
+def api_user_info():
+    user = get_user_by_id(session['user_id'])
+    return jsonify({
+        'success': True,
+        'user': {
+            'id': user['id'],
+            'username': user['username'],
+            'role': user['role'],
+            'email': user['email'] if 'email' in user.keys() else ''
+        }
+    })
 
 
 @app.route('/register', methods=['POST'])
@@ -654,26 +759,391 @@ def api_delete_model(model_id):
     return jsonify({'success': True, 'message': '模型已删除'})
 
 
+# ===== 果园管理 API =====
+
+@app.route('/api/gardens', methods=['GET'])
+@login_required
+def api_get_gardens():
+    role = session.get('role', 'user')
+    if role == 'admin':
+        gardens = get_all_gardens()
+    else:
+        gardens = get_gardens_by_user(session['user_id'])
+    result = []
+    for g in gardens:
+        result.append({
+            'id': g['id'],
+            'user_id': g['user_id'],
+            'username': g['username'] if 'username' in g.keys() else '',
+            'name': g['name'],
+            'location': g['location'],
+            'location_id': g['location_id'],
+            'plant_date': g['plant_date'],
+            'growth_stage': g['growth_stage'],
+            'created_at': g['created_at']
+        })
+    return jsonify({'success': True, 'gardens': result})
+
+
+@app.route('/api/gardens', methods=['POST'])
+@admin_required
+def api_create_garden():
+    data = request.get_json()
+    name = data.get('name', '').strip()
+    location = data.get('location', '').strip()
+    location_id = data.get('location_id', '')
+    plant_date = data.get('plant_date', '')
+    growth_stage = data.get('growth_stage', 'dormant')
+    if not name or not location:
+        return jsonify({'success': False, 'message': '果园名称和地点不能为空'})
+    if growth_stage not in ('dormant', 'sprouting', 'flowering', 'fruiting'):
+        return jsonify({'success': False, 'message': '无效的生长阶段'})
+    ok, msg, garden_id = create_garden(session['user_id'], name, location, location_id, plant_date, growth_stage)
+    return jsonify({'success': ok, 'message': msg, 'garden_id': garden_id})
+
+
+@app.route('/api/gardens/<int:garden_id>', methods=['PUT'])
+@admin_required
+def api_update_garden(garden_id):
+    data = request.get_json()
+    ok, msg = update_garden(
+        garden_id,
+        name=data.get('name'),
+        location=data.get('location'),
+        location_id=data.get('location_id'),
+        plant_date=data.get('plant_date'),
+        growth_stage=data.get('growth_stage')
+    )
+    return jsonify({'success': ok, 'message': msg})
+
+
+@app.route('/api/gardens/<int:garden_id>', methods=['DELETE'])
+@admin_required
+def api_delete_garden(garden_id):
+    garden = get_garden_by_id(garden_id)
+    if not garden:
+        return jsonify({'success': False, 'message': '果园不存在'})
+    delete_garden(garden_id)
+    return jsonify({'success': True, 'message': '果园已删除'})
+
+
+# ===== 天气数据 API =====
+
+@app.route('/api/weather/<int:garden_id>')
+@login_required
+def api_get_weather(garden_id):
+    garden = get_garden_by_id(garden_id)
+    if not garden:
+        return jsonify({'success': False, 'message': '果园不存在'}), 404
+    
+    # 尝试从数据库获取缓存的天气数据
+    cached_weather = get_latest_weather(garden_id)
+    
+    # 如果有缓存且未过期（1小时内），直接返回
+    if cached_weather:
+        from datetime import datetime
+        fetched_at = datetime.strptime(cached_weather['fetched_at'], '%Y-%m-%d %H:%M:%S')
+        now = datetime.now()
+        if (now - fetched_at).seconds < 3600:
+            weather_data = json.loads(cached_weather['weather_json'])
+            
+            # 即使使用缓存数据，也要运行建议引擎生成预警
+            from weather.advice_engine import get_agricultural_advice
+            from database import get_user_thresholds, is_alert_duplicate
+            growth_stage = garden['growth_stage']
+            thresholds = get_user_thresholds(garden['user_id'])
+            advice = get_agricultural_advice(weather_data, growth_stage, thresholds)
+            
+            # 保存 warning 级别的建议为预警记录
+            new_alerts = []
+            for item in advice:
+                if item.get('level') == 'warning':
+                    title = item.get('title', '')
+                    if not is_alert_duplicate(garden_id, title, hours=24):
+                        save_weather_alert(
+                            garden_id,
+                            alert_title=title,
+                            alert_level='warning',
+                            alert_content=item.get('content', '')
+                        )
+                        new_alerts.append(item)
+                        print(f"[邮件预警] 新预警: {title}")
+                    else:
+                        print(f"[邮件预警] 去重跳过: {title} (24h内已存在)")
+            
+            alerts = get_active_alerts(garden_id)
+            print(f"[邮件预警] 活跃预警数: {len(alerts)}, 新预警数: {len(new_alerts)}")
+            
+            # 发送新生成的预警邮件
+            if new_alerts:
+                try:
+                    from weather.email_sender import send_weather_alert_email
+                    from database import get_user_by_id
+                    user = get_user_by_id(garden['user_id'])
+                    if user and user.get('email'):
+                        for alert in new_alerts:
+                            success, error = send_weather_alert_email(
+                                to_email=user['email'],
+                                garden_name=garden['name'],
+                                alert_title=alert.get('title', ''),
+                                alert_content=alert.get('content', ''),
+                                weather_data=weather_data
+                            )
+                            if success:
+                                print(f"预警邮件已发送至 {user['email']}")
+                            else:
+                                print(f"预警邮件发送失败: {error}")
+                except Exception as e:
+                    print(f"发送预警邮件时出错: {str(e)}")
+            
+            return jsonify({
+                'success': True,
+                'garden': {
+                    'id': garden['id'],
+                    'name': garden['name'],
+                    'location': garden['location'],
+                    'growth_stage': garden['growth_stage']
+                },
+                'weather': weather_data,
+                'alerts': [{'title': a['alert_title'], 'level': a['alert_level'], 'content': a['alert_content']} for a in alerts],
+                'advice': advice
+            })
+    
+    # 缓存过期或不存在，调用和风天气 API
+    try:
+        from weather.api_client import get_full_weather, lookup_city
+        
+        # 获取 location_id
+        location_id = garden['location_id']
+        if not location_id:
+            # 通过城市名查询 location_id
+            city_info = lookup_city(garden['location'])
+            if city_info:
+                location_id = city_info['location_id']
+                # 更新果园的 location_id
+                update_garden(garden_id, location_id=location_id)
+            else:
+                return jsonify({
+                    'success': False,
+                    'message': f"无法找到城市: {garden['location']}"
+                }), 400
+        
+        # 调用天气 API
+        weather_data = get_full_weather(location_id)
+        
+        if weather_data:
+            # 保存到数据库缓存
+            save_weather_data(garden_id, json.dumps(weather_data, ensure_ascii=False))
+            
+            # 保存预警记录到数据库
+            api_warnings = weather_data.get('warnings', [])
+            if api_warnings:
+                for w in api_warnings:
+                    save_weather_alert(
+                        garden_id,
+                        alert_title=w.get('title', ''),
+                        alert_level=w.get('level', ''),
+                        alert_content=w.get('text', ''),
+                        start_time=w.get('startTime'),
+                        end_time=w.get('endTime')
+                    )
+            
+            # 生成农业建议（传入用户自定义阈值）
+            from weather.advice_engine import get_agricultural_advice
+            from database import get_user_thresholds
+            growth_stage = garden['growth_stage']
+            thresholds = get_user_thresholds(garden['user_id'])
+            advice = get_agricultural_advice(weather_data, growth_stage, thresholds)
+            
+            # 将 warning 级别的建议也保存为预警记录（不依赖官方预警 API）
+            from database import is_alert_duplicate
+            new_alerts = []
+            for item in advice:
+                if item.get('level') == 'warning':
+                    title = item.get('title', '')
+                    # 去重：24小时内相同标题的预警不重复保存
+                    if not is_alert_duplicate(garden_id, title, hours=24):
+                        save_weather_alert(
+                            garden_id,
+                            alert_title=title,
+                            alert_level='warning',
+                            alert_content=item.get('content', '')
+                        )
+                        new_alerts.append(item)
+                        print(f"[邮件预警] 新预警: {title}")
+                    else:
+                        print(f"[邮件预警] 去重跳过: {title} (24h内已存在)")
+            
+            alerts = get_active_alerts(garden_id)
+            print(f"[邮件预警] 活跃预警数: {len(alerts)}, 新预警数: {len(new_alerts)}")
+            
+            # 检查是否有新预警，如果有则发送邮件通知（仅发送新生成的预警）
+            if new_alerts:
+                try:
+                    from weather.email_sender import send_weather_alert_email
+                    from database import get_user_by_id
+                    
+                    # 获取果园管理者的邮箱
+                    user = get_user_by_id(garden['user_id'])
+                    if user and user.get('email'):
+                        # 仅发送新生成的预警
+                        for alert in new_alerts:
+                            success, error = send_weather_alert_email(
+                                to_email=user['email'],
+                                garden_name=garden['name'],
+                                alert_title=alert.get('title', ''),
+                                alert_content=alert.get('content', ''),
+                                weather_data=weather_data
+                            )
+                            if success:
+                                print(f"预警邮件已发送至 {user['email']}")
+                            else:
+                                print(f"预警邮件发送失败: {error}")
+                except Exception as e:
+                    print(f"发送预警邮件时出错: {str(e)}")
+            
+            return jsonify({
+                'success': True,
+                'garden': {
+                    'id': garden['id'],
+                    'name': garden['name'],
+                    'location': garden['location'],
+                    'growth_stage': garden['growth_stage']
+                },
+                'weather': weather_data,
+                'alerts': [{'title': a['alert_title'], 'level': a['alert_level'], 'content': a['alert_content']} for a in alerts],
+                'advice': advice
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'message': '获取天气数据失败'
+            }), 500
+            
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'获取天气数据失败: {str(e)}'
+        }), 500
+
+
+# ===== 检查所有果园预警（页面加载时调用） =====
+
+@app.route('/api/weather/check-all')
+@login_required
+def api_check_all_gardens():
+    """检查当前用户所有果园的预警，有新预警则发送邮件"""
+    from database import get_gardens_by_user, get_user_thresholds, is_alert_duplicate, get_user_by_id
+    from weather.advice_engine import get_agricultural_advice
+    from weather.email_sender import send_weather_alert_email
+    
+    user = get_user_by_id(session['user_id'])
+    if not user or not user.get('email'):
+        return jsonify({'success': True, 'message': '用户未设置邮箱', 'sent': 0})
+    
+    gardens = get_gardens_by_user(session['user_id'])
+    sent_count = 0
+    
+    for garden in gardens:
+        cached_weather = get_latest_weather(garden['id'])
+        if not cached_weather:
+            continue
+        
+        weather_data = json.loads(cached_weather['weather_json'])
+        thresholds = get_user_thresholds(garden['user_id'])
+        advice = get_agricultural_advice(weather_data, garden['growth_stage'], thresholds)
+        
+        for item in advice:
+            if item.get('level') == 'warning':
+                title = item.get('title', '')
+                if not is_alert_duplicate(garden['id'], title, hours=24):
+                    save_weather_alert(
+                        garden['id'],
+                        alert_title=title,
+                        alert_level='warning',
+                        alert_content=item.get('content', '')
+                    )
+                    success, error = send_weather_alert_email(
+                        to_email=user['email'],
+                        garden_name=garden['name'],
+                        alert_title=title,
+                        alert_content=item.get('content', ''),
+                        weather_data=weather_data
+                    )
+                    if success:
+                        sent_count += 1
+                        print(f"[邮件预警] 已发送 {garden['name']} - {title} 至 {user['email']}")
+                    else:
+                        print(f"[邮件预警] 发送失败 {garden['name']} - {title}: {error}")
+    
+    return jsonify({'success': True, 'sent': sent_count})
+
+
 if __name__ == '__main__':
     init_db()
+    from database import ensure_thresholds_table
+    ensure_thresholds_table()
     model = get_active_model()
     if model:
-        print(f"找到激活模型: {model['model_name']}")
-        print(f"模型路径: {model['model_path']}")
-        if os.path.exists(model['model_path']):
-            print("模型文件存在，开始加载...")
-            success = load_model(model['model_path'])
-            if success:
-                print("✅ 模型加载成功！")
-            else:
-                print("❌ 模型加载失败！")
-        else:
-            print(f"❌ 模型文件不存在: {model['model_path']}")
-    else:
-        print("⚠️ 未找到激活模型，检查 database.py 中 init_db 是否正确初始化")
-        print(f"ONNX_FOLDER 目录内容: {os.listdir(ONNX_FOLDER) if os.path.exists(ONNX_FOLDER) else '目录不存在'}")
+        load_model(model['model_path'])
+    
+    # 服务器启动时：清除历史预警，重新检测并发送
+    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        import sqlite3
+        conn = sqlite3.connect('blueberry.db')
+        conn.execute("DELETE FROM weather_alerts")
+        conn.commit()
+        conn.close()
+        print("[启动检查] 已清除历史预警记录")
+        
+        try:
+            from database import get_gardens_by_user, get_user_thresholds, get_user_by_id
+            from weather.advice_engine import get_agricultural_advice
+            from weather.email_sender import send_weather_alert_email
+            
+            # 获取所有用户的果园
+            conn = sqlite3.connect('blueberry.db')
+            conn.row_factory = sqlite3.Row
+            users = conn.execute("SELECT id, email FROM users WHERE email IS NOT NULL AND email != ''").fetchall()
+            conn.close()
+            
+            for user_row in users:
+                user = dict(user_row)
+                gardens = get_gardens_by_user(user['id'])
+                for garden in gardens:
+                    cached = get_latest_weather(garden['id'])
+                    if not cached:
+                        continue
+                    weather_data = json.loads(cached['weather_json'])
+                    thresholds = get_user_thresholds(garden['user_id'])
+                    advice = get_agricultural_advice(weather_data, garden['growth_stage'], thresholds)
+                    
+                    for item in advice:
+                        if item.get('level') == 'warning':
+                            title = item.get('title', '')
+                            save_weather_alert(
+                                garden['id'],
+                                alert_title=title,
+                                alert_level='warning',
+                                alert_content=item.get('content', '')
+                            )
+                            success, error = send_weather_alert_email(
+                                to_email=user['email'],
+                                garden_name=garden['name'],
+                                alert_title=title,
+                                alert_content=item.get('content', ''),
+                                weather_data=weather_data
+                            )
+                            if success:
+                                print(f"[启动检查] 已发送 {garden['name']} - {title} 至 {user['email']}")
+                            else:
+                                print(f"[启动检查] 发送失败 {garden['name']} - {title}: {error}")
+        except Exception as e:
+            print(f"[启动检查] 预警检测出错: {str(e)}")
+    
     print("蓝莓检测系统启动中...")
-    print("本地地址: http://127.0.0.1:5000")
-    print("局域网地址: http://10.77.56.49:5000")
+    print("访问地址: http://127.0.0.1:5000")
     print("默认管理员账号: admin / admin123")
-    app.run(debug=False, host='0.0.0.0', port=5000, use_reloader=False)
+    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        threading.Timer(1.5, lambda: webbrowser.open('http://127.0.0.1:5000/login')).start()
+    app.run(debug=True, host='0.0.0.0', port=5000)

@@ -1,13 +1,19 @@
+Blueberry-Datasets-main/
+BlueberryDCM/
+blueberry detection datsets kaggle 1G/
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-.DS_Store
 *.db
-uploads/
-results/
+*.pyc
 crop_output/
-*.log
-.vscode/
-project.private.config.json
-~$*.caj
+results/
+uploads/
+.env
+
+# YOLO training-ready dataset: exclude only raw photos and label txts
+yolo_training_ready/images/**/*.jpg
+yolo_training_ready/images/**/*.jpeg
+yolo_training_ready/images/**/*.png
+yolo_training_ready/images/**/*.gif
+yolo_training_ready/images/**/*.webp
+yolo_training_ready/images/**/*.bmp
+yolo_training_ready/labels/**/*.txt

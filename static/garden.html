@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>果园管理 - 蓝莓智慧农业平台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/garden.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="/portal" class="nav-back"><i class="fas fa-arrow-left"></i> 返回</a>
+            <span class="nav-logo">🌱</span>
+            <span class="nav-title">果园管理</span>
+        </div>
+        <div class="nav-right">
+            <div class="user-info">
+                <span class="user-avatar">{{ username[0] | upper }}</span>
+                <span class="user-name">{{ username }}</span>
+                {% if role == 'admin' %}
+                <span class="badge-admin">管理员</span>
+                {% endif %}
+            </div>
+            <a href="/logout" class="btn-logout">退出</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>果园管理</h1>
+            {% if role == 'admin' %}
+            <button class="btn-primary" id="addGardenBtn"><i class="fas fa-plus"></i> 添加果园</button>
+            {% endif %}
+        </div>
+
+        <div class="garden-list" id="gardenList">
+            <div class="loading">加载中...</div>
+        </div>
+    </div>
+
+    <!-- 添加/编辑果园弹窗 -->
+    <div class="modal-overlay" id="gardenModal" style="display:none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">添加果园</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>果园名称 *</label>
+                    <input type="text" id="gardenName" placeholder="请输入果园名称">
+                </div>
+                <div class="form-group">
+                    <label>所在地（城市） *</label>
+                    <input type="text" id="gardenLocation" placeholder="请输入城市名称，如：北京市">
+                </div>
+                <div class="form-group">
+                    <label>种植日期</label>
+                    <input type="date" id="gardenPlantDate">
+                </div>
+                <div class="form-group">
+                    <label>当前生长阶段</label>
+                    <select id="gardenStage">
+                        <option value="dormant">休眠期</option>
+                        <option value="sprouting">萌芽期</option>
+                        <option value="flowering">花期</option>
+                        <option value="fruiting">果期</option>
+                    </select>
+                </div>
+                <div class="error-msg" id="modalError"></div>
+                <button class="btn-primary btn-block" id="saveGardenBtn">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/garden.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>历史预警 - 蓝莓智慧农业平台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/alerts.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="/weather" class="nav-back"><i class="fas fa-arrow-left"></i> 返回</a>
+            <span class="nav-logo">️</span>
+            <span class="nav-title">历史预警</span>
+        </div>
+        <div class="nav-right">
+            <span class="nav-clock" id="navClock"></span>
+            <button class="btn-threshold" id="btnThreshold" title="预警阈值设置"><i class="fas fa-sliders-h"></i></button>
+            <div class="user-info">
+                <span class="user-avatar">{{ username[0] | upper }}</span>
+                <span class="user-name">{{ username }}</span>
+                {% if role == 'admin' %}
+                <span class="badge-admin">管理员</span>
+                {% endif %}
+            </div>
+            <a href="/logout" class="btn-logout">退出</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="alerts-header">
+            <h2>预警记录</h2>
+            <div class="filter-bar">
+                <select id="gardenFilter">
+                    <option value="">全部果园</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 统计图表区域 -->
+        <div class="stats-section" id="statsSection">
+            <div class="stats-cards">
+                <div class="stats-card">
+                    <div class="stats-card-icon" style="background:#F4F2FF;color:#6C5CE7;"><i class="fas fa-bell"></i></div>
+                    <div class="stats-card-body">
+                        <div class="stats-card-value" id="statTotal">0</div>
+                        <div class="stats-card-label">预警总数</div>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-card-icon" style="background:#FFF5F5;color:#E74C3C;"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="stats-card-body">
+                        <div class="stats-card-value" id="statWarning">0</div>
+                        <div class="stats-card-label">高级预警</div>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-card-icon" style="background:#F0F9FF;color:#3498DB;"><i class="fas fa-info-circle"></i></div>
+                    <div class="stats-card-body">
+                        <div class="stats-card-value" id="statInfo">0</div>
+                        <div class="stats-card-label">提示信息</div>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-charts">
+                <div class="chart-card">
+                    <h3>预警级别分布</h3>
+                    <div class="chart-container"><canvas id="levelChart"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3>果园预警排名</h3>
+                    <div class="chart-container"><canvas id="gardenChart"></canvas></div>
+                </div>
+                <div class="chart-card chart-wide">
+                    <h3>近30天预警趋势</h3>
+                    <div class="chart-container chart-tall"><canvas id="trendChart"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="alertsContent">
+            <div class="loading">加载中...</div>
+        </div>
+    </div>
+
+    <!-- 阈值设置弹窗 -->
+    <div class="modal-overlay" id="thresholdModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-sliders-h"></i> 自定义预警阈值</h3>
+                <button class="modal-close" id="closeThreshold">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">设置以下阈值，当气象数据超过这些值时将触发预警通知。</p>
+                <div class="threshold-grid">
+                    <div class="threshold-item">
+                        <label>高温预警 (°C)</label>
+                        <input type="number" id="thTempHigh" min="-20" max="60" step="1" value="35">
+                    </div>
+                    <div class="threshold-item">
+                        <label>低温预警 (°C)</label>
+                        <input type="number" id="thTempLow" min="-20" max="60" step="1" value="5">
+                    </div>
+                    <div class="threshold-item">
+                        <label>高湿度预警 (%)</label>
+                        <input type="number" id="thHumidityHigh" min="0" max="100" step="1" value="85">
+                    </div>
+                    <div class="threshold-item">
+                        <label>低湿度预警 (%)</label>
+                        <input type="number" id="thHumidityLow" min="0" max="100" step="1" value="40">
+                    </div>
+                    <div class="threshold-item">
+                        <label>大风预警 (km/h)</label>
+                        <input type="number" id="thWindHigh" min="0" max="200" step="1" value="30">
+                    </div>
+                    <div class="threshold-item">
+                        <label>强降雨预警 (mm)</label>
+                        <input type="number" id="thPrecipHigh" min="0" max="500" step="1" value="30">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="cancelThreshold">取消</button>
+                <button class="btn-save" id="saveThreshold">保存设置</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/alerts.js') }}"></script>
+</body>
+</html>
