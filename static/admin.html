@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - 蓝莓检测系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="nav-logo">🫐</span>
+            <span class="nav-title">蓝莓成熟度检测系统 - 管理后台</span>
+        </div>
+        <div class="nav-right">
+            <a href="/index" class="nav-link">首页</a>
+            <a href="/single_detect" class="nav-link">单图检测</a>
+            <a href="/batch_detect" class="nav-link">批量检测</a>
+            <a href="/big_image" class="nav-link">大图检测</a>
+            <a href="/result" class="nav-link">检测记录</a>
+            <div class="user-info">
+                <span class="user-avatar">{{ username[0] | upper }}</span>
+                <span class="user-name">{{ username }}</span>
+                <span class="badge-admin">管理员</span>
+            </div>
+            <a href="/logout" class="btn-logout">退出</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="admin-tabs">
+            <button class="a-tab active" data-tab="dashboard">📊 数据统计</button>
+            <button class="a-tab" data-tab="users">👥 用户管理</button>
+            <button class="a-tab" data-tab="records">📋 检测记录</button>
+            <button class="a-tab" data-tab="models">🧠 模型管理</button>
+        </div>
+
+        <div class="tab-content active" id="tab-dashboard">
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card"><div class="stat-card-value">-</div><div class="stat-card-label">总检测次数</div></div>
+                <div class="stat-card"><div class="stat-card-value">-</div><div class="stat-card-label">总检测框数</div></div>
+                <div class="stat-card ripe"><div class="stat-card-value">-</div><div class="stat-card-label">成熟蓝莓</div></div>
+                <div class="stat-card semi"><div class="stat-card-value">-</div><div class="stat-card-label">半熟蓝莓</div></div>
+                <div class="stat-card unripe"><div class="stat-card-value">-</div><div class="stat-card-label">未熟蓝莓</div></div>
+                <div class="stat-card"><div class="stat-card-value">-</div><div class="stat-card-label">用户总数</div></div>
+            </div>
+            <div class="card mt-24">
+                <div class="card-header"><h2>最近7天检测趋势</h2></div>
+                <div class="card-body">
+                    <div class="chart-container" id="dailyChart"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-users">
+            <div class="card">
+                <div class="card-header">
+                    <h2>用户列表</h2>
+                    <button class="btn-add" id="addUserBtn">+ 添加用户</button>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>ID</th><th>用户名</th><th>角色</th><th>注册时间</th><th>操作</th></tr></thead>
+                            <tbody id="userBody"><tr><td colspan="5" class="loading-cell">加载中...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-records">
+            <div class="card">
+                <div class="card-header"><h2>全部检测记录</h2></div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>ID</th><th>用户</th><th>图片</th><th>成熟</th><th>半熟</th><th>未熟</th><th>总计</th><th>时间</th><th>操作</th></tr></thead>
+                            <tbody id="adminRecordBody"><tr><td colspan="9" class="loading-cell">加载中...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-models">
+            <div class="card">
+                <div class="card-header">
+                    <h2>模型列表</h2>
+                    <div class="header-actions">
+                        <span class="model-status" id="modelStatus">模型状态: 未加载</span>
+                        <button class="btn-add" id="uploadModelBtn">+ 上传模型</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>ID</th><th>模型名称</th><th>路径</th><th>状态</th><th>上传时间</th><th>操作</th></tr></thead>
+                            <tbody id="modelBody"><tr><td colspan="6" class="loading-cell">暂无模型</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="userModal" style="display:none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>添加用户</h2>
+                <button class="modal-close" data-close="userModal">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>用户名</label>
+                    <input type="text" id="newUsername" placeholder="请输入用户名">
+                </div>
+                <div class="input-group">
+                    <label>密码</label>
+                    <input type="password" id="newPassword" placeholder="请输入密码">
+                </div>
+                <div class="input-group">
+                    <label>角色</label>
+                    <select id="newRole">
+                        <option value="user">普通用户</option>
+                        <option value="admin">管理员</option>
+                    </select>
+                </div>
+                <div id="userModalError" class="error-msg"></div>
+                <button class="btn-primary" id="createUserBtn">确认添加</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modelModal" style="display:none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>上传模型</h2>
+                <button class="modal-close" data-close="modelModal">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area-modal" id="modelUploadArea">
+                    <span class="upload-icon">📤</span>
+                    <p>点击上传 ONNX 模型文件</p>
+                    <input type="file" id="modelFile" accept=".onnx" hidden>
+                    <span id="modelFileName" style="color:#A78BFA;font-size:13px;"></span>
+                </div>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="setActive"> 上传后立即激活此模型
+                </label>
+                <div id="modelModalError" class="error-msg"></div>
+                <button class="btn-primary" id="uploadModelConfirmBtn">确认上传</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

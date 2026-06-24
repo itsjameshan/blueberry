@@ -1,0 +1,9 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "蓝莓检测系统"
+  },
+  "style": "v2"
+}

@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+*.db
+uploads/
+results/
+crop_output/
+*.log
+.vscode/
+project.private.config.json
+~$*.caj
