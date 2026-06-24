@@ -17,7 +17,7 @@ from detect_engine import (
 )
 import detect_engine
 
-app = Flask(__name__, template_folder='static')
+app = Flask(__name__)
 app.secret_key = 'blueberry_detection_secret_key_2026'
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 
