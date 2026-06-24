@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成熟度检测 - 昆明学院</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .detection-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2E5B8C 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            opacity: 0.9;
+        }
+
+        .detection-section {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .detection-section h2 {
+            color: #1E3A5F;
+            font-size: 26px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1E3A5F;
+            position: relative;
+        }
+
+        .detection-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: #C41E3A;
+        }
+
+        .upload-area {
+            border: 3px dashed #ccc;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #F8FAFC 0%, #E8EEF4 100%);
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: #1E3A5F;
+            background: linear-gradient(135deg, #E8EEF4 0%, #D4DEE8 100%);
+        }
+
+        .upload-area .upload-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #1E3A5F;
+        }
+
+        .upload-area h3 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-area p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2E5B8C 100%);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(30, 58, 95, 0.3);
+        }
+
+        .detection-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            background: linear-gradient(135deg, #F8FAFC 0%, #E8EEF4 100%);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .option-card:hover,
+        .option-card.active {
+            border-color: #1E3A5F;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .option-card .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .option-card h4 {
+            color: #1E3A5F;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .option-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result-section.active {
+            display: block;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .result-header h3 {
+            color: #1E3A5F;
+            font-size: 20px;
+        }
+
+        .result-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .result-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .result-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .result-info {
+            background: linear-gradient(135deg, #F8FAFC 0%, #E8EEF4 100%);
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .result-info .ripeness-bar {
+            margin-bottom: 20px;
+        }
+
+        .ripeness-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .ripeness-progress {
+            height: 25px;
+            background: #eee;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ripeness-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 50%, #FFC107 75%, #F44336 100%);
+            border-radius: 12px;
+            transition: width 0.5s ease;
+        }
+
+        .ripeness-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+        }
+
+        .detail-item .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1E3A5F;
+            margin-bottom: 5px;
+        }
+
+        .detail-item .label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .detection-tips {
+            background: linear-gradient(135deg, #FFF8E7 0%, #FFF3D6 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .detection-tips h4 {
+            color: #C41E3A;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .detection-tips ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .detection-tips li {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 992px) {
+            .detection-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .result-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .detection-options {
+                grid-template-columns: 1fr;
+            }
+
+            .result-details {
+                grid-template-columns: 1fr;
+            }
+
+            .detection-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-welcome">
+        欢迎访问昆明学院网站！
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=university%20emblem%20logo%20with%20letter%20K%20and%20book%20symbol%20blue%20color&image_size=square" alt="昆明学院Logo" class="logo">
+                <div class="logo-text">
+                    <h1>昆明学院</h1>
+                    <p>KUNMING UNIVERSITY</p>
+                </div>
+            </div>
+            <div class="slogan">
+                <p class="slogan-text">明德至善 · 知行利物</p>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="搜索功能、文档..." id="search-input">
+                <button id="search-btn">搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="index.html">首页</a></li>
+            <li class="dropdown">
+                <a href="about.html">了解我们</a>
+                <ul class="submenu">
+                    <li><a href="about.html#introduction">主要介绍</a></li>
+                    <li><a href="about.html#gallery">图片展示</a></li>
+                    <li><a href="about.html#video">视频介绍</a></li>
+                </ul>
+            </li>
+            <li><a href="detection.html" class="active">成熟度检测</a></li>
+            <li><a href="research.html">技术研发</a></li>
+            <li class="dropdown">
+                <a href="more.html">更多</a>
+                <ul class="submenu">
+                    <li><a href="more.html#contact">联系我们</a></li>
+                    <li><a href="more.html#wechat">微信公众号</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="page-title">
+        <h1>成熟度检测</h1>
+        <p>基于AI技术的蓝莓成熟度智能检测系统</p>
+    </div>
+
+    <div class="detection-content">
+        <div class="detection-section">
+            <h2>选择检测模式</h2>
+            <div class="detection-options">
+                <div class="option-card active" id="single-option">
+                    <div class="icon">📷</div>
+                    <h4>单图检测</h4>
+                    <p>上传单张蓝莓图片，快速获得成熟度检测结果</p>
+                </div>
+                <div class="option-card" id="batch-option">
+                    <div class="icon">📦</div>
+                    <h4>批量检测</h4>
+                    <p>一次性处理多张图片，大幅提升检测效率</p>
+                </div>
+                <div class="option-card" id="large-option">
+                    <div class="icon">🗺️</div>
+                    <h4>大图检测</h4>
+                    <p>智能识别大图中多个蓝莓目标并标记</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="detection-section">
+            <h2>上传图片</h2>
+            <label class="upload-area" for="image-upload">
+                <div class="upload-icon">📤</div>
+                <h3>点击或拖拽图片到此处上传</h3>
+                <p>支持 JPG、PNG、JPEG 格式，单张图片不超过 10MB</p>
+                <input type="file" id="image-upload" accept="image/*">
+                <span class="upload-btn">选择图片</span>
+            </label>
+
+            <button onclick="startDetection()" class="upload-btn" style="width: 100%; max-width: 200px; margin: 0 auto; display: block;">
+                开始检测
+            </button>
+        </div>
+
+        <div class="detection-section result-section" id="result-section">
+            <div class="result-header">
+                <h3>检测结果</h3>
+                <button onclick="clearResult()" style="padding: 8px 16px; background: #1E3A5F; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    重新检测
+                </button>
+            </div>
+            <div class="result-content">
+                <div class="result-image">
+                    <img id="result-image" src="" alt="检测图片">
+                </div>
+                <div class="result-info">
+                    <div class="ripeness-bar">
+                        <div class="ripeness-label">
+                            <span>成熟度</span>
+                            <span id="ripeness-value">85%</span>
+                        </div>
+                        <div class="ripeness-progress">
+                            <div class="ripeness-fill" id="ripeness-fill" style="width: 85%"></div>
+                            <div class="ripeness-text" id="ripeness-text">成熟</div>
+                        </div>
+                    </div>
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <div class="value">85%</div>
+                            <div class="label">成熟度</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="value">3.2cm</div>
+                            <div class="label">平均直径</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="value">优</div>
+                            <div class="label">品质等级</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="value">0.42s</div>
+                            <div class="label">检测耗时</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detection-tips">
+                <h4>💡 检测提示</h4>
+                <ul>
+                    <li>检测结果仅供参考，实际成熟度可能受光照、拍摄角度等因素影响</li>
+                    <li>建议在自然光线下拍摄，避免反光和阴影</li>
+                    <li>图片应清晰聚焦，蓝莓占据画面主要位置</li>
+                    <li>对于批量检测，建议保持拍摄环境一致以获得更准确的对比结果</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>昆明学院</h3>
+                <p>昆明学院是云南省属全日制普通本科院校，致力于培养高素质应用型人才，推动区域经济社会发展。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="about.html">了解我们</a></li>
+                    <li><a href="detection.html">成熟度检测</a></li>
+                    <li><a href="research.html">技术研发</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>地址：云南省昆明市官渡区昆明学院</p>
+                <p>电话：0871-65098000</p>
+                <p>邮箱：info@kunming.edu.cn</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 昆明学院 版权所有 | 滇ICP备12345678号</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

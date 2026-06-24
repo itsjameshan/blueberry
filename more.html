@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更多 - 昆明学院</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .more-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2E5B8C 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            opacity: 0.9;
+        }
+
+        .more-section {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .more-section h2 {
+            color: #1E3A5F;
+            font-size: 26px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1E3A5F;
+            position: relative;
+        }
+
+        .more-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: #C41E3A;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, #F8FAFC 0%, #E8EEF4 100%);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .contact-card .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #1E3A5F;
+        }
+
+        .contact-card h4 {
+            color: #1E3A5F;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .contact-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .contact-card p strong {
+            color: #333;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1E3A5F;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2E5B8C 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(30, 58, 95, 0.3);
+        }
+
+        .wechat-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .wechat-qrcode {
+            width: 250px;
+            height: 250px;
+            background: white;
+            border: 3px solid #1E3A5F;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .wechat-qrcode img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .wechat-info {
+            text-align: center;
+        }
+
+        .wechat-info h4 {
+            color: #1E3A5F;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .wechat-info p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        @media (max-width: 992px) {
+            .contact-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+
+            .more-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-welcome">
+        欢迎访问昆明学院网站！
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=university%20emblem%20logo%20with%20letter%20K%20and%20book%20symbol%20blue%20color&image_size=square" alt="昆明学院Logo" class="logo">
+                <div class="logo-text">
+                    <h1>昆明学院</h1>
+                    <p>KUNMING UNIVERSITY</p>
+                </div>
+            </div>
+            <div class="slogan">
+                <p class="slogan-text">明德至善 · 知行利物</p>
+            </div>
+
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="index.html">首页</a></li>
+            <li class="dropdown">
+                <a href="about.html">了解我们</a>
+                <ul class="submenu">
+                    <li><a href="about.html#introduction">主要介绍</a></li>
+                    <li><a href="about.html#gallery">图片展示</a></li>
+                    <li><a href="about.html#video">视频介绍</a></li>
+                </ul>
+            </li>
+            <li><a href="http://127.0.0.1:5000/login?system=blueberry">蓝莓检测</a></li>
+            <li><a href="http://127.0.0.1:5000/login?system=weather">天气预警</a></li>
+            <li><a href="research.html">技术研发</a></li>
+            <li class="dropdown">
+                <a href="more.html" class="active">更多</a>
+                <ul class="submenu">
+                    <li><a href="#contact">联系我们</a></li>
+                    <li><a href="#wechat">微信公众号</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="page-title">
+        <h1>更多</h1>
+        <p>更多信息和联系方式</p>
+    </div>
+
+    <div class="more-content">
+        <div id="contact" class="more-section">
+            <h2>联系我们</h2>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <div class="icon">📍</div>
+                    <h4>联系地址</h4>
+                    <p><strong>地址：</strong>云南省昆明市官渡区昆明学院</p>
+                    <p><strong>邮编：</strong>650214</p>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">📞</div>
+                    <h4>联系电话</h4>
+                    <p><strong>办公电话：</strong>0871-65098000</p>
+                    <p><strong>传真：</strong>0871-65098001</p>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">📧</div>
+                    <h4>电子邮箱</h4>
+                    <p><strong>咨询邮箱：</strong>info@kunming.edu.cn</p>
+                    <p><strong>技术支持：</strong>tech@kunming.edu.cn</p>
+                </div>
+            </div>
+
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="name">您的姓名</label>
+                    <input type="text" id="name" placeholder="请输入姓名">
+                </div>
+                <div class="form-group">
+                    <label for="email">电子邮箱</label>
+                    <input type="email" id="email" placeholder="请输入邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="phone">联系电话</label>
+                    <input type="tel" id="phone" placeholder="请输入电话">
+                </div>
+                <div class="form-group">
+                    <label for="message">留言内容</label>
+                    <textarea id="message" placeholder="请输入您的留言..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">提交留言</button>
+            </form>
+        </div>
+
+        <div id="wechat" class="more-section">
+            <h2>微信公众号</h2>
+            <div class="wechat-section">
+                <div class="wechat-qrcode">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=wechat%20QR%20code%20with%20blueberry%20logo%20design&image_size=square" alt="微信公众号二维码">
+                </div>
+                <div class="wechat-info">
+                    <h4>昆明学院蓝莓检测</h4>
+                    <p>扫描上方二维码，关注我们的微信公众号</p>
+                    <p style="margin-top: 10px; color: #1E3A5F; font-weight: 500;">微信号：KMU-Blueberry</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>昆明学院</h3>
+                <p>昆明学院是云南省属全日制普通本科院校，致力于培养高素质应用型人才，推动区域经济社会发展。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="about.html">了解我们</a></li>
+                    <li><a href="http://127.0.0.1:5000/login?system=blueberry">蓝莓检测</a></li>
+                    <li><a href="http://127.0.0.1:5000/login?system=weather">天气预警</a></li>
+                    <li><a href="research.html">技术研发</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>地址：云南省昆明市官渡区昆明学院</p>
+                <p>电话：0871-65098000</p>
+                <p>邮箱：info@kunming.edu.cn</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 昆明学院 版权所有 | 滇ICP备12345678号</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>昆明学院 - 蓝莓成熟度检测系统</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-blue: #1E3A5F;
+            --secondary-blue: #2E5B8C;
+            --red-bg: #C41E3A;
+            --gold-color: #DAA520;
+        }
+
+        .top-welcome {
+            background-color: var(--primary-blue);
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #C41E3A 0%, #8B0000 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+
+        .hero-banner-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-banner h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #FFD700;
+        }
+
+        .hero-banner p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .carousel-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .video-section {
+            background: linear-gradient(135deg, #F8FAFC 0%, #E8EEF4 100%);
+            padding: 40px 20px;
+        }
+
+        .video-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-container h2 {
+            font-size: 24px;
+            color: var(--primary-blue);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .video-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            padding-bottom: 15px;
+        }
+
+        .video-item video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .video-item p {
+            padding: 0 15px;
+            font-size: 14px;
+            color: #333;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .intro-boxes {
+            background: white;
+            padding: 40px 20px;
+        }
+
+        .intro-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .intro-box {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.2);
+        }
+
+        .intro-box h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .intro-box p {
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .intro-link {
+            display: inline-block;
+            background: white;
+            color: var(--primary-blue);
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .intro-link:hover {
+            background: var(--gold-color);
+            color: white;
+        }
+
+        .stats-overview {
+            background: linear-gradient(135deg, #FFF8E7 0%, #FFF3D6 100%);
+            padding: 40px 20px;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: bold;
+            color: var(--red-bg);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+        }
+
+        @media (max-width: 992px) {
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .intro-container,
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-banner h1 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .video-grid,
+            .intro-container,
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-welcome">
+        欢迎访问昆明学院网站！
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=university%20emblem%20logo%20with%20letter%20K%20and%20book%20symbol%20blue%20color&image_size=square" alt="昆明学院Logo" class="logo">
+                <div class="logo-text">
+                    <h1>昆明学院</h1>
+                    <p>KUNMING UNIVERSITY</p>
+                </div>
+            </div>
+            <div class="slogan">
+                <p class="slogan-text">明德至善 · 知行利物</p>
+            </div>
+
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="index.html" class="active">首页</a></li>
+            <li class="dropdown">
+                <a href="about.html">了解我们</a>
+                <ul class="submenu">
+                    <li><a href="about.html#introduction">主要介绍</a></li>
+                    <li><a href="about.html#gallery">图片展示</a></li>
+                    <li><a href="about.html#video">视频介绍</a></li>
+                </ul>
+            </li>
+            <li><a href="http://127.0.0.1:5000/login?system=blueberry">蓝莓检测</a></li>
+            <li><a href="http://127.0.0.1:5000/login?system=weather">天气预警</a></li>
+            <li><a href="research.html">技术研发</a></li>
+            <li class="dropdown">
+                <a href="more.html">更多</a>
+                <ul class="submenu">
+                    <li><a href="more.html#contact">联系我们</a></li>
+                    <li><a href="more.html#wechat">微信公众号</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="hero-banner">
+        <div class="hero-banner-content">
+            <h1>深入开展树立和践行正确政绩观学习教育</h1>
+            <p>推动学校事业高质量发展，培养德智体美劳全面发展的社会主义建设者和接班人</p>
+        </div>
+        <div class="carousel-dots">
+            <span class="carousel-dot active"></span>
+            <span class="carousel-dot"></span>
+            <span class="carousel-dot"></span>
+            <span class="carousel-dot"></span>
+            <span class="carousel-dot"></span>
+            <span class="carousel-dot"></span>
+            <span class="carousel-dot"></span>
+            <span class="carousel-dot"></span>
+        </div>
+    </section>
+
+    <section class="video-section">
+        <div class="video-container">
+            <h2>系统演示视频</h2>
+            <div class="video-grid">
+                <div class="video-item">
+                    <video controls>
+                        <source src="videos/detection_demo.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放
+                    </video>
+                    <p>蓝莓成熟度检测系统演示</p>
+                </div>
+                <div class="video-item">
+                    <video controls>
+                        <source src="videos/weather_alert.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放
+                    </video>
+                    <p>天气预警系统功能介绍</p>
+                </div>
+                <div class="video-item">
+                    <video controls>
+                        <source src="videos/field_application.mp4" type="video/mp4">
+                        您的浏览器不支持视频播放
+                    </video>
+                    <p>田间应用案例分享</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="intro-boxes">
+        <div class="intro-container">
+            <div class="intro-box">
+                <h3>蓝莓成熟度检测系统</h3>
+                <p>基于深度学习的蓝莓成熟度智能检测系统，通过计算机视觉技术实现对蓝莓成熟度的精准识别和分级，准确率达98.5%以上。支持单图检测、大图裁剪检测和批量检测等多种模式。</p>
+                <a href="http://127.0.0.1:5000/login?system=blueberry" class="intro-link">进入系统 →</a>
+            </div>
+            <div class="intro-box">
+                <h3>天气预警系统</h3>
+                <p>实时获取气象数据，结合蓝莓生长模型，提供精准的气象服务和灾害预警。支持果园管理、天气查询、预警通知等功能，帮助种植户规避风险，提高产量和品质。</p>
+                <a href="http://127.0.0.1:5000/login?system=weather" class="intro-link">进入系统 →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-overview">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">98.5%</div>
+                <div class="stat-label">检测准确率</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">&lt;0.5s</div>
+                <div class="stat-label">检测速度</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">10000+</div>
+                <div class="stat-label">训练样本</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">服务用户</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>昆明学院</h3>
+                <p>昆明学院是云南省属全日制普通本科院校，致力于培养高素质应用型人才，推动区域经济社会发展。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="about.html">了解我们</a></li>
+                    <li><a href="http://127.0.0.1:5000/login?system=blueberry">蓝莓检测</a></li>
+                    <li><a href="http://127.0.0.1:5000/login?system=weather">天气预警</a></li>
+                    <li><a href="research.html">技术研发</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>地址：云南省昆明市官渡区昆明学院</p>
+                <p>电话：0871-65098000</p>
+                <p>邮箱：info@kunming.edu.cn</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 昆明学院 版权所有 | 滇ICP备12345678号</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

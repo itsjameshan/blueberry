@@ -1,0 +1,11 @@
+.idea/
+__pycache__/
+*.pyc
+*.db
+.env
+uploads/
+results/
+crop_output/
+*.log
+.DS_Store
+Thumbs.db

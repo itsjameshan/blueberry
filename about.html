@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>了解我们 - 昆明学院</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .about-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2E5B8C 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            opacity: 0.9;
+        }
+
+        .about-section {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .about-section h2 {
+            color: #1E3A5F;
+            font-size: 26px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1E3A5F;
+            position: relative;
+        }
+
+        .about-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: #C41E3A;
+        }
+
+        .about-section p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .intro-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .intro-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #F8FAFC 0%, #E8EEF4 100%);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature-item .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .feature-item h4 {
+            color: #1E3A5F;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            text-indent: 0;
+        }
+
+        .video-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 40px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .video-section h3 {
+            color: white;
+            font-size: 22px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-placeholder {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #1E3A5F;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .video-placeholder:hover .play-button {
+            transform: scale(1.1);
+        }
+
+        .video-text {
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .gallery-section {
+            margin-top: 30px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .gallery-item .caption {
+            padding: 12px;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .gallery-item .caption p {
+            color: #333;
+            font-size: 14px;
+            margin: 0;
+            text-indent: 0;
+        }
+
+        @media (max-width: 992px) {
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .feature-list,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-welcome">
+        欢迎访问昆明学院网站！
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=university%20emblem%20logo%20with%20letter%20K%20and%20book%20symbol%20blue%20color&image_size=square" alt="昆明学院Logo" class="logo">
+                <div class="logo-text">
+                    <h1>昆明学院</h1>
+                    <p>KUNMING UNIVERSITY</p>
+                </div>
+            </div>
+            <div class="slogan">
+                <p class="slogan-text">明德至善 · 知行利物</p>
+            </div>
+
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="index.html">首页</a></li>
+            <li class="dropdown">
+                <a href="about.html" class="active">了解我们</a>
+                <ul class="submenu">
+                    <li><a href="#introduction">主要介绍</a></li>
+                    <li><a href="#gallery">图片展示</a></li>
+                    <li><a href="#video">视频介绍</a></li>
+                </ul>
+            </li>
+            <li><a href="http://127.0.0.1:5000/login?system=blueberry">蓝莓检测</a></li>
+            <li><a href="http://127.0.0.1:5000/login?system=weather">天气预警</a></li>
+            <li><a href="research.html">技术研发</a></li>
+            <li class="dropdown">
+                <a href="more.html">更多</a>
+                <ul class="submenu">
+                    <li><a href="more.html#contact">联系我们</a></li>
+                    <li><a href="more.html#wechat">微信公众号</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="page-title">
+        <h1>了解我们</h1>
+        <p>深入了解昆明学院蓝莓成熟度检测团队</p>
+    </div>
+
+    <div class="about-content">
+        <div id="introduction" class="about-section">
+            <h2>蓝莓成熟度检测系统</h2>
+            <div class="intro-grid">
+                <div>
+                    <p>蓝莓成熟度检测系统基于先进的深度学习和计算机视觉技术，实现了对蓝莓成熟度的精准识别和分级。系统采用ResNet50卷积神经网络模型，通过迁移学习优化训练过程，支持未熟、半熟、成熟三分类检测。</p>
+                    <p>系统具备单图检测、大图裁剪检测和批量检测三种模式，检测准确率达98.5%以上，单张图片检测时间小于0.5秒。用户上传蓝莓图像后，系统自动识别并标记不同成熟度的蓝莓果实，生成可视化检测结果。</p>
+                    <p>该系统可广泛应用于蓝莓种植基地、果品加工厂、农产品批发市场等场景，帮助用户快速准确地判断蓝莓成熟度，提高采收效率和产品品质。</p>
+                </div>
+                <div class="intro-image">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AI%20computer%20vision%20analysis%20screen%20showing%20blueberry%20fruit%20recognition%20with%20bounding%20boxes&image_size=landscape_16_9" alt="蓝莓检测系统">
+                </div>
+            </div>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="icon">📷</div>
+                    <h4>单图检测</h4>
+                    <p>支持单张蓝莓图片的快速检测和分析</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🖼️</div>
+                    <h4>大图裁剪</h4>
+                    <p>自动裁剪大尺寸图片进行分块检测和结果重建</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">📦</div>
+                    <h4>批量检测</h4>
+                    <p>支持多张图片的批量上传和检测</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="weather-system" class="about-section">
+            <h2>天气预警系统</h2>
+            <div class="intro-grid">
+                <div class="intro-image">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=weather%20monitoring%20dashboard%20with%20temperature%20charts%20and%20alert%20notifications%20modern%20UI&image_size=landscape_16_9" alt="天气预警系统">
+                </div>
+                <div>
+                    <p>天气预警系统能够实时获取气象数据，结合蓝莓生长模型，提供精准的气象服务和灾害预警。系统对接和风天气API，获取实时天气、7日预报、空气质量、日出日落等多维度气象数据。</p>
+                    <p>系统支持果园管理功能，用户可添加多个果园，设置不同的生长阶段和预警阈值。当气象条件达到预警标准时，系统自动生成预警信息，并通过邮件通知用户，帮助种植户及时采取防护措施。</p>
+                    <p>农业建议引擎根据当前天气状况和蓝莓生长阶段，生成针对性的农事操作建议，包括灌溉、施肥、病虫害防治等方面，助力精准农业生产。</p>
+                </div>
+            </div>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="icon">🌤️</div>
+                    <h4>实时天气</h4>
+                    <p>实时获取温度、湿度、风速等气象数据</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">⚠️</div>
+                    <h4>灾害预警</h4>
+                    <p>自动监测气象灾害，及时发送预警通知</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">🏡</div>
+                    <h4>果园管理</h4>
+                    <p>支持多果园管理，自定义预警阈值</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="video" class="about-section">
+            <h2>视频介绍</h2>
+            <div class="video-section">
+                <h3>昆明学院蓝莓成熟度检测系统演示</h3>
+                <div class="video-container">
+                    <div class="video-placeholder" onclick="playVideo()">
+                        <div class="play-button">▶</div>
+                        <p class="video-text">点击播放视频<br><small style="opacity: 0.6;">了解蓝莓成熟度检测系统的完整功能</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="gallery" class="about-section">
+            <h2>图片展示</h2>
+            <p>以下是我们的科研环境和部分研究成果展示：</p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20university%20laboratory%20with%20computers%20and%20microscopes&image_size=landscape_4_3" alt="实验室">
+                    <div class="caption">
+                        <p>科研实验室</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=fresh%20blueberries%20on%20white%20background%20close%20up&image_size=landscape_4_3" alt="蓝莓样本">
+                    <div class="caption">
+                        <p>蓝莓样本</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=AI%20computer%20vision%20analysis%20screen%20showing%20fruit%20recognition&image_size=landscape_4_3" alt="检测界面">
+                    <div class="caption">
+                        <p>检测系统界面</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=blueberry%20field%20plantation%20beautiful%20landscape&image_size=landscape_4_3" alt="蓝莓种植基地">
+                    <div class="caption">
+                        <p>蓝莓种植基地</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>昆明学院</h3>
+                <p>昆明学院是云南省属全日制普通本科院校，致力于培养高素质应用型人才，推动区域经济社会发展。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="about.html">了解我们</a></li>
+                    <li><a href="http://127.0.0.1:5000/login?system=blueberry">蓝莓检测</a></li>
+                    <li><a href="http://127.0.0.1:5000/login?system=weather">天气预警</a></li>
+                    <li><a href="research.html">技术研发</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>地址：云南省昆明市官渡区昆明学院</p>
+                <p>电话：0871-65098000</p>
+                <p>邮箱：info@kunming.edu.cn</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 昆明学院 版权所有 | 滇ICP备12345678号</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
