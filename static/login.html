@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>蓝莓检测系统 - 登录</title>
+    <title>{% if sys == 'weather' %}天气预警系统 - 登录{% else %}蓝莓检测系统 - 登录{% endif %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
-<body>
+<body class="{% if sys == 'weather' %}weather-login{% endif %}">
     <div class="login-bg">
         <div class="berries-bg"></div>
         <div class="login-container">
             <div class="login-header">
+                {% if sys == 'weather' %}
+                <div class="logo-icon">⛅</div>
+                <h1>天气预警系统</h1>
+                <p>Weather Alert System</p>
+                {% else %}
                 <div class="logo-icon">🫐</div>
                 <h1>蓝莓成熟度检测系统</h1>
                 <p>Blueberry Ripeness Detection System</p>
+                {% endif %}
             </div>
             <div class="login-tabs">
                 <button class="tab-btn active" data-tab="login">登录</button>

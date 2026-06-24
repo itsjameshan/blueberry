@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar">
         <div class="nav-left">
-            <a href="/portal" class="nav-back"><i class="fas fa-arrow-left"></i> 返回</a>
+            <a href="/login?next=/weather" class="nav-back"><i class="fas fa-arrow-left"></i> 返回</a>
             <span class="nav-logo">🌤️</span>
             <span class="nav-title">气象中心</span>
         </div>
@@ -20,11 +20,12 @@
                 <span class="user-avatar">{{ username[0] | upper }}</span>
                 <span class="user-name">{{ username }}</span>
                 <button class="btn-email" id="btnSetEmail" title="设置预警邮箱"><i class="fas fa-envelope"></i></button>
+                <button class="btn-notify" id="btnNotify" title="推送当前预警到邮箱"><i class="fas fa-paper-plane"></i> 推送预警</button>
                 {% if role == 'admin' %}
                 <span class="badge-admin">管理员</span>
                 {% endif %}
             </div>
-            <a href="/logout" class="btn-logout">退出</a>
+            <a href="/logout?next=/weather" class="btn-logout">退出</a>
         </div>
     </nav>
 

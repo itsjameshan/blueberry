@@ -374,3 +374,69 @@ SMTP_FROM=your_email@qq.com
 - [x] 统计图表正常渲染 ✅
 - [x] 阈值设置保存/读取正常 ✅
 - [x] 农业建议使用自定义阈值 ✅
+
+---
+
+## 2026-06-24 — 门户首页改版（landing）& 三端连通
+
+### 完成事项
+- [x] 将 `单网页/` 门户模板集成进 Flask，作为**公开首页** `/`（无需登录可浏览）
+  - 新增 `static/landing.html`（昆明学院头部/导航/页脚身份保留）
+  - 新增 `static/css/landing.css`、`static/js/landing.js`
+  - `app.py`：`/` 改为 `render_template('landing.html')`，`/portal` 仍为登录后控制台
+- [x] 删除政治宣传内容
+  - 移除「正确政绩观学习教育」红色 hero + 假「昆院要闻」栏
+  - 改为蓝莓主视觉 hero（蓝色调 + 蓝莓植株背景）
+- [x] 三端连通（landing ↔ 蓝莓识别 ↔ 天气，统一登录）
+  - 导航/卡片：蓝莓识别 → `/index`、天气预警 → `/weather`（均 `login_required` 守卫）
+  - `login_required` 增加 `next=request.path`
+  - `static/js/login.js`：登录成功后跳回 `next`（仅站内相对路径，防开放重定向）
+  - 登录态在 landing 顶栏显示「你好，<用户> · 控制台 · 退出」
+- [x] 抖音视频墙（6 卡）
+  - 因抖音禁止 iframe 内嵌，采用封面卡 + 新标签打开
+  - 链接集中在 `static/js/landing.js` 的 `DOUYIN_VIDEOS` 数组（当前为占位「待填链接」）
+- [x] 检测样本图库（4 张样图）+ 单页锚点（项目视频/检测图库/了解我们）+ 锚点吸顶偏移修复
+
+### 验收结果
+- [x] `/` 公开 200，蓝莓主视觉，无政治内容 ✅
+- [x] 登出访问 `/index`、`/weather` → 302 → `/login?next=...` ✅
+- [x] admin 登录后**跳回点击的工具页**（浏览器 E2E 通过） ✅
+- [x] 登录态首页显示用户名/控制台/退出 ✅
+
+### 待办事项
+- [ ] 填入 6 个抖音真实分享链接（`DOUYIN_VIDEOS`）
+- [ ] （可选）用真实检测结果图替换样本图库
+- [ ] （可选）清理冗余的 `单网页/` 源模板目录
+
+---
+
+## 2026-06-24 — 多页结构改版（保留 UI）
+
+### 完成事项
+- [x] 引入共享基础模板 `static/_base.html`（头部/导航/页脚统一，Jinja 继承）
+- [x] 导航重构：主页 / 了解我们 / 技术介绍 / 蓝莓检测 / 天气预警 / 更多
+- [x] Logo 换为昆明学院校徽 `static/img/kmu_seal.svg` + “智慧农业”副名
+- [x] 主页 `/`：大图 + 平台介绍 + 数据指标 + **三个抖音视频**
+- [x] 了解我们 `/about`：蓝莓检测系统 + 天气预警系统介绍
+- [x] 技术介绍 `/tech`：检测结果图 + 成熟度样本图库
+- [x] 更多 `/more`：联系方式 + 公众号
+- [x] 填入 3 个真实抖音链接（另存 2 个备用）于 `static/js/landing.js` `DOUYIN_VIDEOS`
+- [x] 天气预警登录窗主题化：标题“天气预警系统” + 天空背景；返回/退出回到天气登录窗
+  - `login_page` 按 `next` 切主题；`/logout?next=` 回指定系统登录窗（防开放重定向）
+  - `weather.html`：返回 → `/login?next=/weather`，退出 → `/logout?next=/weather`
+
+### 改动文件
+- 新增：`static/_base.html`、`static/about.html`、`static/tech.html`、`static/more.html`、`static/img/kmu_seal.svg`、`static/img/detect{1,2,3}.jpg`
+- 修改：`app.py`（新增 /about、/tech、/more；login_page、logout）、`static/landing.html`、`static/js/landing.js`、`static/login.html`、`static/css/login.css`、`static/css/landing.css`、`static/weather.html`
+
+### 验收结果
+- [x] /、/about、/tech、/more 均 200，导航 active 正确 ✅
+- [x] 校徽 + 3 个真实抖音视频正常显示 ✅
+- [x] `/login?next=/weather` → 天空主题“天气预警系统”登录窗 ✅
+- [x] `/weather` 登出/返回 → 天气登录窗；开放重定向被拦截 ✅
+- [x] 蓝莓检测/天气预警仍受登录保护，登录后跳回对应系统（浏览器 E2E 过） ✅
+
+### 待办 / 备注
+- [ ] 公众号二维码为占位（`more.html`），可替换真实图
+- [ ] 天空登录背景为 CSS 渐变，如需照片放 `static/img/sky.jpg` 并改 `body.weather-login`
+- [ ] `单网页/` 源模板已冗余（不被服务），可删

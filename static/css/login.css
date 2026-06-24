@@ -13,6 +13,18 @@ body {
     background: url('../login.jpg') center/cover no-repeat fixed;
 }
 
+/* 天气预警系统登录：天空背景（如需真实照片，放 static/img/sky.jpg 并改此处 background） */
+body.weather-login {
+    background:
+        radial-gradient(circle at 18% 28%, rgba(255,255,255,0.92) 0 55px, transparent 95px),
+        radial-gradient(circle at 68% 20%, rgba(255,255,255,0.85) 0 75px, transparent 120px),
+        radial-gradient(circle at 86% 58%, rgba(255,255,255,0.7) 0 45px, transparent 85px),
+        linear-gradient(180deg, #4A90D9 0%, #7FB8E6 40%, #B8DEF2 72%, #E6F4FB 100%);
+    background-attachment: fixed;
+}
+
+body.weather-login .berries-bg { display: none; }
+
 .login-bg {
     width: 100%;
     min-height: 100vh;

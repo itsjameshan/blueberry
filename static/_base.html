@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}昆明学院 · 智慧农业{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/landing.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="top-welcome">
+        昆明学院 · 智慧农业 — 蓝莓成熟度智能检测平台
+        {% if username %}
+            ｜ 你好，{{ username }} · <a href="/portal">控制台</a> · <a href="/logout">退出</a>
+        {% else %}
+            ｜ <a href="/login">登录 / 注册</a>
+        {% endif %}
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="/static/img/kmu_seal.svg" alt="昆明学院校徽" class="logo">
+                <div class="logo-text">
+                    <h1>昆明学院</h1>
+                    <p>智慧农业</p>
+                </div>
+            </div>
+            <div class="slogan">
+                <p class="slogan-text">蓝莓成熟度智能检测平台</p>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="搜索功能..." id="search-input">
+                <button id="search-btn">搜索</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="/" class="{% if active=='home' %}active{% endif %}">主页</a></li>
+            <li><a href="/about" class="{% if active=='about' %}active{% endif %}">了解我们</a></li>
+            <li><a href="/tech" class="{% if active=='tech' %}active{% endif %}">技术介绍</a></li>
+            <li><a href="/labelme" class="{% if active=='labelme' %}active{% endif %}">标注教程</a></li>
+            <li><a href="/index" class="protected">蓝莓检测</a></li>
+            <li><a href="/weather" class="protected">天气预警</a></li>
+            <li><a href="/more" class="{% if active=='more' %}active{% endif %}">更多</a></li>
+        </ul>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>昆明学院 · 智慧农业</h3>
+                <p>本平台为昆明学院智慧农业综合实训（蓝莓成熟度检测）项目成果，融合计算机视觉与气象数据，服务蓝莓种植与品控。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="/">主页</a></li>
+                    <li><a href="/about">了解我们</a></li>
+                    <li><a href="/tech">技术介绍</a></li>
+                    <li><a href="/index">蓝莓检测</a></li>
+                    <li><a href="/weather">天气预警</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>地址：云南省昆明市昆明学院</p>
+                <p>邮箱：info@kunming.edu.cn</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 昆明学院 · 智慧农业 · 蓝莓成熟度智能检测平台</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/landing.js?v=20260624d"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

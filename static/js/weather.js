@@ -326,6 +326,19 @@
     if (cancelEmail) cancelEmail.addEventListener('click', closeEmailModalFn);
     if (saveEmail) saveEmail.addEventListener('click', saveEmailFn);
 
+    // 按需把当前预警推送到邮箱（绕过去重，便于验证/补发）
+    var btnNotify = document.getElementById('btnNotify');
+    function pushAlertsFn() {
+        if (!selectedGardenId) { alert('请先选择果园'); return; }
+        btnNotify.disabled = true;
+        fetch('/api/weather/' + selectedGardenId + '/notify', { method: 'POST' })
+            .then(function(r) { return r.json(); })
+            .then(function(d) { alert(d.message || (d.success ? '已推送' : '推送失败')); })
+            .catch(function() { alert('网络错误，请稍后重试'); })
+            .finally(function() { btnNotify.disabled = false; });
+    }
+    if (btnNotify) btnNotify.addEventListener('click', pushAlertsFn);
+
     if (closeAlert) {
         closeAlert.addEventListener('click', function() {
             alertBanner.style.display = 'none';

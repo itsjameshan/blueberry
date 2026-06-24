@@ -517,6 +517,31 @@ body {
     background: #F4F2FF;
 }
 
+/* 推送预警按钮（带文字，醒目易找） */
+.btn-notify {
+    background: #6C5CE7;
+    border: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-notify:hover {
+    background: #5A4BD4;
+}
+
+.btn-notify:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* Modal */
 .modal-overlay {
     position: fixed;

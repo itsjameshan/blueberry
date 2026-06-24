@@ -42,7 +42,7 @@ def login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         if 'user_id' not in session:
-            return redirect(url_for('login_page'))
+            return redirect(url_for('login_page', next=request.path))
         return f(*args, **kwargs)
     return decorated
 
@@ -59,11 +59,46 @@ def admin_required(f):
     return decorated
 
 
+def row_value(row, key, default=None):
+    if not row:
+        return default
+    if hasattr(row, 'get'):
+        return row.get(key, default)
+    if hasattr(row, 'keys') and key in row.keys():
+        return row[key]
+    return default
+
+
+def get_dev_server_port(environ=None):
+    if environ is None:
+        environ = os.environ
+    return int(environ.get('FLASK_PORT') or environ.get('PORT') or 5001)
+
+
 @app.route('/')
 def root():
-    if 'user_id' in session:
-        return redirect(url_for('portal'))
-    return redirect(url_for('login_page'))
+    # 公开门户首页：未登录也可浏览；蓝莓检测 / 天气预警入口仍受 login_required 保护
+    return render_template('landing.html', active='home', username=session.get('username'), role=session.get('role'))
+
+
+@app.route('/about')
+def about_page():
+    return render_template('about.html', active='about', username=session.get('username'), role=session.get('role'))
+
+
+@app.route('/tech')
+def tech_page():
+    return render_template('tech.html', active='tech', username=session.get('username'), role=session.get('role'))
+
+
+@app.route('/labelme')
+def labelme_page():
+    return render_template('labelme.html', active='labelme', username=session.get('username'), role=session.get('role'))
+
+
+@app.route('/more')
+def more_page():
+    return render_template('more.html', active='more', username=session.get('username'), role=session.get('role'))
 
 
 @app.route('/portal')
@@ -146,7 +181,10 @@ def garden_page():
 
 @app.route('/login', methods=['GET'])
 def login_page():
-    return render_template('login.html')
+    # 根据 next 目标切换登录主题：进入天气预警系统时显示天空主题登录窗
+    nxt = request.args.get('next', '')
+    sys = 'weather' if nxt.startswith('/weather') else 'blueberry'
+    return render_template('login.html', sys=sys)
 
 
 @app.route('/login', methods=['POST'])
@@ -194,6 +232,41 @@ def api_user_info():
     })
 
 
+@app.route('/api/weather/<int:garden_id>/notify', methods=['POST'])
+@login_required
+def api_notify_alerts(garden_id):
+    """按需把当前活跃预警推送到用户邮箱（绕过24h去重，便于验证与补发）"""
+    garden = get_garden_by_id(garden_id)
+    if not garden or garden['user_id'] != session['user_id']:
+        return jsonify({'success': False, 'message': '果园不存在或无权限'})
+    user = get_user_by_id(session['user_id'])
+    user_email = row_value(user, 'email')
+    if not user_email:
+        return jsonify({'success': False, 'message': '请先设置预警邮箱'})
+    alerts = get_active_alerts(garden_id)
+    if not alerts:
+        return jsonify({'success': False, 'message': '当前没有活跃预警，无需推送'})
+    from weather.email_sender import send_weather_alert_email
+    sent, last_err = 0, None
+    for a in alerts:
+        ok, err = send_weather_alert_email(
+            to_email=user_email,
+            garden_name=garden['name'],
+            alert_title=row_value(a, 'alert_title', ''),
+            alert_content=row_value(a, 'alert_content', '')
+        )
+        if ok:
+            sent += 1
+        else:
+            last_err = err
+    if sent:
+        return jsonify({'success': True, 'message': f'已推送 {sent} 条预警至 {user_email}'})
+    hint = last_err or '未知错误'
+    if last_err and any(k in last_err for k in ('EOF', 'SSL', 'timed out', 'timeout', 'refused')):
+        hint = f'{last_err}。多为代理/VPN 拦截了 SMTP —— 请把 smtp.qq.com 设为直连，或暂时关闭代理后重试'
+    return jsonify({'success': False, 'message': f'发送失败：{hint}'})
+
+
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -211,7 +284,11 @@ def register():
 
 @app.route('/logout')
 def logout():
+    # 退出后可回到指定系统的登录界面（如天气预警系统登录窗）
+    nxt = request.args.get('next', '')
     session.clear()
+    if nxt.startswith('/') and not nxt.startswith('//'):
+        return redirect(url_for('login_page', next=nxt))
     return redirect(url_for('login_page'))
 
 
@@ -880,17 +957,18 @@ def api_get_weather(garden_id):
                     from weather.email_sender import send_weather_alert_email
                     from database import get_user_by_id
                     user = get_user_by_id(garden['user_id'])
-                    if user and user.get('email'):
+                    user_email = row_value(user, 'email')
+                    if user_email:
                         for alert in new_alerts:
                             success, error = send_weather_alert_email(
-                                to_email=user['email'],
+                                to_email=user_email,
                                 garden_name=garden['name'],
                                 alert_title=alert.get('title', ''),
                                 alert_content=alert.get('content', ''),
                                 weather_data=weather_data
                             )
                             if success:
-                                print(f"预警邮件已发送至 {user['email']}")
+                                print(f"预警邮件已发送至 {user_email}")
                             else:
                                 print(f"预警邮件发送失败: {error}")
                 except Exception as e:
@@ -985,18 +1063,19 @@ def api_get_weather(garden_id):
                     
                     # 获取果园管理者的邮箱
                     user = get_user_by_id(garden['user_id'])
-                    if user and user.get('email'):
+                    user_email = row_value(user, 'email')
+                    if user_email:
                         # 仅发送新生成的预警
                         for alert in new_alerts:
                             success, error = send_weather_alert_email(
-                                to_email=user['email'],
+                                to_email=user_email,
                                 garden_name=garden['name'],
                                 alert_title=alert.get('title', ''),
                                 alert_content=alert.get('content', ''),
                                 weather_data=weather_data
                             )
                             if success:
-                                print(f"预警邮件已发送至 {user['email']}")
+                                print(f"预警邮件已发送至 {user_email}")
                             else:
                                 print(f"预警邮件发送失败: {error}")
                 except Exception as e:
@@ -1038,7 +1117,8 @@ def api_check_all_gardens():
     from weather.email_sender import send_weather_alert_email
     
     user = get_user_by_id(session['user_id'])
-    if not user or not user.get('email'):
+    user_email = row_value(user, 'email')
+    if not user_email:
         return jsonify({'success': True, 'message': '用户未设置邮箱', 'sent': 0})
     
     gardens = get_gardens_by_user(session['user_id'])
@@ -1064,7 +1144,7 @@ def api_check_all_gardens():
                         alert_content=item.get('content', '')
                     )
                     success, error = send_weather_alert_email(
-                        to_email=user['email'],
+                        to_email=user_email,
                         garden_name=garden['name'],
                         alert_title=title,
                         alert_content=item.get('content', ''),
@@ -1072,7 +1152,7 @@ def api_check_all_gardens():
                     )
                     if success:
                         sent_count += 1
-                        print(f"[邮件预警] 已发送 {garden['name']} - {title} 至 {user['email']}")
+                        print(f"[邮件预警] 已发送 {garden['name']} - {title} 至 {user_email}")
                     else:
                         print(f"[邮件预警] 发送失败 {garden['name']} - {title}: {error}")
     
@@ -1141,9 +1221,10 @@ if __name__ == '__main__':
         except Exception as e:
             print(f"[启动检查] 预警检测出错: {str(e)}")
     
+    server_port = get_dev_server_port()
     print("蓝莓检测系统启动中...")
-    print("访问地址: http://127.0.0.1:5000")
+    print(f"访问地址: http://127.0.0.1:{server_port}")
     print("默认管理员账号: admin / admin123")
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
-        threading.Timer(1.5, lambda: webbrowser.open('http://127.0.0.1:5000/login')).start()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+        threading.Timer(1.5, lambda: webbrowser.open(f'http://127.0.0.1:{server_port}/')).start()
+    app.run(debug=True, host='0.0.0.0', port=server_port)

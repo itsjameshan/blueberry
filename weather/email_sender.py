@@ -3,10 +3,13 @@
 用于发送气象预警邮件
 """
 import smtplib
+import ssl
 import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
+
+SMTP_TIMEOUT = 15  # 秒，避免连接/登录卡死请求线程
 
 
 def send_alert_email(to_email, subject, content, html_content=None):
@@ -47,15 +50,16 @@ def send_alert_email(to_email, subject, content, html_content=None):
         if html_content:
             msg.attach(MIMEText(html_content, 'html', 'utf-8'))
         
-        # 连接SMTP服务器并发送
+        # 连接SMTP服务器并发送（带超时，避免卡死）
+        context = ssl.create_default_context()
         if smtp_port == 465:
             # 使用SSL
-            server = smtplib.SMTP_SSL(smtp_host, smtp_port)
+            server = smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=SMTP_TIMEOUT, context=context)
         else:
             # 使用TLS
-            server = smtplib.SMTP(smtp_host, smtp_port)
-            server.starttls()
-        
+            server = smtplib.SMTP(smtp_host, smtp_port, timeout=SMTP_TIMEOUT)
+            server.starttls(context=context)
+
         server.login(smtp_user, smtp_pass)
         server.sendmail(smtp_from, [to_email], msg.as_string())
         server.quit()
