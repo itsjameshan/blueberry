@@ -1,0 +1,86 @@
+{
+  "package": "/Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0",
+  "stats": {
+    "record_count": 2731,
+    "split_counts": {
+      "test": 271,
+      "train": 2194,
+      "validation": 266
+    },
+    "class_counts": {
+      "RipeBlueBerry": 8556,
+      "Semi-RipeBlueBerry": 6492,
+      "UnripeBlueBerry": 25170
+    },
+    "class_counts_by_split": {
+      "test": {
+        "RipeBlueBerry": 698,
+        "Semi-RipeBlueBerry": 644,
+        "UnripeBlueBerry": 2345
+      },
+      "train": {
+        "RipeBlueBerry": 6979,
+        "Semi-RipeBlueBerry": 5248,
+        "UnripeBlueBerry": 20297
+      },
+      "validation": {
+        "RipeBlueBerry": 879,
+        "Semi-RipeBlueBerry": 600,
+        "UnripeBlueBerry": 2528
+      }
+    },
+    "dimensions": {
+      "640x640": 2731
+    },
+    "total_objects": 40218,
+    "issue_counts": {
+      "extra_package_image": 137,
+      "extra_annotation": 125,
+      "missing_annotation": 269,
+      "annotation_warning": 8,
+      "duplicate_annotations": 19,
+      "label_corrected": 49
+    },
+    "source_counts": {
+      "B_KAGGLE_BLUEBERRY_DETECTION": 1995,
+      "A_ZENODO_BLUEBERRY_DCM": 736
+    },
+    "source_confidence_counts": {
+      "medium": 141,
+      "high": 2590
+    }
+  },
+  "validation": {
+    "record_count": 2731,
+    "errors": [],
+    "confirmation_counts": {}
+  }
+}
+{
+  "package": "/Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0",
+  "record_count": 2731,
+  "record_error_count": 0,
+  "record_errors": [],
+  "checksum_checked": 5491,
+  "checksum_error_count": 0,
+  "checksum_errors": []
+}
+114:    行业通识数据集 industry general knowledge dataset
+124:        行业专识数据集 industry professional knowledge dataset
+135:  高质量数据集可以分为通识、行业通识、行业专识三类，分别主要用于支撑通用、行业、场景模型
+152:                         通识数据集              行业通识数据集         行业专识数据集
+195:       数据集不属于特定行业领域，相比于行业通识数据集，主题范围较广。
+197:4.2.2   行业通识数据集
+199:    行业通识数据集在多个类型要素方面所具备的特征如下：
+209:       低于行业专识数据集。
+218:       识的影响与补充，主题范围中等，介于通识数据集和行业专识数据集之间。
+221:4.2.3    行业专识数据集
+223:     行业专识数据集在多个类型要素方面所具备的特征如下：
+240:        数据集主要聚焦于业务场景，相比于行业通识数据集，主题范围较窄。
+244:     如图1所示，高质量数据集的类型划分方法如下：
+246:     b) 经综合判定，在整体上符合 4.2.3 中特征，数据集可确定为行业专识数据集；
+247:     c) 经综合判定，在整体上不符合 4.2.3 中特征，而符合 4.2.2 中特征，数据集可确定为行业通识
+263:                   综合判定是否符合行业专识
+269:                   综合判定是否符合行业通识
+275:行业专识数据集              行业通识数据集          为通识数据集
+283:              图1   高质量数据集类型划分方法

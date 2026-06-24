@@ -1,0 +1,102 @@
+{
+  "dataset_name": "蓝莓成熟度目标检测数据集",
+  "version": "1.0.0",
+  "standard_reference": [
+    "TC609-5-2025-01 高质量数据集 建设指南",
+    "TC609-5-2025-02 高质量数据集 格式要求",
+    "TC609-5-2025-03 高质量数据集 分类指南",
+    "TC609-5-2025-04 高质量数据集 质量评测规范"
+  ],
+  "record_format": "JSON Lines; one data record per image",
+  "required_fields": {
+    "id": "string, sha256:<image hash>",
+    "rid": "array",
+    "data_content": "array of image content objects",
+    "annotation": "object with label array and annotation metadata",
+    "original_time": "date string; currently requires confirmation",
+    "last_modified_time": "date string from local image/label modification date",
+    "version": "semantic version string",
+    "license": "authorization type; currently requires confirmation",
+    "source": "source type; currently requires confirmation",
+    "source_details": "source details; currently requires confirmation",
+    "generated_data_indicator": "0 for non-generated data, 1 for generated data"
+  },
+  "class_names": {
+    "0": "RipeBlueBerry",
+    "1": "Semi-RipeBlueBerry",
+    "2": "UnripeBlueBerry"
+  },
+  "source_evidence": {
+    "A_ZENODO_BLUEBERRY_DCM": {
+      "source_dataset_code": "A_ZENODO_BLUEBERRY_DCM",
+      "source_dataset_name": "BlueberryDCM: A Canopy Image Dataset for Detection, Counting, and Maturity Assessment of Blueberries",
+      "source": "公开数据集",
+      "source_details": "Zenodo DOI 10.5281/zenodo.14002517; https://zenodo.org/records/14002517",
+      "license": "CC BY-NC 4.0",
+      "original_time": "2024-10-28",
+      "original_time_granularity": "source_release_date",
+      "reference": "Deng, B., Lu, Y., Li, Z. (2024). Detection, counting, and maturity assessment of blueberries in canopy images using YOLOv8 and YOLOv9. DOI 10.1016/j.atech.2024.100620."
+    },
+    "B_KAGGLE_BLUEBERRY_DETECTION": {
+      "source_dataset_code": "B_KAGGLE_BLUEBERRY_DETECTION",
+      "source_dataset_name": "Blueberry Detection dataset",
+      "source": "公开数据集",
+      "source_details": "Kaggle zhengkunli3969/blueberry-detection-dataset; https://www.kaggle.com/datasets/zhengkunli3969/blueberry-detection-dataset",
+      "license": "CC BY-NC-SA 4.0",
+      "original_time": "2024-02-28",
+      "original_time_granularity": "source_modified_date",
+      "reference": "Li, Zhengkun et al. Blueberry Yield Estimation Through Multi-View Imagery with YOLOv8 Object Detection, ASABE 2023."
+    },
+    "mapping_note": "Per-record source attribution is stored in metadata/source_attribution.csv. Filename-derived mappings must be reviewed before final submission."
+  },
+  "stats": {
+    "record_count": 2731,
+    "split_counts": {
+      "test": 271,
+      "train": 2194,
+      "validation": 266
+    },
+    "class_counts": {
+      "RipeBlueBerry": 8556,
+      "Semi-RipeBlueBerry": 6492,
+      "UnripeBlueBerry": 25170
+    },
+    "class_counts_by_split": {
+      "test": {
+        "RipeBlueBerry": 698,
+        "Semi-RipeBlueBerry": 644,
+        "UnripeBlueBerry": 2345
+      },
+      "train": {
+        "RipeBlueBerry": 6979,
+        "Semi-RipeBlueBerry": 5248,
+        "UnripeBlueBerry": 20297
+      },
+      "validation": {
+        "RipeBlueBerry": 879,
+        "Semi-RipeBlueBerry": 600,
+        "UnripeBlueBerry": 2528
+      }
+    },
+    "dimensions": {
+      "640x640": 2731
+    },
+    "total_objects": 40218,
+    "issue_counts": {
+      "extra_package_image": 137,
+      "extra_annotation": 125,
+      "missing_annotation": 269,
+      "annotation_warning": 8,
+      "duplicate_annotations": 19,
+      "label_corrected": 49
+    },
+    "source_counts": {
+      "B_KAGGLE_BLUEBERRY_DETECTION": 1995,
+      "A_ZENODO_BLUEBERRY_DCM": 736
+    },
+    "source_confidence_counts": {
+      "medium": 141,
+      "high": 2590
+    }
+  }
+}

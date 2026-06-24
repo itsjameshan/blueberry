@@ -1,0 +1,94 @@
+{
+  "package": "/Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0",
+  "stats": {
+    "record_count": 2731,
+    "split_counts": {
+      "test": 271,
+      "train": 2194,
+      "validation": 266
+    },
+    "class_counts": {
+      "RipeBlueBerry": 8556,
+      "Semi-RipeBlueBerry": 6492,
+      "UnripeBlueBerry": 25170
+    },
+    "class_counts_by_split": {
+      "test": {
+        "RipeBlueBerry": 698,
+        "Semi-RipeBlueBerry": 644,
+        "UnripeBlueBerry": 2345
+      },
+      "train": {
+        "RipeBlueBerry": 6979,
+        "Semi-RipeBlueBerry": 5248,
+        "UnripeBlueBerry": 20297
+      },
+      "validation": {
+        "RipeBlueBerry": 879,
+        "Semi-RipeBlueBerry": 600,
+        "UnripeBlueBerry": 2528
+      }
+    },
+    "dimensions": {
+      "640x640": 2731
+    },
+    "total_objects": 40218,
+    "issue_counts": {
+      "extra_package_image": 137,
+      "extra_annotation": 125,
+      "missing_annotation": 269,
+      "annotation_warning": 8,
+      "duplicate_annotations": 19,
+      "label_corrected": 49
+    },
+    "source_counts": {
+      "B_KAGGLE_BLUEBERRY_DETECTION": 1995,
+      "A_ZENODO_BLUEBERRY_DCM": 736
+    },
+    "source_confidence_counts": {
+      "medium": 141,
+      "high": 2590
+    }
+  },
+  "validation": {
+    "record_count": 2731,
+    "errors": [],
+    "confirmation_counts": {}
+  }
+}
+{
+  "package": "/Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0",
+  "record_count": 2731,
+  "record_error_count": 0,
+  "record_errors": [],
+  "checksum_checked": 5496,
+  "checksum_error_count": 0,
+  "checksum_errors": []
+}
+143:    URL：统一资源定位符（Uniform Resource Locator）
+172:        英文名称：id
+182:        英文名称：rid
+192:        英文名称：data_content
+204:英文名称：annotation
+214:英文名称：original_time
+224:英文名称：last_modified_time
+234:英文名称：version
+245:        英文名称：license
+255:  英文名称：source
+266:  英文名称：source_details
+277:        英文名称：generated_data_indicator
+294:  值域：text、image、video、audio等
+326:    英文名称：annotation_method
+359:                                  附 录 A
+364:    "id": "d6c9a4d5e57597df8fe30f09ae44c985",
+365:    "rid": ["13fd8582a808d68b3657548e89eebb4f"],
+366:    "data_content":[
+372:    "annotation":{
+385:        "annotation_method": "人工标注",
+388:    "original_time": "2025-1-1",
+389:    "last_modified_time": "2025-1-1",
+390:    "version": "1.0.0-alpha",
+391:    "license": "其他",
+392:    "source": "互联网",
+393:    "source_details": "https://pic4.img.com/v2-145ed.jpg",
+394:    "generated_data_indicator": 0

@@ -1,0 +1,8 @@
+path: .
+train: data/images/train
+val: data/images/validation
+test: data/images/test
+names:
+  0: RipeBlueBerry
+  1: Semi-RipeBlueBerry
+  2: UnripeBlueBerry

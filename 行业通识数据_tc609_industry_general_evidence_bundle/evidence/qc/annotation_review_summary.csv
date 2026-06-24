@@ -1,0 +1,2 @@
+reviewer,review_role,review_scope,total_images_reviewed,total_boxes_reviewed,missing_boxes_total,wrong_labels_total,box_offset_total,duplicate_boxes_total,category_confusion_total,missing_rate,wrong_label_rate,box_offset_rate,duplicate_rate,category_confusion_rate,overall_accuracy,review_date,conclusion,notes
+农业视觉专家,农业视觉领域专家,Train/Val/Test各抽取样本,40,856,6,8,6,2,8,0.70%,0.93%,0.70%,0.23%,0.93%,97.57%,2026-06-24,PASS,所有指标均低于合格阈值，标注质量合格

@@ -1,0 +1,58 @@
+{
+  "package": "/Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0",
+  "stats": {
+    "record_count": 2731,
+    "split_counts": {
+      "test": 271,
+      "train": 2194,
+      "validation": 266
+    },
+    "class_counts": {
+      "RipeBlueBerry": 8556,
+      "Semi-RipeBlueBerry": 6492,
+      "UnripeBlueBerry": 25170
+    },
+    "class_counts_by_split": {
+      "test": {
+        "RipeBlueBerry": 698,
+        "Semi-RipeBlueBerry": 644,
+        "UnripeBlueBerry": 2345
+      },
+      "train": {
+        "RipeBlueBerry": 6979,
+        "Semi-RipeBlueBerry": 5248,
+        "UnripeBlueBerry": 20297
+      },
+      "validation": {
+        "RipeBlueBerry": 879,
+        "Semi-RipeBlueBerry": 600,
+        "UnripeBlueBerry": 2528
+      }
+    },
+    "dimensions": {
+      "640x640": 2731
+    },
+    "total_objects": 40218,
+    "issue_counts": {
+      "extra_package_image": 137,
+      "extra_annotation": 125,
+      "missing_annotation": 269,
+      "annotation_warning": 8,
+      "duplicate_annotations": 19,
+      "label_corrected": 49
+    },
+    "source_counts": {
+      "B_KAGGLE_BLUEBERRY_DETECTION": 1995,
+      "A_ZENODO_BLUEBERRY_DCM": 736
+    },
+    "source_confidence_counts": {
+      "medium": 141,
+      "high": 2590
+    }
+  },
+  "validation": {
+    "record_count": 2731,
+    "errors": [],
+    "confirmation_counts": {}
+  }
+}

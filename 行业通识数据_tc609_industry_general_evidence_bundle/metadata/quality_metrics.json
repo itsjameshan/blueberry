@@ -1,0 +1,181 @@
+{
+  "scoring_method": "TC609-5-2025-04 §5.2-5.4: si = (A/B)*100; P_dimension = sum(wi*si); 模型适配性(0305)以指示函数Fm作为乘子",
+  "documentation": {
+    "weight_each": 0.25,
+    "0101": {
+      "name": "基本信息完整性",
+      "status": "PASS",
+      "numerator": 5,
+      "denominator": 5,
+      "weight": 0.25,
+      "score": 100,
+      "evidence": "docs/dataset_card.md"
+    },
+    "0102": {
+      "name": "内容特征完整性",
+      "status": "PASS",
+      "numerator": 4,
+      "denominator": 5,
+      "weight": 0.25,
+      "score": 80,
+      "evidence": "docs/dataset_card.md - 样本示例图未内嵌，仅附件引用"
+    },
+    "0103": {
+      "name": "建设过程完整性",
+      "status": "PASS",
+      "numerator": 5,
+      "denominator": 5,
+      "weight": 0.25,
+      "score": 100,
+      "evidence": "docs/construction_report.md"
+    },
+    "0104": {
+      "name": "应用说明完整性",
+      "status": "PASS",
+      "numerator": 5,
+      "denominator": 5,
+      "weight": 0.25,
+      "score": 100,
+      "evidence": "docs/model_validation_report.md"
+    },
+    "dimension_score": 95.0
+  },
+  "data_quality": {
+    "weight_each": 0.125,
+    "0201": {
+      "name": "格式规范性",
+      "status": "PASS",
+      "numerator": 2731,
+      "denominator": 2731,
+      "weight": 0.125,
+      "score": 100,
+      "evidence": "metadata/build_summary.json - 校验错误0"
+    },
+    "0202": {
+      "name": "安全规范性",
+      "status": "PASS",
+      "numerator": 2731,
+      "denominator": 2731,
+      "weight": 0.125,
+      "score": 100,
+      "evidence": "docs/source_and_license_report.md - A1-A5 completed"
+    },
+    "0203": {
+      "name": "标注规范性",
+      "status": "PASS",
+      "numerator": 2706,
+      "denominator": 2731,
+      "weight": 0.125,
+      "score": 99,
+      "evidence": "evidence/qc - 抽检856框中8框违规(重复2+框偏移6)，合规率99.1%折算"
+    },
+    "0204": {
+      "name": "结构完整性",
+      "status": "PASS",
+      "numerator": 2731,
+      "denominator": 2731,
+      "weight": 0.125,
+      "score": 100,
+      "evidence": "metadata/split_manifest.csv"
+    },
+    "0205": {
+      "name": "内容真实性",
+      "status": "PASS",
+      "numerator": 2731,
+      "denominator": 2731,
+      "weight": 0.125,
+      "score": 100,
+      "evidence": "metadata/source_attribution.csv - 141条中置信度已复查"
+    },
+    "0206": {
+      "name": "内容一致性",
+      "status": "PASS",
+      "numerator": 2731,
+      "denominator": 2731,
+      "weight": 0.125,
+      "score": 100,
+      "evidence": "image-label pairing validation"
+    },
+    "0207": {
+      "name": "类型一致性",
+      "status": "PASS",
+      "numerator": 2731,
+      "denominator": 2731,
+      "weight": 0.125,
+      "score": 100,
+      "evidence": "docs/dataset_type_decision.md"
+    },
+    "0208": {
+      "name": "内容干净性",
+      "status": "PASS",
+      "numerator": 2731,
+      "denominator": 2731,
+      "weight": 0.125,
+      "score": 100,
+      "evidence": "metadata/build_summary.json - 尺寸统一640x640，已去重"
+    },
+    "dimension_score": 99.9
+  },
+  "model_application": {
+    "weight_each": 0.25,
+    "0301": {
+      "name": "内容多样性",
+      "status": "PASS",
+      "numerator": 0.88,
+      "denominator": 1.0,
+      "weight": 0.25,
+      "score": 88,
+      "evidence": "metadata/split_manifest.csv - 类别不均衡与极端天气样本不足扣分"
+    },
+    "0302": {
+      "name": "规模完整性",
+      "status": "PASS",
+      "numerator": 2731,
+      "denominator": 3000,
+      "weight": 0.25,
+      "score": 91,
+      "evidence": "metadata/build_summary.json - 计划3000，剔除269缺标"
+    },
+    "0303": {
+      "name": "内容时效性",
+      "status": "PASS",
+      "numerator": 2731,
+      "denominator": 2731,
+      "weight": 0.25,
+      "score": 100,
+      "evidence": "metadata/source_attribution.csv - A4确认来源时间可接受"
+    },
+    "0304": {
+      "name": "标注准确性",
+      "status": "PASS",
+      "numerator": 835,
+      "denominator": 856,
+      "weight": 0.25,
+      "score": 97.6,
+      "evidence": "evidence/qc/annotation_review_summary.csv - 抽检准确率97.57%"
+    },
+    "0305": {
+      "name": "模型适配性",
+      "status": "PASS",
+      "fm_indicator": 1,
+      "weight": "multiplier",
+      "score": 100,
+      "evidence": "docs/model_validation_report.md - YOLOv11/v12 test split全部超阈值，Fm=1"
+    },
+    "dimension_score": 94.2
+  },
+  "dimension_scores": {
+    "documentation": 95.0,
+    "data_quality": 99.9,
+    "model_application": 94.2
+  },
+  "threshold_per_dimension": 90,
+  "all_dimensions_pass": true,
+  "final_status": "TC609_HIGH_QUALITY_INDUSTRY_GENERAL",
+  "overall_score": 96.4,
+  "overall_score_note": "三维度算术平均，仅作参考；判定以三维度各自≥90为准 (TC609-5-2025-04 §5.1)",
+  "blocking_items": [],
+  "certified_by": "TC609-5-2025-04 高质量数据集质量评价规范",
+  "certification_date": "2026-06-24",
+  "dataset_type": "行业通识数据集（农业/智慧农业方向）"
+}

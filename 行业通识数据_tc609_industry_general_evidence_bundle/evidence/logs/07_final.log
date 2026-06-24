@@ -1,0 +1,51 @@
+{
+  "package": "/Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0",
+  "record_count": 2731,
+  "record_error_count": 0,
+  "record_errors": [],
+  "checksum_checked": 5496,
+  "checksum_error_count": 0,
+  "checksum_errors": [],
+  "doc_error_count": 0,
+  "doc_errors": [],
+  "quality_error_count": 0,
+  "quality_errors": [],
+  "model_error_count": 0,
+  "model_errors": []
+}
+    2731 /Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0/metadata/dataset_records.jsonl
+    2732 /Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0/metadata/split_manifest.csv
+    2732 /Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0/metadata/source_attribution.csv
+       3 /Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0/metadata/model_metrics.csv
+    8198 total
+
+Goal review:
+- Package status: TC609-oriented high-quality dataset candidate package.
+- Current classification: industry general dataset candidate for agriculture/smart-agriculture blueberry maturity detection.
+- Industry professional upgrade remains gated by internal business-scene evidence, expert annotation/review, restricted authorization, and scenario-model validation evidence.
+- Remaining blocked or confirmable items are documented in docs/completion_plan.md and metadata/quality_metrics.json.
+?? PLAN.md
+?? images/tc609_submission_package_v1.0.0/
+?? tests/test_tc609_package.py
+?? tools/build_tc609_submission_package.py
+?? tools/validate_tc609_package.py
+{
+  "package": "/Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0",
+  "record_count": 2731,
+  "record_error_count": 0,
+  "record_errors": [],
+  "checksum_checked": 5496,
+  "checksum_error_count": 0,
+  "checksum_errors": [],
+  "doc_error_count": 0,
+  "doc_errors": [],
+  "quality_error_count": 0,
+  "quality_errors": [],
+  "model_error_count": 0,
+  "model_errors": []
+}
+?? PLAN.md
+?? images/tc609_submission_package_v1.0.0/
+?? tests/test_tc609_package.py
+?? tools/build_tc609_submission_package.py
+?? tools/validate_tc609_package.py

@@ -1,0 +1,3 @@
+﻿model,result_zip,results_csv,best_epoch_by_mAP50,precision,recall,mAP50,mAP50_95
+YOLOv11,blueberry1.v4i.yolov11数据集yolov11训练结果.zip,train/results.csv,96,0.82148,0.83968,0.88664,0.71022
+YOLOv12,blueberry.v4i.yolov12数据集yolov12训练结果.zip,blueberry_train/results.csv,77,0.85001,0.84318,0.89212,0.73313

@@ -1,0 +1,13 @@
+﻿field,status,evidence_or_required_action
+id,COMPLETE,使用图片 SHA-256 生成稳定全域唯一候选标识。
+data_content,COMPLETE,已写入图像模态、相对路径、宽高和 SHA-256。
+annotation.label,COMPLETE,已从 YOLO txt 转为标签数组，保留类别和归一化 bbox。
+annotation_method,COMPLETE_WITH_PROJECT_CONTEXT,当前按人工标注填写；最终提交前需由项目负责人确认。
+annotator,COMPLETE_WITH_PROJECT_CONTEXT,当前按普通标注员填写，并保留学生/组别扩展字段；最终提交前需确认标注人员类型。
+original_time,PARTIAL_FROM_SOURCE_LEVEL_DATE,2731 条使用来源发布日期/修改日期；0 条需确认图片级或来源级时间。
+last_modified_time,COMPLETE_FROM_LOCAL_FILE_MTIME,使用图片/标签本地修改日期较晚者。
+version,COMPLETE,统一为 1.0.0。
+license,PARTIAL_FROM_SOURCE_LICENSE,2731 条已按 A/B 公开来源填充授权；0 条需确认。
+source,PARTIAL_FROM_SOURCE_RULE,2731 条已按 A/B 公开来源填充；0 条需确认。
+source_details,PARTIAL_FROM_SOURCE_RULE,2731 条已按 A/B URL/DOI 填充；0 条需确认。
+generated_data_indicator,COMPLETE_WITH_PROJECT_CONTEXT,按项目上下文填写为 0；若存在生成/合成图片需逐条修正。
