@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+{% block title %}了解我们 · 昆明学院智慧农业{% endblock %}
+
+{% block content %}
+    <section class="blueberry-hero" style="padding:64px 20px;">
+        <h1>了解我们</h1>
+        <p>蓝莓检测系统 与 天气预警系统，两大模块协同服务蓝莓种植。</p>
+    </section>
+
+    <section class="section-block">
+        <div class="block-title">
+            <h2>两大系统</h2>
+            <p>从“看得准”到“防得住”</p>
+        </div>
+        <div class="access-grid" style="grid-template-columns:repeat(2,1fr);">
+            <div class="access-card" style="cursor:default;">
+                <div class="icon">🫐</div>
+                <h3>蓝莓检测系统</h3>
+                <p>基于 YOLO11 目标检测模型并导出 ONNX 推理，对蓝莓果实进行成熟 / 半熟 / 未熟三级判定。
+                支持单图检测、批量检测与大图分块检测，输出标注图与统计结果，辅助采摘与品控决策。</p>
+            </div>
+            <div class="access-card weather" style="cursor:default;">
+                <div class="icon">⛅</div>
+                <h3>天气预警系统</h3>
+                <p>接入和风天气实时数据与三天预报，结合作物生长阶段与用户自定义阈值，生成霜冻、高温、
+                降雨等农事预警与建议，并可通过邮件推送，帮助果园提前应对气象风险。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-block">
+        <div class="block-title"><h2>项目背景</h2></div>
+        <div style="max-width:880px;margin:0 auto;color:#555;font-size:16px;line-height:1.9;text-align:center;">
+            <p>本平台为昆明学院智慧农业综合实训（蓝莓成熟度检测）项目成果。项目以蓝莓产业的实际需求为出发点，
+            将计算机视觉与气象数据融合，覆盖“识别—预警—建议”闭环，探索人工智能在特色农业中的落地应用。</p>
+        </div>
+    </section>
+{% endblock %}

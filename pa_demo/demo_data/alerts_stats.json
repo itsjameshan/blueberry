@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "stats": {
+    "total": 5,
+    "by_level": [ { "level": "warning", "count": 2 }, { "level": "info", "count": 3 } ],
+    "by_garden": [ { "garden_name": "A 区", "count": 3 }, { "garden_name": "B 区", "count": 2 } ],
+    "by_date": [ { "date": "06-22", "count": 1 }, { "date": "06-23", "count": 2 }, { "date": "06-24", "count": 2 } ]
+  }
+}

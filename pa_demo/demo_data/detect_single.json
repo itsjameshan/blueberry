@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "result_image": "/api/result_image/sample_result.jpg",
+  "stats": { "RipeBlueBerry": 3, "Semi-RipeBlueBerry": 2, "UnripeBlueBerry": 1, "total": 6 },
+  "results": [
+    { "class_name": "RipeBlueBerry", "confidence": 0.94, "x1": 122, "y1": 88, "x2": 168, "y2": 140 },
+    { "class_name": "RipeBlueBerry", "confidence": 0.91, "x1": 210, "y1": 132, "x2": 256, "y2": 182 },
+    { "class_name": "RipeBlueBerry", "confidence": 0.88, "x1": 64, "y1": 196, "x2": 110, "y2": 244 },
+    { "class_name": "Semi-RipeBlueBerry", "confidence": 0.81, "x1": 300, "y1": 90, "x2": 344, "y2": 138 },
+    { "class_name": "Semi-RipeBlueBerry", "confidence": 0.76, "x1": 158, "y1": 250, "x2": 202, "y2": 296 },
+    { "class_name": "UnripeBlueBerry", "confidence": 0.69, "x1": 360, "y1": 210, "x2": 404, "y2": 258 }
+  ]
+}

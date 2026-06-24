@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蓝莓智慧农业平台</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portal.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="nav-logo"></span>
+            <span class="nav-title">蓝莓智慧农业平台</span>
+        </div>
+        <div class="nav-right">
+            <div class="user-info">
+                <span class="user-avatar">{{ username[0] | upper }}</span>
+                <span class="user-name">{{ username }}</span>
+                {% if role == 'admin' %}
+                <span class="badge-admin">管理员</span>
+                {% endif %}
+            </div>
+            <a href="/logout" class="btn-logout">退出</a>
+        </div>
+    </nav>
+
+    <div class="portal-container">
+        <div class="portal-header">
+            <h1>欢迎回来，{{ username }}</h1>
+            <p>请选择要进入的系统模块</p>
+        </div>
+
+        <div class="portal-cards">
+            <div class="portal-card" id="card-detect" onclick="window.location.href='/index'">
+                <div class="card-icon">
+                    <i class="fas fa-camera-retro"></i>
+                </div>
+                <h2>蓝莓成熟度检测系统</h2>
+                <p>基于深度学习的蓝莓成熟度识别，精准区分成熟、半成熟、未成熟三种阶段</p>
+                <div class="card-features">
+                    <span><i class="fas fa-image"></i> 单图检测</span>
+                    <span><i class="fas fa-images"></i> 批量检测</span>
+                    <span><i class="fas fa-expand"></i> 大图裁剪</span>
+                </div>
+                <button class="card-btn">进入系统 <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div class="portal-card" id="card-weather" onclick="window.location.href='/weather'">
+                <div class="card-icon weather-icon">
+                    <i class="fas fa-cloud-sun-rain"></i>
+                </div>
+                <h2>气象预警与农业建议</h2>
+                <p>实时气象监测、极端天气预警，结合蓝莓生长阶段提供智能农业措施建议</p>
+                <div class="card-features">
+                    <span><i class="fas fa-temperature-half"></i> 实时天气</span>
+                    <span><i class="fas fa-triangle-exclamation"></i> 气象预警</span>
+                    <span><i class="fas fa-seedling"></i> 农业建议</span>
+                </div>
+                <button class="card-btn weather-btn">进入系统 <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="portal-footer">
+            <p>蓝莓智慧农业平台 v1.0</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/portal.js') }}"></script>
+</body>
+</html>

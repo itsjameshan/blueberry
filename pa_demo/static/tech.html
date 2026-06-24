@@ -1,0 +1,34 @@
+{% extends "_base.html" %}
+{% block title %}技术介绍 · 昆明学院智慧农业{% endblock %}
+
+{% block content %}
+    <section class="blueberry-hero" style="padding:64px 20px;">
+        <h1>技术介绍</h1>
+        <p>YOLO11 + ONNX 检测效果与成熟度样本展示。</p>
+    </section>
+
+    <section class="section-block">
+        <div class="block-title">
+            <h2>检测效果</h2>
+            <p>模型对真实蓝莓图像的标注检测结果</p>
+        </div>
+        <div class="gallery-grid" style="grid-template-columns:repeat(3,1fr);">
+            <div class="gallery-item"><img src="/static/img/detect1.jpg" alt="检测结果1"><div class="caption">检测结果 · 标注框</div></div>
+            <div class="gallery-item"><img src="/static/img/detect2.jpg" alt="检测结果2"><div class="caption">检测结果 · 标注框</div></div>
+            <div class="gallery-item"><img src="/static/img/detect3.jpg" alt="检测结果3"><div class="caption">检测结果 · 标注框</div></div>
+        </div>
+    </section>
+
+    <section class="section-block">
+        <div class="block-title">
+            <h2>成熟度样本</h2>
+            <p>三类成熟度的典型样本与田间植株</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="/static/RipeBlueBerry.jpg" alt="成熟蓝莓"><div class="caption">成熟 · Ripe</div></div>
+            <div class="gallery-item"><img src="/static/Semi-RipeBlueBerry.jpg" alt="半成熟蓝莓"><div class="caption">半成熟 · Semi-ripe</div></div>
+            <div class="gallery-item"><img src="/static/UnripeBlueBerry.jpg" alt="未成熟蓝莓"><div class="caption">未成熟 · Unripe</div></div>
+            <div class="gallery-item"><img src="/static/BlueBerrytree.jpg" alt="蓝莓植株"><div class="caption">田间植株 · Field</div></div>
+        </div>
+    </section>
+{% endblock %}

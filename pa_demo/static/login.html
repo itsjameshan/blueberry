@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if sys == 'weather' %}天气预警系统 - 登录{% else %}蓝莓检测系统 - 登录{% endif %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body class="{% if sys == 'weather' %}weather-login{% endif %}">
+    <div class="login-bg">
+        <div class="berries-bg"></div>
+        <div class="login-container">
+            <div class="login-header">
+                {% if sys == 'weather' %}
+                <div class="logo-icon">⛅</div>
+                <h1>天气预警系统</h1>
+                <p>Weather Alert System</p>
+                {% else %}
+                <div class="logo-icon">🫐</div>
+                <h1>蓝莓成熟度检测系统</h1>
+                <p>Blueberry Ripeness Detection System</p>
+                {% endif %}
+            </div>
+            <div class="login-tabs">
+                <button class="tab-btn active" data-tab="login">登录</button>
+                <button class="tab-btn" data-tab="register">注册</button>
+            </div>
+            <form id="loginForm" class="login-form active">
+                <div class="input-group">
+                    <label for="loginUsername">用户名</label>
+                    <input type="text" id="loginUsername" placeholder="请输入用户名" autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <label for="loginPassword">密码</label>
+                    <input type="password" id="loginPassword" placeholder="请输入密码" autocomplete="current-password">
+                </div>
+                <div id="loginError" class="error-msg"></div>
+                <button type="submit" class="btn-primary">登 录</button>
+            </form>
+            <form id="registerForm" class="login-form">
+                <div class="input-group">
+                    <label for="regUsername">用户名</label>
+                    <input type="text" id="regUsername" placeholder="请输入用户名（至少3个字符）" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label for="regPassword">密码</label>
+                    <input type="password" id="regPassword" placeholder="请输入密码（至少6个字符）" autocomplete="new-password">
+                </div>
+                <div class="input-group">
+                    <label for="regConfirm">确认密码</label>
+                    <input type="password" id="regConfirm" placeholder="请再次输入密码" autocomplete="new-password">
+                </div>
+                <div id="regError" class="error-msg"></div>
+                <button type="submit" class="btn-primary">注 册</button>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/login.js') }}?v=20260602"></script>
+</body>
+</html>

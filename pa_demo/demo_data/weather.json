@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "garden": { "name": "示范蓝莓园 A 区", "location": "云南·昆明", "growth_stage": "fruiting" },
+  "weather": {
+    "fetched_at": "2026-06-24 09:00",
+    "realtime": { "temp": 24, "text": "多云", "feelsLike": 25, "humidity": 68, "windDir": "东南风", "windSpeed": 9, "precipitation": 0.0, "pressure": 1008, "visibility": 22 },
+    "forecast": [
+      { "date": "2026-06-24", "textDay": "多云", "tempMin": 17, "tempMax": 26 },
+      { "date": "2026-06-25", "textDay": "晴", "tempMin": 18, "tempMax": 28 },
+      { "date": "2026-06-26", "textDay": "阵雨", "tempMin": 16, "tempMax": 24 },
+      { "date": "2026-06-27", "textDay": "小雨", "tempMin": 15, "tempMax": 22 }
+    ]
+  },
+  "alerts": [ { "title": "高温预警", "content": "未来两天午后气温偏高，注意遮阴与灌溉。" } ],
+  "advice": [
+    { "level": "warning", "title": "高温防护", "content": "午后高温时段加强灌溉，避免果实日灼。" },
+    { "level": "info", "title": "采收建议", "content": "成熟蓝莓比例较高，建议近两日安排采收。" }
+  ]
+}

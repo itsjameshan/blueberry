@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蓝莓成熟度检测系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="nav-logo">🫐</span>
+            <span class="nav-title">蓝莓成熟度检测系统</span>
+        </div>
+        <div class="nav-right">
+            <a href="/index" class="nav-link active">首页</a>
+            <a href="/single_detect" class="nav-link">单图检测</a>
+            <a href="/batch_detect" class="nav-link">批量检测</a>
+            <a href="/big_image" class="nav-link">大图检测</a>
+            <a href="/result" class="nav-link">检测记录</a>
+            {% if role == 'admin' %}
+            <a href="/admin" class="nav-link nav-admin">管理后台</a>
+            {% endif %}
+            <div class="user-info">
+                <span class="user-avatar">{{ username[0] | upper }}</span>
+                <span class="user-name">{{ username }}</span>
+            </div>
+            <a href="/logout" class="btn-logout">退出</a>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-title">系统功能导航</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/single_detect" class="sidebar-item">
+                    <span class="sidebar-icon">📸</span>
+                    <div class="sidebar-item-text">
+                        <span class="sidebar-item-title">单张图片检测</span>
+                        <span class="sidebar-item-desc">上传图片快速分析</span>
+                    </div>
+                </a>
+                <a href="/batch_detect" class="sidebar-item">
+                    <span class="sidebar-icon">📦</span>
+                    <div class="sidebar-item-text">
+                        <span class="sidebar-item-title">多图批量检测</span>
+                        <span class="sidebar-item-desc">批量处理汇总结果</span>
+                    </div>
+                </a>
+                <a href="/big_image" class="sidebar-item">
+                    <span class="sidebar-icon">🗺️</span>
+                    <div class="sidebar-item-text">
+                        <span class="sidebar-item-title">大图检测工作流</span>
+                        <span class="sidebar-item-desc">裁剪推理坐标重建</span>
+                    </div>
+                </a>
+                <a href="/result" class="sidebar-item">
+                    <span class="sidebar-icon">📊</span>
+                    <div class="sidebar-item-text">
+                        <span class="sidebar-item-title">检测记录管理</span>
+                        <span class="sidebar-item-desc">历史记录数据统计</span>
+                    </div>
+                </a>
+                {% if role == 'admin' %}
+                <a href="/admin" class="sidebar-item sidebar-item-admin">
+                    <div class="sidebar-item-text">
+                        <span class="sidebar-item-title">模型管理</span>
+                        <span class="sidebar-item-desc">上传切换ONNX模型</span>
+                    </div>
+                </a>
+                {% endif %}
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <section class="hero">
+                <h1>蓝莓成熟度智能检测平台</h1>
+                <p class="hero-subtitle">基于深度学习的蓝莓成熟度识别系统，精准区分 <strong>成熟蓝莓</strong>、<strong>半熟蓝莓</strong>、<strong>未熟蓝莓</strong> 三种成熟阶段</p>
+            </section>
+
+            <section class="labels-section">
+                <h2 class="section-title">三类检测标签</h2>
+                <p class="section-desc">系统可精准识别以下三种蓝莓成熟度阶段</p>
+                <div class="label-cards">
+                    <div class="label-card label-ripe">
+                        <img src="{{ url_for('static', filename='RipeBlueBerry.jpg') }}" alt="成熟蓝莓" class="label-image">
+                        <div class="label-overlay">
+                            <h3>成熟蓝莓</h3>
+                            <span class="label-en">RipeBlueBerry</span>
+                        </div>
+                    </div>
+                    <div class="label-card label-semi">
+                        <img src="{{ url_for('static', filename='Semi-RipeBlueBerry.jpg') }}" alt="半熟蓝莓" class="label-image">
+                        <div class="label-overlay">
+                            <h3>半熟蓝莓</h3>
+                            <span class="label-en">Semi-RipeBlueBerry</span>
+                        </div>
+                    </div>
+                    <div class="label-card label-unripe">
+                        <img src="{{ url_for('static', filename='UnripeBlueBerry.jpg') }}" alt="未熟蓝莓" class="label-image">
+                        <div class="label-overlay">
+                            <h3>未熟蓝莓</h3>
+                            <span class="label-en">UnripeBlueBerry</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <div class="model-info-bar" id="modelInfoBar">
+        <span class="model-text" id="modelInfoText">模型: 加载中...</span>
+    </div>
+    <script>
+        async function loadModelInfo() {
+            try {
+                const resp = await fetch('/api/current_model');
+                const data = await resp.json();
+                if (data.success) {
+                    const status = data.model_loaded ? '已加载' : '未加载';
+                    document.getElementById('modelInfoText').textContent = '当前模型: ' + data.model_name + ' (' + status + ')';
+                }
+            } catch(e) {}
+        }
+        loadModelInfo();
+    </script>
+</body>
+</html>

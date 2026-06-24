@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "gardens": [
+    { "id": 1, "name": "示范蓝莓园 A 区", "location": "云南·昆明", "growth_stage": "fruiting", "plant_date": "2024-03-02", "created_at": "2026-06-24 09:00" },
+    { "id": 2, "name": "示范蓝莓园 B 区", "location": "云南·玉溪", "growth_stage": "flowering", "plant_date": "2024-03-15", "created_at": "2026-06-24 09:00" }
+  ]
+}

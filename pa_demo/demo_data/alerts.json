@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "alerts": [
+    { "level": "warning", "title": "高温预警", "garden_name": "示范蓝莓园 A 区", "content": "午后最高气温达 33°C，注意遮阴与补水。", "start_time": "2026-06-24 12:00", "end_time": "2026-06-25 18:00", "created_at": "2026-06-24 09:00" },
+    { "level": "info", "title": "降水提示", "garden_name": "示范蓝莓园 B 区", "content": "明日有阵雨，注意排涝。", "start_time": "", "end_time": "", "created_at": "2026-06-24 08:30" }
+  ]
+}

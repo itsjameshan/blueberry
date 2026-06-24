@@ -1,0 +1,4 @@
+{
+  "success": true,
+  "thresholds": { "temp_high": 35, "temp_low": 5, "humidity_high": 85, "humidity_low": 30, "wind_speed_high": 40, "precipitation_high": 25 }
+}
