@@ -6,17 +6,18 @@ The package is a TC609-oriented candidate submission package. It includes comple
 
 ## 技术支持方式
 
-- **维护单位**: 农业智能检测研发团队
-- **联系人**: 数据负责人
-- **邮箱**: dataset-support@example.com
-- **仓库地址**: https://github.com/example/blueberry-maturity-dataset
-- **工单系统**: GitHub Issues
+- **当前状态**: 待项目负责人确认正式技术支持渠道
+- **维护单位**: 待确认
+- **联系人**: 待确认
+- **邮箱**: 待确认
+- **仓库地址/工单系统**: 待确认
 
 ## 访问渠道
 
-- **主发布平台**: Zenodo (DOI: 10.5281/zenodo.XXXXX)
-- **GitHub Releases**: https://github.com/example/blueberry-maturity-dataset/releases
-- **镜像站点**: 待定
+- **当前状态**: 待项目负责人确认正式发布或交付路径
+- **主发布平台/DOI**: 待确认
+- **仓库或网盘路径**: 待确认
+- **内部交付路径**: 待确认
 
 ## 发布边界
 

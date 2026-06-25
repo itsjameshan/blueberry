@@ -5,7 +5,9 @@
 ## 结论
 
 - 当前建议类型：行业通识数据集候选。
-- 当前不建议直接宣称：已完全符合 TC609 高质量数据集，或已达到行业专识数据集。
+- 当前可表述：数据质量和模型应用维度内部预评估达到 90 分阈值，具备申报行业通识数据集候选的基础。
+- 当前待补齐：真实技术支持方式和访问渠道未确认，说明文档维度暂不能按正式达标处理。
+- 当前不建议直接宣称：已由外部或主管部门认定为 TC609 高质量数据集，或已达到行业专识数据集。
 - 数据体位置：`/Users/jameshan/Developments/blueberry/images/tc609_submission_package_v1.0.0`
 - 原始 YOLO 数据位置：`/Users/jameshan/Developments/blueberry/images/yolo_training_ready`
 

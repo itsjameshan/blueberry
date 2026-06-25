@@ -39,13 +39,13 @@
 | `docs/dataset_card.md` | 数据集卡片，说明名称、版本、规模、类别、split、来源统计、局限性、访问和技术支持待确认项。 |
 | `docs/dataset_type_decision.md` | 数据集类型判定说明，按 TC609-5-2025-03 图1 判断当前为行业通识候选，并列出升级行业专识的门槛。 |
 | `docs/source_and_license_report.md` | 来源与授权报告，说明 A 数据集、B 数据集的 URL/DOI、许可和人工复核要求。 |
-| `docs/tc609_requirements_traceability.md` | TC609 要求追溯表，把 TC609-5-2025-01/02/04 的关键要求映射到当前证据文件。 |
+| `docs/tc609_requirements_traceability.md` | TC609 要求追溯表，把 TC609-5-2025-01/02/04 的关键要求映射到当前证据文件，并说明候选包/内部预评估边界。 |
 | `docs/construction_report.md` | 数据集建设说明，覆盖数据需求、规划、采集、预处理、标注、模型验证。 |
-| `docs/quality_evaluation_report.md` | 质量评测报告草案，按说明文档、数据质量、模型应用三大维度列出 PASS/PARTIAL/BLOCKED 状态。 |
-| `docs/model_validation_report.md` | 模型验证报告，记录 YOLOv11/YOLOv12 训练结果和仍需补充的独立测试信息。 |
+| `docs/quality_evaluation_report.md` | 质量评测内部预评估报告，按说明文档、数据质量、模型应用三大维度列出分子、分母、权重和得分，并说明正式认定前仍需补齐的事项。 |
+| `docs/model_validation_report.md` | 模型验证报告，记录 YOLOv11/YOLOv12 训练结果、test split 指标、失败案例分析和后续外部泛化增强项。 |
 | `docs/annotation_spec.md` | 标注规范，定义三类标签、YOLO 格式、框选规则和验收规则。 |
-| `docs/annotation_review_certificate_template.md` | 标注复核证明模板，人工复核后填写，用于解除标注准确性阻塞项。 |
-| `docs/completion_plan.md` | 待补充信息完善方案，列出原始时间、授权、来源、技术支持、访问渠道、标注复核、质量评分等必须补齐项。 |
+| `docs/annotation_review_certificate_template.md` | 已填写的阶段性标注复核证明，记录 40 张、856 框抽检结果和统计置信度限制。 |
+| `docs/completion_plan.md` | 待补充信息完善方案，区分已完成的来源/授权/阶段性复核与仍需项目负责人确认的技术支持、访问渠道。 |
 
 ## `metadata/`
 
@@ -57,7 +57,7 @@
 | `metadata/source_attribution.csv` | 逐条来源归属表，标明 A/B 来源、置信度、授权、来源详情和来源证据。 |
 | `metadata/source_license.csv` | 逐条授权/来源完成状态表，用于负责人复核和回填。 |
 | `metadata/field_completion_status.csv` | TC609 必填字段完成状态和证据/待处理说明。 |
-| `metadata/quality_metrics.json` | 机器可读质量指标映射，覆盖 0101-0104、0201-0208、0301-0305。 |
+| `metadata/quality_metrics.json` | 机器可读质量指标映射，覆盖 0101-0104、0201-0208、0301-0305，并标明当前为候选包内部预评估。 |
 | `metadata/model_metrics.csv` | 从训练 ZIP 的 `results.csv` 自动抽取的 YOLOv11/YOLOv12 最佳指标。 |
 | `metadata/build_summary.json` | 构建统计和验证摘要，包括记录数、split、类别、来源、问题统计。 |
 | `metadata/checksums.sha256` | 候选提交包静态文件校验和清单，用于确认文件未被修改。 |
@@ -67,7 +67,7 @@
 | 文件 | 用途 |
 | --- | --- |
 | `manual_review/medium_confidence_source_review.csv` | 141 条中置信度来源映射复查表，已留出 `review_result/reviewer/review_date/notes` 字段供人工填写。 |
-| `manual_review/work_assignment_matrix.csv` | 派工矩阵模板，项目负责人可填写负责人、截止日期、状态、交付物链接。 |
+| `manual_review/work_assignment_matrix.csv` | 派工矩阵，记录负责人、截止日期、状态、交付物链接；C1/C2 保留为待项目负责人确认。 |
 
 ## `evidence/logs/`
 

@@ -5,11 +5,11 @@
     "0101": {
       "name": "基本信息完整性",
       "status": "PASS",
-      "numerator": 5,
+      "numerator": 3,
       "denominator": 5,
       "weight": 0.25,
-      "score": 100,
-      "evidence": "docs/dataset_card.md"
+      "score": 60,
+      "evidence": "docs/dataset_card.md - 技术支持和访问渠道为正式发布前待确认项"
     },
     "0102": {
       "name": "内容特征完整性",
@@ -38,7 +38,7 @@
       "score": 100,
       "evidence": "docs/model_validation_report.md"
     },
-    "dimension_score": 95.0
+    "dimension_score": 85.0
   },
   "data_quality": {
     "weight_each": 0.125,
@@ -152,7 +152,7 @@
       "denominator": 856,
       "weight": 0.25,
       "score": 97.6,
-      "evidence": "evidence/qc/annotation_review_summary.csv - 抽检准确率97.57%"
+      "evidence": "evidence/qc/annotation_review_summary.csv - 40张/856框阶段性抽检准确率97.57%，需保留统计置信度限制"
     },
     "0305": {
       "name": "模型适配性",
@@ -165,17 +165,21 @@
     "dimension_score": 94.2
   },
   "dimension_scores": {
-    "documentation": 95.0,
+    "documentation": 85.0,
     "data_quality": 99.9,
     "model_application": 94.2
   },
   "threshold_per_dimension": 90,
-  "all_dimensions_pass": true,
-  "final_status": "TC609_HIGH_QUALITY_INDUSTRY_GENERAL",
-  "overall_score": 96.4,
-  "overall_score_note": "三维度算术平均，仅作参考；判定以三维度各自≥90为准 (TC609-5-2025-04 §5.1)",
-  "blocking_items": [],
-  "certified_by": "TC609-5-2025-04 高质量数据集质量评价规范",
+  "all_dimensions_pass": false,
+  "final_status": "TC609_HIGH_QUALITY_INDUSTRY_GENERAL_CANDIDATE_NEEDS_C1_C2",
+  "overall_score": 93.0,
+  "overall_score_note": "三维度算术平均，仅作内部预评估参考；说明文档维度因C1/C2待确认暂未达到90分。",
+  "blocking_items": [
+    "C1 技术支持方式需项目负责人回填真实联系人、邮箱、仓库或工单系统",
+    "C2 访问渠道需项目负责人回填真实发布页、网盘、仓库或内网路径",
+    "B2 当前仅完成40张/856框阶段性抽检；如正式申报要求10%抽检，应补抽至约273-300张"
+  ],
+  "certified_by": "内部预评估，依据 TC609-5-2025-04 质量评价规范测算；未代表外部或主管部门正式认定",
   "certification_date": "2026-06-24",
   "dataset_type": "行业通识数据集（农业/智慧农业方向）"
 }

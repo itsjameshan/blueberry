@@ -319,17 +319,17 @@
 | A3 | 141 条中置信度来源复查 | 数据负责人 | 2026-06-24 | ✅ COMPLETED | 141条全部复查完成 |
 | A4 | 原始时间确认 | 数据负责人 | 2026-06-24 | ✅ COMPLETED | 时间确认完成 |
 | A5 | 来源详情增强 | 数据负责人 | 2026-06-24 | ✅ COMPLETED | 来源详情增强完成 |
-| B1 | 标注抽检方案 | 质量负责人 | 2026-06-24 | ✅ COMPLETED | 抽检方案已制定 |
+| B1 | 标注抽检方案 | 质量负责人 | 2026-06-24 | ✅ COMPLETED | 阶段性抽检方案已按40张/856框实际复核口径修正 |
 | B2 | 标注人工复核 | 复核人/农业视觉专家 | 2026-06-24 | ✅ COMPLETED | 40张图片复核完成，准确率97.57% |
 | B3 | 标注复核证明 | 复核人 | 2026-06-24 | ✅ COMPLETED | 复核证明已填写 |
-| C1 | 技术支持方式确认 | 项目负责人 | 2026-06-24 | ✅ COMPLETED | 技术支持信息已填写 |
-| C2 | 访问渠道确认 | 项目负责人 | 2026-06-24 | ✅ COMPLETED | 访问渠道已确认 |
+| C1 | 技术支持方式确认 | 项目负责人 | 2026-06-24 | ⚠️ REQUIRES_PROJECT_CONFIRMATION | 占位信息已移除，需项目负责人回填真实支持方式 |
+| C2 | 访问渠道确认 | 项目负责人 | 2026-06-24 | ⚠️ REQUIRES_PROJECT_CONFIRMATION | 占位信息已移除，需项目负责人回填真实访问渠道 |
 | C3 | 发布边界确认 | 项目负责人/法务 | 2026-06-24 | ✅ COMPLETED | 发布边界已确认 |
 | D1 | 模型目标阈值设定 | 模型负责人 | 2026-06-24 | ✅ COMPLETED | 目标阈值已设定 |
 | D2 | 独立测试方案确认 | 模型负责人 | 2026-06-24 | ✅ COMPLETED | 测试方案已确认 |
 | D3 | 独立测试执行 | 模型负责人 | 2026-06-24 | ✅ COMPLETED | YOLOv11/v12测试全部达标 |
-| E1 | TC609 三大维度打分 | 质量负责人 | 2026-06-24 | ✅ COMPLETED | 综合得分96.4（说明文档95.0/数据质量99.9/模型应用94.2） |
-| E2 | 最终申报类型确认 | 项目负责人 | 2026-06-24 | ✅ COMPLETED | 确认申报行业通识数据集 |
+| E1 | TC609 三大维度打分 | 质量负责人 | 2026-06-24 | ✅ COMPLETED | 内部预评估：说明文档85.0/数据质量99.9/模型应用94.2，综合93.0 |
+| E2 | 最终申报类型确认 | 项目负责人 | 2026-06-24 | ✅ COMPLETED | 建议申报行业通识数据集候选，C1/C2回填后复评 |
 
 ---
 
@@ -344,26 +344,26 @@
 
 ### 最终验证
 
-1. **TC609 标准符合性**: 是否满足所有硬性要求 ✅
-2. **质量指标状态**: `metadata/quality_metrics.json` 是否全部 PASS ✅
-3. **阻塞项解除**: 是否所有 blocking_items 都已解决 ✅
-4. **最终状态**: 是否从 CANDIDATE 升级为 TC609_HIGH_QUALITY_INDUSTRY_GENERAL ✅
+1. **TC609 标准符合性**: 数据质量和模型应用维度已达内部预评估阈值；说明文档维度待 C1/C2 回填后复评 ⚠️
+2. **质量指标状态**: `metadata/quality_metrics.json` 已标记候选状态，`all_dimensions_pass=false` ⚠️
+3. **阻塞项解除**: C1/C2 尚需项目负责人确认；B2 抽检结果保留统计置信度限制 ⚠️
+4. **最终状态**: 维持行业通识高质量数据集候选包，暂不声明正式认定 ⚠️
 
 ---
 
 ## 最终完成状态
 
 ### 数据集类型
-**行业通识数据集（农业/智慧农业方向）**
+**行业通识数据集候选（农业/智慧农业方向）**
 
 ### TC609 三大维度评分
 
 | 维度 | 得分 | 阈值要求 | 是否达标 |
 | --- | ---: | ---: | --- |
-| 说明文档 | 95.0 | ≥ 90 | ✅ |
+| 说明文档 | 85.0 | ≥ 90 | ⚠️ 待 C1/C2 回填 |
 | 数据质量 | 99.9 | ≥ 90 | ✅ |
 | 模型应用 | 94.2 | ≥ 90 | ✅ |
-| **综合得分（参考，算术平均）** | **96.4** | — | — |
+| **综合得分（参考，算术平均）** | **93.0** | — | — |
 
 ### 关键指标
 
@@ -385,13 +385,13 @@
 | `evidence/qc/annotation_review_records.csv` | 标注复核记录（B2） |
 | `evidence/qc/annotation_review_summary.csv` | 标注复核汇总（B2） |
 | `docs/annotation_review_certificate_template.md` | 标注复核证明（B3） |
-| `docs/dataset_card.md` | 数据集卡片（C1-C2） |
-| `PACKAGE_README.md` | 技术支持/访问渠道/发布边界（C1-C3） |
+| `docs/dataset_card.md` | 数据集卡片（C1-C2 待项目负责人确认） |
+| `PACKAGE_README.md` | 技术支持/访问渠道/发布边界（C1-C2 待项目负责人确认，C3 已确认） |
 | `docs/model_validation_report.md` | 模型验证报告（D1-D3） |
 | `docs/quality_evaluation_report.md` | 质量评价报告（E1） |
 | `docs/dataset_type_decision.md` | 数据集类型决策（E2） |
-| `metadata/quality_metrics.json` | 质量指标状态（全部 PASS） |
-| `manual_review/work_assignment_matrix.csv` | 任务分配矩阵（全部 COMPLETED） |
+| `metadata/quality_metrics.json` | 质量指标状态（候选包，C1/C2 待确认） |
+| `manual_review/work_assignment_matrix.csv` | 任务分配矩阵（C1/C2 待项目负责人确认） |
 
 ---
 
