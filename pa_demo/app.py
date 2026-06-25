@@ -55,6 +55,11 @@ def more():
     return page("more.html", active="more")
 
 
+@app.route("/labelme")
+def labelme():
+    return page("labelme.html", active="labelme")
+
+
 @app.route("/portal")
 def portal():
     return page("portal.html")
