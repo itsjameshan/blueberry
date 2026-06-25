@@ -43,13 +43,36 @@ function renderVideos() {
     });
 }
 
+// 站内功能搜索：关键词命中即跳转对应页面。
+const SEARCH_TARGETS = [
+    { url: '/',        keys: ['主页', '首页', 'home', '门户'] },
+    { url: '/about',   keys: ['了解我们', '关于', '我们', 'about', '团队', '简介'] },
+    { url: '/tech',    keys: ['技术介绍', '技术', 'tech', '模型', 'yolo', 'onnx', '算法'] },
+    { url: '/labelme', keys: ['标注教程', '标注', 'labelme', '教程', '数据集'] },
+    { url: '/index',   keys: ['蓝莓检测', '检测', '识别', '成熟度', '单图', '批量', '大图', 'detect'] },
+    { url: '/weather', keys: ['天气预警', '天气', '预警', '气象', 'weather', '告警'] },
+    { url: '/more',    keys: ['更多', 'more'] },
+];
+
 function initSearch() {
     const input = document.getElementById('search-input');
     const btn = document.getElementById('search-btn');
     if (!input || !btn) return;
-    const go = () => { if (input.value.trim()) window.location.href = '/index'; };
+    const go = () => {
+        const q = input.value.trim().toLowerCase();
+        if (!q) return;
+        const hit = SEARCH_TARGETS.find((t) =>
+            t.keys.some((k) => { const kl = k.toLowerCase(); return q.includes(kl) || kl.includes(q); }));
+        if (hit) {
+            window.location.href = hit.url;
+        } else {
+            input.setCustomValidity('未找到相关功能，试试：检测 / 天气 / 技术 / 标注');
+            input.reportValidity();
+        }
+    };
     btn.addEventListener('click', go);
     input.addEventListener('keypress', (e) => { if (e.key === 'Enter') go(); });
+    input.addEventListener('input', () => input.setCustomValidity(''));
 }
 
 function initSmoothScroll() {
