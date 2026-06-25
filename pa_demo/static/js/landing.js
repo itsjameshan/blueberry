@@ -9,7 +9,8 @@ const DOUYIN_VIDEOS = [
     { vid: '7654875270570944755', url: 'https://v.douyin.com/mvp9tZaFMes/', title: '智慧农业 · 编程日常实训',   cover: '/static/img/covers/n2.webp' },     // 木Lin 重发（替旧项目实训）
     { vid: '7654797018267844250', url: 'https://v.douyin.com/F9yVPrtY1Tk/', title: '实训演示',                   cover: '/static/img/covers/cover5.webp' },
     { vid: '7654863401873726821', url: 'https://v.douyin.com/CmHi4VCIOOs/', title: '小程序使用',                 cover: '/static/img/covers/cover6.webp' },
-    { vid: '7654880126593177521', url: 'https://v.douyin.com/NZqqb0Fr-1k/', title: '大学生期末实训 · 智慧农业', cover: '/static/img/covers/n3.webp' },     // 南柳 新增
+    { vid: '7654880126593177521', url: 'https://v.douyin.com/NZqqb0Fr-1k/', title: '使用LabelMe标注蓝莓标准流程', cover: '/static/img/covers/n3.webp' },     // 南柳 新增
+    { vid: '7654874947399762907', url: 'https://v.douyin.com/EUYkR6A3ofo/', title: '蓝莓种植 · 智慧农业实训',   cover: '/static/img/covers/n1.webp' },     // 原第一个视频，移到末尾保留
 ];
 
 function playInline(frame, v) {
