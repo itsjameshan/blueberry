@@ -3,7 +3,7 @@
 // 真实封面已下载到本地；可内嵌的点击后载入抖音官方播放器，
 // 个别抖音不允许内嵌的（noEmbed）点击直接跳抖音。
 const DOUYIN_VIDEOS = [
-    { vid: '7654874947399762907', url: 'https://v.douyin.com/EUYkR6A3ofo/', title: '蓝莓种植 · 智慧农业实训',   cover: '/static/img/covers/n1.webp' },     // 木Lin 重发（替旧蓝莓）
+    { vid: '7655130673144925474', url: 'https://v.douyin.com/8MfeBapZNgY/', title: '智慧农业 · 期末实训',         cover: '/static/img/covers/n1.webp' },     // 木Lin 新账号重发
     { vid: '7654793042503275955', url: 'https://v.douyin.com/a0mpTG_lr7I/', title: '电脑实训 · 智能制造系',     cover: '/static/img/covers/cover2.webp' },
     { vid: '7654793661703632730', url: 'https://v.douyin.com/cRlVCaZnVXI/', title: '电脑实训',                   cover: '/static/img/covers/cover3.webp' },
     { vid: '7654875270570944755', url: 'https://v.douyin.com/mvp9tZaFMes/', title: '智慧农业 · 编程日常实训',   cover: '/static/img/covers/n2.webp' },     // 木Lin 重发（替旧项目实训）
