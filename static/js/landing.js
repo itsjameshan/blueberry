@@ -9,6 +9,8 @@ const DOUYIN_VIDEOS = [
     { vid: '7654880126593177521', url: 'https://v.douyin.com/NZqqb0Fr-1k/', title: '使用LabelMe标注蓝莓标准流程', cover: '/static/img/covers/n3.webp' },     // 南柳
     { vid: '7654874947399762907', url: 'https://v.douyin.com/EUYkR6A3ofo/', title: '蓝莓种植 · 智慧农业实训',   cover: '/static/img/covers/n1.webp' },     // 木Lin
     { vid: '7655202866122001690', url: 'https://v.douyin.com/DJQ2U-ti8I8/', title: '蓝莓成熟度检测 · 综合实训', cover: '/static/img/covers/blueberry_detect.webp' }, // 木Lin（重发，已开放内嵌）
+    { vid: '7655206564039181925', url: 'https://v.douyin.com/G7antH30Pgs/', title: '辰心 · 实训日常',           cover: '/static/img/covers/chenxin.webp' }, // 辰心
+    { vid: '7655207789500828968', url: 'https://v.douyin.com/oPI8oOqpnCk/', title: 'Codex 讲解 · 智慧农业实训', cover: '/static/img/covers/codex.webp' },   // 木Lin（6月25日 codex 讲解）
 ];
 
 function playInline(frame, v) {
