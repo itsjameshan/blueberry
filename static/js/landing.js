@@ -3,14 +3,12 @@
 // 真实封面已下载到本地；可内嵌的点击后载入抖音官方播放器，
 // 个别抖音不允许内嵌的（noEmbed）点击直接跳抖音。
 const DOUYIN_VIDEOS = [
-    { vid: '7655130673144925474', url: 'https://v.douyin.com/8MfeBapZNgY/', title: '智慧农业 · 期末实训',         cover: '/static/img/covers/n1.webp' },     // 木Lin 新账号重发
-    { vid: '7654793042503275955', url: 'https://v.douyin.com/a0mpTG_lr7I/', title: '电脑实训 · 智能制造系',     cover: '/static/img/covers/cover2.webp' },
-    { vid: '7654793661703632730', url: 'https://v.douyin.com/cRlVCaZnVXI/', title: '电脑实训',                   cover: '/static/img/covers/cover3.webp' },
-    { vid: '7654875270570944755', url: 'https://v.douyin.com/mvp9tZaFMes/', title: '智慧农业 · 编程日常实训',   cover: '/static/img/covers/n2.webp' },     // 木Lin 重发（替旧项目实训）
-    { vid: '7654797018267844250', url: 'https://v.douyin.com/F9yVPrtY1Tk/', title: '实训演示',                   cover: '/static/img/covers/cover5.webp' },
-    { vid: '7654863401873726821', url: 'https://v.douyin.com/CmHi4VCIOOs/', title: '小程序使用',                 cover: '/static/img/covers/cover6.webp' },
-    { vid: '7654880126593177521', url: 'https://v.douyin.com/NZqqb0Fr-1k/', title: '使用LabelMe标注蓝莓标准流程', cover: '/static/img/covers/n3.webp' },     // 南柳 新增
-    { vid: '7654874947399762907', url: 'https://v.douyin.com/EUYkR6A3ofo/', title: '蓝莓种植 · 智慧农业实训',   cover: '/static/img/covers/n1.webp' },     // 原第一个视频，移到末尾保留
+    { vid: '7655130673144925474', url: 'https://v.douyin.com/8MfeBapZNgY/', title: '智慧农业 · 期末实训',         cover: '/static/img/covers/n1.webp' },     // 木Lin
+    { vid: '7654875270570944755', url: 'https://v.douyin.com/mvp9tZaFMes/', title: '智慧农业 · 编程日常实训',   cover: '/static/img/covers/n2.webp' },     // 木Lin
+    { vid: '7654863401873726821', url: 'https://v.douyin.com/CmHi4VCIOOs/', title: '小程序使用',                 cover: '/static/img/covers/cover6.webp' },  // 辰心
+    { vid: '7654880126593177521', url: 'https://v.douyin.com/NZqqb0Fr-1k/', title: '使用LabelMe标注蓝莓标准流程', cover: '/static/img/covers/n3.webp' },     // 南柳
+    { vid: '7654874947399762907', url: 'https://v.douyin.com/EUYkR6A3ofo/', title: '蓝莓种植 · 智慧农业实训',   cover: '/static/img/covers/n1.webp' },     // 木Lin
+    { vid: '7654835275138436367', url: 'https://v.douyin.com/Q-Aw8biyr5s/', noEmbed: true, title: '蓝莓成熟度检测 · 综合实训', cover: '/static/img/covers/blueberry_detect.webp' }, // 木Lin（未开放内嵌，点击跳抖音）
 ];
 
 function playInline(frame, v) {
