@@ -440,3 +440,24 @@ SMTP_FROM=your_email@qq.com
 - [ ] 公众号二维码为占位（`more.html`），可替换真实图
 - [ ] 天空登录背景为 CSS 渐变，如需照片放 `static/img/sky.jpg` 并改 `body.weather-login`
 - [ ] `单网页/` 源模板已冗余（不被服务），可删
+
+## 2026-09-17 — 演示站接入真实检测（PythonAnywhere 免费层）
+
+### 完成事项
+- [x] `pa_demo` 单图/批量检测改为 `best.onnx`（YOLO11s）实时推理，不再返回预置 JSON；`/api/current_model` 如实报告加载状态
+- [x] 免费层防护：一次 ≤5 张、单张 ≤10 MB / ≤20 MP / JPG-PNG / `verify()`、全站每天 100 张（内存计数，按天重置；不按 IP，代理头可伪造）、结果图 24 h 清理、上传原图即删、`/api/result_image` 只按 `result_<hex>.jpg` 白名单从 `results/` 发送
+- [x] 共用 `detect_engine.py`：`load_model(num_threads=)`、NMS 前 top-300 候选、`draw_boxes` 读图失败抛错、加载异常打到 stderr（完整版行为不变）
+- [x] `static/js/batch_detect.js` 文件名进 `innerHTML` 前 HTML 转义：上传列表与结果表两处（完整版与演示站共用）
+- [x] `build_demo.py` 默认只复制引擎和模型；整体同步 static 改为 `--static` 显式触发（演示站 static 已分叉：无退出按钮）
+- [x] `pa_demo/smoke_test.py` 覆盖真实检测、conf=0.1、伪造/超大/超像素输入、批量上限与部分失败、结果图守卫、每日上限（换 IP 无效、无效文件不占额）
+- [x] 删除不再使用的 `demo_data/detect_single.json`、`batch_item.json`、`sample_result.jpg`
+- [x] `pa_demo/requirements.txt` 固定 `onnxruntime==1.23.2`（根目录的 1.21.2 在 PyPI 不存在）
+
+### 验收结果
+- [x] 两个独立 venv（有/无 opencv）冒烟测试全过 ✅
+- [x] PythonAnywhere 免费层实测：加载 0.27 s CPU，每张 0.63 s CPU；线上批量页真实推理通过（Chrome 端到端）；上限定为全站每天 100 张
+
+### 待办 / 备注
+- [ ] 每月到期按钮代点（单独提交）
+- [ ] 向 PythonAnywhere 申请把 `qweatherapi.com` 加入白名单后，天气模块才能用真数据
+- [ ] 根目录 `requirements.txt` 的 `onnxruntime==1.21.2` 需改成存在的版本

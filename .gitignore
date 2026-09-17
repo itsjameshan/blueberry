@@ -17,3 +17,6 @@ yolo_training_ready/images/**/*.gif
 yolo_training_ready/images/**/*.webp
 yolo_training_ready/images/**/*.bmp
 yolo_training_ready/labels/**/*.txt
+
+# 演示站的模型副本由 pa_demo/build_demo.py 从 onnx_data/ 复制，不重复入库
+pa_demo/onnx_data/
