@@ -445,7 +445,7 @@ SMTP_FROM=your_email@qq.com
 
 ### 完成事项
 - [x] `pa_demo` 单图/批量检测改为 `best.onnx`（YOLO11s）实时推理，不再返回预置 JSON；`/api/current_model` 如实报告加载状态
-- [x] 免费层防护：一次 ≤5 张、单张 ≤10 MB / ≤20 MP / JPG-PNG / `verify()`、全站每天 40 张（内存计数，按天重置；不按 IP，代理头可伪造）、结果图 24 h 清理、上传原图即删、`/api/result_image` 只按 `result_<hex>.jpg` 白名单从 `results/` 发送
+- [x] 免费层防护：一次 ≤5 张、单张 ≤10 MB / ≤20 MP / JPG-PNG / `verify()`、全站每天 100 张（内存计数，按天重置；不按 IP，代理头可伪造）、结果图 24 h 清理、上传原图即删、`/api/result_image` 只按 `result_<hex>.jpg` 白名单从 `results/` 发送
 - [x] 共用 `detect_engine.py`：`load_model(num_threads=)`、NMS 前 top-300 候选、`draw_boxes` 读图失败抛错、加载异常打到 stderr（完整版行为不变）
 - [x] `static/js/batch_detect.js` 文件名进 `innerHTML` 前 HTML 转义：上传列表与结果表两处（完整版与演示站共用）
 - [x] `build_demo.py` 默认只复制引擎和模型；整体同步 static 改为 `--static` 显式触发（演示站 static 已分叉：无退出按钮）
@@ -455,10 +455,9 @@ SMTP_FROM=your_email@qq.com
 
 ### 验收结果
 - [x] 两个独立 venv（有/无 opencv）冒烟测试全过 ✅
-- [x] 单线程本地实测：加载 0.4–0.6 s，每张 CPU 1.2–1.4 s；免费层估全站每天 30–50 张
+- [x] PythonAnywhere 免费层实测：加载 0.27 s CPU，每张 0.63 s CPU；线上批量页真实推理通过（Chrome 端到端）；上限定为全站每天 100 张
 
 ### 待办 / 备注
-- [ ] 上传 `pa_demo.zip` 到 PythonAnywhere，按 `pa_demo/README.md` 步骤部署并记录实测 CPU
 - [ ] 每月到期按钮代点（单独提交）
 - [ ] 向 PythonAnywhere 申请把 `qweatherapi.com` 加入白名单后，天气模块才能用真数据
 - [ ] 根目录 `requirements.txt` 的 `onnxruntime==1.21.2` 需改成存在的版本

@@ -20,12 +20,12 @@ python3 pa_demo/smoke_test.py     # 冒烟测试：页面、真实检测、恶�
 |----|----|------|
 | 一次最多 | 5 张 | CPU 额度 |
 | 单张 | ≤ 10 MB，≤ 20 MP，JPG/PNG，`verify()` 通过 | 内存、解压炸弹 |
-| 全站每天 | 40 张（内存计数，Reload 清零；改 `app.py` 里 `DAILY_IMAGE_CAP`） | 对应每天 100 秒 CPU；不按 IP 是因为代理头可伪造 |
+| 全站每天 | 100 张（内存计数，Reload 清零；改 `app.py` 里 `DAILY_IMAGE_CAP`） | 每天 100 秒 CPU，实测每张 0.63 秒；不按 IP 是因为代理头可伪造 |
 | 结果图保留 | 24 小时，检测请求时顺手清理；上传原图检测完即删 | 512 MB 磁盘 |
 | 推理线程 | 1 | 单工作进程，多线程只抢额度 |
 | 大图切块 | 不开放 | 一张要十几秒 CPU |
 
-本地实测（Apple Silicon，单线程）：加载模型 0.4–0.6 秒，每张 CPU 1.2–1.4 秒。免费层机器更慢，按每张 2–3 秒估，**全站每天约 30–50 张**；额度用完 PythonAnywhere 不报错，只是请求排队变慢。模型在模块加载时读入，**Reload 后的第一个请求（不论哪个页面）会多等几秒**。
+**PythonAnywhere 免费层实测（2026-09-17，单线程）**：加载模型 0.27 秒 CPU，一张 464 KB 照片检测加画框 0.63 秒 CPU（0.91 秒墙钟）。按每天 100 秒 CPU 算约 150 张，上限设 100 留余量；额度用完 PythonAnywhere 不报错，只是请求排队变慢。磁盘：代码 65 MB + 用户依赖 137 MB。本地 Apple Silicon 单线程反而慢些（每张 1.2–1.4 秒）。模型在模块加载时读入，**Reload 后的第一个请求（不论哪个页面）会多等几秒**。
 
 ## 部署到 PythonAnywhere（免费层，Python 3.10）
 
@@ -62,7 +62,7 @@ python3 pa_demo/smoke_test.py     # 冒烟测试：页面、真实检测、恶�
    ```
    **Static files**：URL `/static/` → Directory `/home/<USER>/pa_demo/static/`。
 4. **Reload**。Web 页的绿色 Reload 按钮有时不生效，稳妥的做法是在 Bash console 里 `touch /var/www/<USER>_pythonanywhere_com_wsgi.py`，等 20–30 秒。然后先自己打开一次首页预热，再上传一张真实照片确认有检测框和三类计数。Dashboard 里看 CPU 用量增量，把实测数字记回本 README。
-5. Dashboard 磁盘用量应远低于 512 MB（依赖约 100 MB + 模型 37 MB + 代码 8 MB）。
+5. Dashboard 磁盘用量应远低于 512 MB（实测：`~/blueberry` 65 MB 含模型，`~/.local` 137 MB）。
 
 ## 说明
 

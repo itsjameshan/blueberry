@@ -113,7 +113,7 @@ MAX_FILES = 5
 MAX_IMAGE_BYTES = 10 * 1024 * 1024
 MAX_IMAGE_PIXELS = 20_000_000  # 4032×3024 的手机照片是 12.2 MP，必须能过；20 MP 解码约 60 MB
 RESULT_TTL_SECONDS = 24 * 3600
-DAILY_IMAGE_CAP = 40  # 全站每天（张）：免费层 100 秒 CPU，按每张 2–3 秒就是这个量级
+DAILY_IMAGE_CAP = 100  # 全站每天（张）：免费层 100 秒 CPU，服务器实测每张 0.63 秒，留三成余量
 STATS_KEYS = ("RipeBlueBerry", "Semi-RipeBlueBerry", "UnripeBlueBerry", "total")
 
 UPLOADS = BASE / "uploads"
