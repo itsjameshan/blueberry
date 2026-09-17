@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
-"""pa_demo —— master UI 的轻量伪静态演示后端。
-无模型 / 无 weather API / 无数据库 / 无登录；检测与天气返回预置数据。
+"""pa_demo —— 演示站后端：真实 YOLO 检测 + 预置气象数据。
+无 weather API / 无数据库 / 无登录；单图/批量检测用 onnx_data/best.onnx 实时推理，其余接口返回预置数据。
+面向 PythonAnywhere 免费层（512 MB 磁盘、每天 100 秒 CPU、单工作进程），所以对上传做了大小/像素/张数/每 IP 次数限制。
 """
 import json
+import os
 import re
+import time
+import traceback
+from datetime import date
 from pathlib import Path
 
-from flask import Flask, render_template, jsonify, request, send_file
+from flask import Flask, abort, jsonify, render_template, request, send_from_directory
+from PIL import Image
+
+from detect_engine import detect_single_image, draw_boxes, is_model_loaded, load_model
 
 BASE = Path(__file__).resolve().parent
 DEMO = BASE / "demo_data"
@@ -24,7 +32,7 @@ DEMO_BANNER = (
     '<div class="demo-mode-banner" style="position:sticky;top:0;z-index:9999;'
     "background:#1f4e2c;color:#fff;text-align:center;padding:6px 12px;"
     'font-size:14px;font-family:sans-serif">'
-    "演示模式：云端不做实时预测，检测与天气均为示例数据</div>"
+    "演示站：检测为真实模型推理（best.onnx · YOLO11s），每日检测次数有限，高峰时段可能较慢；天气仍为预置数据</div>"
 )
 
 # 演示访客上下文：页面里若引用 username/role/active，Jinja 默认 Undefined 静默为空，安全。
@@ -100,39 +108,166 @@ def api_check_login():
     return jsonify(logged_in=True, **GUEST)
 
 
+# ---- 真实检测（免费层限额见模块 docstring）----
+MAX_FILES = 5
+MAX_IMAGE_BYTES = 10 * 1024 * 1024
+MAX_IMAGE_PIXELS = 20_000_000  # 4032×3024 的手机照片是 12.2 MP，必须能过；20 MP 解码约 60 MB
+RESULT_TTL_SECONDS = 24 * 3600
+DAILY_IMAGE_CAP = 40  # 全站每天（张）：免费层 100 秒 CPU，按每张 2–3 秒就是这个量级
+STATS_KEYS = ("RipeBlueBerry", "Semi-RipeBlueBerry", "UnripeBlueBerry", "total")
+
+UPLOADS = BASE / "uploads"
+RESULTS = BASE / "results"
+UPLOADS.mkdir(exist_ok=True)
+RESULTS.mkdir(exist_ok=True)
+app.config["MAX_CONTENT_LENGTH"] = MAX_FILES * MAX_IMAGE_BYTES + 1024 * 1024
+
+MODEL_PATH = BASE / "onnx_data" / "best.onnx"
+# ponytail: 模块加载时读入模型（单线程约 0.5 秒），单进程站点一次性成本；失败细节由 load_model 打到 stderr
+load_model(str(MODEL_PATH), num_threads=1)
+
+# ponytail: 全站计数而不是每 IP：代理头可伪造、无法在部署前验证，而 CPU 额度本来就是全站共用的。内存计数，按天重置，Reload 清零
+_daily = {"day": None, "count": 0}
+
+
+def _take_quota(n: int) -> bool:
+    today = date.today()
+    if _daily["day"] != today:
+        _daily["day"], _daily["count"] = today, 0
+    if _daily["count"] + n > DAILY_IMAGE_CAP:
+        return False
+    _daily["count"] += n
+    return True
+
+
+def _conf() -> float:
+    try:
+        return min(0.9, max(0.1, float(request.form.get("conf", 0.5))))
+    except (TypeError, ValueError):
+        return 0.5
+
+
+def validate_image(storage):
+    """返回错误信息；合法返回 None。读文件头取格式和像素，verify() 查结构，不解码像素。"""
+    stream = storage.stream
+    stream.seek(0, 2)
+    size = stream.tell()
+    stream.seek(0)
+    if size == 0:
+        return "文件为空"
+    if size > MAX_IMAGE_BYTES:
+        return "单张图片不能超过 10 MB"
+    try:
+        with Image.open(stream) as im:
+            fmt, (w, h) = im.format, im.size
+            im.verify()
+    except Exception:
+        return "不是有效的 JPG/PNG 图片"
+    finally:
+        stream.seek(0)
+    if fmt not in ("JPEG", "PNG"):
+        return "只支持 JPG/PNG 图片"
+    if w * h > MAX_IMAGE_PIXELS:
+        return "图片像素过大，请压缩后再上传"
+    return None
+
+
+def prune_results() -> None:
+    cutoff = time.time() - RESULT_TTL_SECONDS
+    for p in RESULTS.glob("result_*.jpg"):
+        try:
+            if p.stat().st_mtime < cutoff:
+                p.unlink()
+        except FileNotFoundError:
+            pass
+
+
+def run_detection(storage, conf: float) -> dict:
+    token = os.urandom(8).hex()
+    upload = UPLOADS / f"{token}.jpg"
+    result_name = f"result_{token}.jpg"
+    try:
+        storage.save(upload)
+        results, stats = detect_single_image(str(upload), conf_threshold=conf)
+        draw_boxes(str(upload), results, str(RESULTS / result_name))
+        if not (RESULTS / result_name).is_file():
+            raise RuntimeError("结果图未生成")
+    finally:
+        upload.unlink(missing_ok=True)
+    return {"results": results, "stats": stats, "result_image": f"/api/result_image/{result_name}"}
+
+
+@app.errorhandler(413)
+def too_large(_e):
+    return jsonify(success=False, message="上传超过大小限制"), 413
+
+
 @app.route("/api/current_model")
 def api_current_model():
-    return jsonify(success=True, model_loaded=True, model_name="v11best（演示）")
+    return jsonify(success=True, model_loaded=is_model_loaded(), model_name="best.onnx（YOLO11s）")
 
 
 @app.route("/api/detect_single", methods=["POST"])
 def api_detect_single():
-    return jsonify(load("detect_single.json"))
+    if not is_model_loaded():
+        return jsonify(success=False, message="模型未加载")
+    f = request.files.get("image")
+    if f is None or not f.filename:
+        return jsonify(success=False, message="请上传图片")
+    err = validate_image(f)
+    if err:
+        return jsonify(success=False, message=err)
+    if not _take_quota(1):
+        return jsonify(success=False, message="今日检测次数已达上限"), 429
+    prune_results()
+    conf = _conf()
+    try:
+        out = run_detection(f, conf)
+    except Exception:
+        traceback.print_exc()
+        return jsonify(success=False, message="检测失败")
+    return jsonify(success=True, conf_threshold=conf, **out)
 
 
 @app.route("/api/batch_detect_multi", methods=["POST"])
 def api_batch_detect_multi():
-    files = request.files.getlist("images")
-    names = [f.filename for f in files] or ["示例图片.jpg"]
-    tpl = load("batch_item.json")
-    keys = ("RipeBlueBerry", "Semi-RipeBlueBerry", "UnripeBlueBerry", "total")
-    total = {k: 0 for k in keys}
-    results = []
-    for nm in names:
-        results.append({
-            "filename": nm,
-            "result_image": "/api/result_image/sample_result.jpg",
-            "stats": tpl["stats"],
-            "results": tpl["results"],
-        })
-        for k in keys:
-            total[k] += tpl["stats"][k]
-    return jsonify(success=True, total_stats=total, results=results)
+    if not is_model_loaded():
+        return jsonify(success=False, message="模型未加载")
+    files = [f for f in request.files.getlist("images") if f.filename]
+    if not files:
+        return jsonify(success=False, message="请选择图片")
+    if len(files) > MAX_FILES:
+        return jsonify(success=False, message=f"一次最多 {MAX_FILES} 张")
+    errors = [validate_image(f) for f in files]
+    valid = sum(1 for e in errors if not e)
+    if valid and not _take_quota(valid):  # 只按通过校验的张数扣额；推理失败也算，CPU 已经花了
+        return jsonify(success=False, message="今日检测次数已达上限"), 429
+    prune_results()
+    conf = _conf()
+    total = {k: 0 for k in STATS_KEYS}
+    items = []
+    for f, err in zip(files, errors):
+        if not err:
+            try:
+                out = run_detection(f, conf)
+            except Exception:
+                traceback.print_exc()
+                err = "检测失败"
+        if err:
+            items.append({"filename": f.filename, "results": [], "stats": {k: 0 for k in STATS_KEYS},
+                          "result_image": "", "error": err})
+            continue
+        for k in STATS_KEYS:
+            total[k] += out["stats"].get(k, 0)
+        items.append({"filename": f.filename, **out})
+    return jsonify(success=True, total_stats=total, results=items)
 
 
-@app.route("/api/result_image/<path:filename>")
+@app.route("/api/result_image/<filename>")
 def api_result_image(filename):
-    return send_file(DEMO / "sample_result.jpg", mimetype="image/jpeg")
+    if not re.fullmatch(r"result_[0-9a-f]{16}\.jpg", filename):
+        abort(404)
+    return send_from_directory(RESULTS, filename, mimetype="image/jpeg")
 
 
 @app.route("/api/gardens")

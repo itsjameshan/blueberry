@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 文件名来自用户，进 innerHTML 前必须转义
+    const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const uploadArea = document.getElementById('uploadArea');
     const imageInput = document.getElementById('imageInput');
     const fileList = document.getElementById('fileList');
@@ -69,8 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const url = URL.createObjectURL(file);
             fileUrlMap[file.name] = url;
             return `<div class="file-tag">
-                <img src="${url}" class="file-thumb" alt="${file.name}">
-                <span>${file.name}</span>
+                <img src="${url}" class="file-thumb" alt="${esc(file.name)}">
+                <span>${esc(file.name)}</span>
                 <span class="remove-tag" data-index="${i}">✕</span>
             </div>`;
         }).join('');
@@ -156,13 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         summaryBody.innerHTML = data.results.map((item, i) => {
             const s = item.stats;
+            const name = esc(item.filename);
             const resultImg = item.result_image ? item.result_image : '';
             const originUrl = fileUrlMap[item.filename] || '';
             const thumbSrc = originUrl || resultImg;
             return `<tr>
                 <td>${i + 1}</td>
-                <td><img src="${thumbSrc}" class="thumb-img" alt="${item.filename}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2248%22%20height%3D%2248%22%3E%3Crect%20fill%3D%22%23F4F2FF%22%20width%3D%2248%22%20height%3D%2248%22%20rx%3D%228%22%2F%3E%3Ctext%20x%3D%2224%22%20y%3D%2230%22%20text-anchor%3D%22middle%22%20font-size%3D%2218%22%3E%F0%9F%AB%90%3C%2Ftext%3E%3C%2Fsvg%3E'"></td>
-                <td title="${item.filename}">${item.filename.length > 20 ? item.filename.substring(0, 20) + '...' : item.filename}</td>
+                <td><img src="${thumbSrc}" class="thumb-img" alt="${name}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2248%22%20height%3D%2248%22%3E%3Crect%20fill%3D%22%23F4F2FF%22%20width%3D%2248%22%20height%3D%2248%22%20rx%3D%228%22%2F%3E%3Ctext%20x%3D%2224%22%20y%3D%2230%22%20text-anchor%3D%22middle%22%20font-size%3D%2218%22%3E%F0%9F%AB%90%3C%2Ftext%3E%3C%2Fsvg%3E'"></td>
+                <td title="${name}">${item.filename.length > 20 ? esc(item.filename.substring(0, 20)) + '...' : name}</td>
                 <td>${s.RipeBlueBerry}</td>
                 <td>${s['Semi-RipeBlueBerry']}</td>
                 <td>${s.UnripeBlueBerry}</td>
