@@ -1,48 +1,95 @@
-// 门户脚本：抖音视频墙（真实封面 + 点击内嵌播放）+ 搜索 + 锚点滚动。
-
-// 真实封面已下载到本地；可内嵌的点击后载入抖音官方播放器，
-// 个别抖音不允许内嵌的（noEmbed）点击直接跳抖音。
-const DOUYIN_VIDEOS = [
-    { vid: '7655130673144925474', url: 'https://v.douyin.com/8MfeBapZNgY/', title: '智慧农业 · 期末实训',         cover: '/static/img/covers/n1.webp' },     // 木Lin
-    { vid: '7654875270570944755', url: 'https://v.douyin.com/mvp9tZaFMes/', title: '智慧农业 · 编程日常实训',   cover: '/static/img/covers/n2.webp' },     // 木Lin
-    { vid: '7654863401873726821', url: 'https://v.douyin.com/CmHi4VCIOOs/', title: '小程序使用',                 cover: '/static/img/covers/cover6.webp' },  // 辰心
-    { vid: '7654880126593177521', url: 'https://v.douyin.com/NZqqb0Fr-1k/', title: '使用LabelMe标注蓝莓标准流程', cover: '/static/img/covers/n3.webp' },     // 南柳
-    { vid: '7654874947399762907', url: 'https://v.douyin.com/EUYkR6A3ofo/', title: '蓝莓种植 · 智慧农业实训',   cover: '/static/img/covers/n1.webp' },     // 木Lin
-    { vid: '7655202866122001690', url: 'https://v.douyin.com/DJQ2U-ti8I8/', title: '蓝莓成熟度检测 · 综合实训', cover: '/static/img/covers/blueberry_detect.webp' }, // 木Lin（重发，已开放内嵌）
-    { vid: '7655206564039181925', url: 'https://v.douyin.com/G7antH30Pgs/', title: '辰心 · 实训日常',           cover: '/static/img/covers/chenxin.webp' }, // 辰心
-    { vid: '7655207789500828968', url: 'https://v.douyin.com/oPI8oOqpnCk/', title: 'Codex 讲解 · 智慧农业实训', cover: '/static/img/covers/codex.webp' },   // 木Lin（6月25日 codex 讲解）
-    { vid: '7655255025144450358', url: 'https://v.douyin.com/06F5dqfydA4/', title: '蓝莓成熟度检测 · 总结汇报', cover: '/static/img/covers/summary.webp' }, // 木Lin（6月25日 总结汇报）
+// 门户视频：抖音播放与本站备用，均在原卡片内切换。
+const PROJECT_VIDEOS = [
+    { vid: '7688613759690359930', src: '/static/videos/training-final.mp4', title: '智慧农业 · 期末实训', cover: '/static/img/covers/training-final.jpg', source: 'local' },
+    { vid: '7688625790132977649', src: '/static/videos/coding-practice.mp4', title: '智慧农业 · 编程日常实训', cover: '/static/img/covers/n2.webp', source: 'local' },
+    { vid: '7688627184253026033', src: '/static/videos/miniapp-overview.mp4', title: '小程序使用', cover: '/static/img/covers/cover6.webp', source: 'local' },
+    { vid: '7688627587128764529', src: '/static/videos/labelme-tutorial.mp4', title: '使用LabelMe标注蓝莓标准流程', cover: '/static/img/covers/n3.webp', source: 'local' },
+    { vid: '7688628453709991089', src: '/static/videos/training-daily.mp4', title: '蓝莓种植 · 智慧农业实训', cover: '/static/img/covers/n1.webp', source: 'local' },
+    { vid: '7688629053854802801', src: '/static/videos/blueberry-detection.mp4', title: '蓝莓成熟度检测 · 综合实训', cover: '/static/img/covers/blueberry_detect.webp', source: 'local' },
+    { vid: '7688634618685829553', src: '/static/videos/miniapp-walkthrough.mp4', title: '辰心 · 实训日常', cover: '/static/img/covers/chenxin.webp', source: 'local' },
+    { vid: '7688636612057537445', src: '/static/videos/codex-presentation.mp4', title: 'Codex 讲解 · 智慧农业实训', cover: '/static/img/covers/codex.webp', source: 'local' },
+    { vid: '7688634963625137393', src: '/static/videos/project-summary.mp4', title: '蓝莓成熟度检测 · 总结汇报', cover: '/static/img/covers/summary.webp', source: 'local' },
 ];
 
-function playInline(frame, v) {
-    if (v.noEmbed) {
-        window.open(v.url, '_blank', 'noopener');
-        return;
+function playInline(frame, v, source = v.source) {
+    if (frame.dataset.source === source) return;
+    const moveFocus = document.activeElement === frame;
+    document.querySelectorAll('.video-frame video').forEach((other) => other.pause());
+    const previous = frame.querySelector('video');
+    if (previous) {
+        previous.pause();
+        previous.removeAttribute('src');
+        previous.load();
     }
+    frame.dataset.source = source;
     frame.classList.remove('cover');
     frame.style.backgroundImage = '';
-    frame.innerHTML = `<iframe src="https://open.douyin.com/player/video?vid=${v.vid}&autoplay=1"
-        referrerpolicy="unsafe-url" allow="autoplay; encrypted-media; fullscreen"
-        allowfullscreen frameborder="0" scrolling="no"></iframe>`;
+    frame.removeAttribute('role');
+    frame.removeAttribute('tabindex');
+    if (source === 'douyin') {
+        frame.innerHTML = `<iframe src="https://open.douyin.com/player/video?vid=${v.vid}&autoplay=1"
+            title="${v.title}" referrerpolicy="unsafe-url" allow="autoplay; encrypted-media; fullscreen"
+            allowfullscreen frameborder="0" scrolling="no"></iframe>`;
+    } else {
+        frame.innerHTML = `<video src="${v.src}" poster="${v.cover}" aria-label="${v.title}"
+            controls autoplay playsinline preload="metadata">浏览器暂不支持视频播放。</video>`;
+    }
+    const card = frame.closest('.video-card');
+    card.querySelectorAll('[data-source]').forEach((button) => {
+        if (button.tagName === 'BUTTON') button.setAttribute('aria-pressed', String(button.dataset.source === source));
+    });
+    card.querySelector('.video-status').textContent = source === 'douyin'
+        ? '正在使用抖音播放器；若无法播放，可点击“本站备用”。' : '正在本站播放';
+    const video = frame.querySelector('video');
+    if (video) {
+        video.addEventListener('play', () => {
+            document.querySelectorAll('.video-frame video').forEach((other) => {
+                if (other !== video) other.pause();
+            });
+        });
+        video.addEventListener('error', () => {
+            if (frame.querySelector('video') !== video) return;
+            card.querySelector('.video-status').textContent = '视频加载失败，请刷新页面重试。';
+        }, { once: true });
+    }
+    if (moveFocus) frame.querySelector('video, iframe').focus();
 }
 
 function renderVideos() {
     const grid = document.getElementById('video-grid');
     if (!grid) return;
-    grid.innerHTML = DOUYIN_VIDEOS.map((v, i) => `
+    grid.innerHTML = PROJECT_VIDEOS.map((v, i) => `
         <div class="video-card">
-            <div class="video-frame cover" data-i="${i}" role="button" tabindex="0"
+            <div class="video-frame cover" data-i="${i}" role="button" tabindex="0" aria-label="播放：${v.title}"
                  style="background-image:url('${v.cover}')">
                 <span class="play-badge">▶</span>
             </div>
             <div class="video-meta">
                 <h4>${v.title}</h4>
-                <a href="${v.url}" target="_blank" rel="noopener">在抖音打开 ↗</a>
+                <div class="video-actions">
+                    ${v.source === 'douyin' ? '<button type="button" data-source="douyin" aria-pressed="false">抖音播放</button>' : ''}
+                    <button type="button" data-source="local" aria-pressed="false">${v.source === 'douyin' ? '本站备用' : '本站播放'}</button>
+                    <a href="https://www.douyin.com/video/${v.vid}" target="_blank" rel="noopener">抖音原视频 ↗</a>
+                </div>
+                <p class="video-status" aria-live="polite">点击封面播放</p>
             </div>
         </div>`).join('');
 
-    grid.querySelectorAll('.video-frame.cover').forEach((f) => {
-        f.addEventListener('click', () => playInline(f, DOUYIN_VIDEOS[+f.dataset.i]));
+    grid.querySelectorAll('.video-card').forEach((card, i) => {
+        const frame = card.querySelector('.video-frame');
+        const activate = () => {
+            if (frame.classList.contains('cover')) playInline(frame, PROJECT_VIDEOS[i]);
+        };
+        frame.addEventListener('click', activate);
+        frame.addEventListener('keydown', (event) => {
+            if (frame.classList.contains('cover') && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                activate();
+            }
+        });
+        card.querySelectorAll('button[data-source]').forEach((button) => {
+            button.addEventListener('click', () => playInline(frame, PROJECT_VIDEOS[i], button.dataset.source));
+        });
     });
 }
 
