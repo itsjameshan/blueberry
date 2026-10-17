@@ -46,3 +46,7 @@
 - 发散关系 → diverging + center=0；
 - 单向梯度 → sequential。
 分类变量保持全图一致。
+
+
+## Weekly paper figure reverse-engineering
+For every accessible main-text figure, record: scientific question; data structure, sample size and units; chart type and why it fits; panel sequence; mapping of color/line/point/size to variables; axis scales and reference lines; uncertainty/significance; caption completeness; and a reproducible plotting plan. Separate directly verified visual facts from interpretation. If only the caption/text was accessible, write `figure appearance not directly verified`; do not infer colors, line styles or panel layout. For model papers, examine model-vs-observation errors and spatial/temporal heterogeneity, not only overall fit. Keep single-paper quirks in case notes; only generalize after multiple examples.
