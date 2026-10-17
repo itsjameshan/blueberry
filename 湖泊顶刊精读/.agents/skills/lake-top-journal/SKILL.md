@@ -54,3 +54,7 @@ A missing abstract is not permission to synthesize a plausible abstract. A DOI p
 
 ## Final response
 Report what was created/updated, validation performed, and any evidence gaps. Do not claim a file was published or displayed unless the environment/tool actually confirms it.
+
+
+## Weekly journal club mode
+When asked for one weekly paper plus group-meeting materials, read `docs/lake-top-journal/WEEKLY_JOURNAL_CLUB.md`. Keep this separate from the daily 5–7 paper workflow. Deliver the four-part science story, editable PPTX, page-by-page script, Q&A, writing-learning card, figure-by-figure analysis, and a case-study note. Verify DOI/full text and label the quartile database/year/category. Never claim figure colors or layouts were observed unless the original figure was directly inspected. Sync durable lessons to `lake-top-journal`, never `master`.
