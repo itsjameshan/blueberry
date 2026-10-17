@@ -69,3 +69,7 @@ D 输出
 - 覆盖旧作图规范；
 - 重排无必要的历史内容；
 - 为凑累计数字而猜测。
+
+
+## Weekly paper learning record
+Each weekly paper adds a case note covering title/abstract/Introduction/Methods/Results/Discussion writing choices and figure-by-figure scientific purpose, data structure, visual encodings, statistics, caption quality, and replication notes. Label direct evidence versus interpretation. Keep single-paper details in the case note; only add durable, cross-paper lessons to the shared rules. Verify branch, path and commit after every sync.
