@@ -54,3 +54,13 @@
 - [ ] 最新 log 位于 NEW-LOG-ANCHOR 下方
 - [ ] 累计数字同步
 - [ ] 三日复盘已追加
+
+
+## Weekly single-paper checks
+- [ ] Four-part science story is complete.
+- [ ] DOI, legal full text and quartile source/year/category are verified.
+- [ ] Writing-learning card includes the argument structure and calibrated uncertainty language.
+- [ ] All accessible main figures are analyzed; unverified visual details are explicitly marked.
+- [ ] Each figure analysis covers data, visual encoding, panel logic, statistics, caption and reproducibility.
+- [ ] PPTX and page-by-page script match; data/units trace back to the paper.
+- [ ] Codex case note is saved; one-paper details are not blindly promoted into universal rules.
