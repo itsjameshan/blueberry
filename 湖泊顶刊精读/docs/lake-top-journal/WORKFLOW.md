@@ -128,3 +128,13 @@ D 讨论与理论升格
 10. 写入 `summary/YYYY-MM-DD_三日总结.html`。
 11. 更新首页归档。
 12. 更新学习记忆中的“三日复盘”。
+
+
+## Weekly single-paper group-meeting workflow
+1. Verify metadata, DOI, legal full-text PDF, data/code links and journal quartile (state database, year, subject category).
+2. Build the four-part presentation: why the study was done; methods and data; main results; what results mean.
+3. Produce a separate writing-learning card covering Title/Abstract/Introduction/Methods/Results/Discussion and uncertainty language.
+4. Analyze each accessible figure by question, data, visual encoding, panel logic, statistics, caption and reproducibility. Mark any unverified visual detail.
+5. Create editable PPTX, page-matched Chinese speaking script, key terms, Q&A and original-paper links.
+6. Save one case-study file per paper. Update stable writing/figure rules only for lessons that are evidence-backed and broadly reusable.
+7. Apply the user's visual preference: academic journal figure, white background, restrained palette, minimal decoration, no poster/card/AI-infographic look; never let style override correct data encoding.
