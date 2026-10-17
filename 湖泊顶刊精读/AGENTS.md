@@ -119,3 +119,7 @@ SPSS 风格学术图表；
 - 用户课题迁移是具体行动项而非泛泛建议。
 
 不要为了“看起来完成”而填补缺失证据。宁可标记缺失，也不能杜撰。
+
+
+## Weekly single-paper journal club
+For weekly lake ecology/model papers, follow `docs/lake-top-journal/WEEKLY_JOURNAL_CLUB.md`. In addition to the four-part science presentation, each paper must yield a writing-method analysis, figure-by-figure design analysis, transferable lessons, and a Codex case-study note. Only promote reusable, evidence-backed lessons into stable rules. Do not modify `master`; sync to `lake-top-journal` and verify the commit.
