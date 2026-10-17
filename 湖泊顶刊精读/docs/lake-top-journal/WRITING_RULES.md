@@ -48,3 +48,7 @@
 - 模型预测 ≠ 现实验证；
 - 计划 ≠ 结论；
 - 单一案例 ≠ 普遍规律。
+
+
+## Weekly paper writing-learning card
+For each weekly paper, explain how the authors build the argument, not only what they found. Audit title scope; abstract sentence functions; Introduction funnel and specific gap; Methods-to-question/data alignment; Results progression (finding, magnitude/direction, evidence, heterogeneity); Discussion (mechanism, comparison with prior work, exception/limitations, implications). Record how uncertainty and causal limits are phrased. Add 3–8 short reusable sentence-function templates with source, not long copyrighted passages. Label each lesson as directly supported by the paper, interpretive analysis, or general advice. Never turn model scenarios into observed facts or association into causation.
